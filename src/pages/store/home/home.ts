@@ -1,18 +1,21 @@
 import type { Product } from "../../../types/product";
 import { getCategories, getProducts } from "../../../data/data";
 import { addToCart, getCartCount } from "../../../utils/localStorage";
+import type { ICategory } from "../../../types/category";
+
+
 
 
 const searchNotification = document.getElementById("searchNotification") as HTMLElement;
 //carga las tarjetas de productos
-const loadProducts = (product: Product[]) => {
+const loadProducts = (products: Product[]) => {
     const productsContainer = document.getElementById("products-container") as HTMLDivElement;
     productsContainer.innerHTML = "";
 
     //contador de productos disponibles
     let productsAvailable = 0;
 
-    product.forEach((product) => {
+    products.forEach((product) => {
         //verifica que el stock sea mayor a 0
         if (product.stock > 0) {
             productsAvailable += 1;
@@ -20,7 +23,7 @@ const loadProducts = (product: Product[]) => {
             productsCard.classList.add("featured-products");
             productsCard.innerHTML = `
         <div class="featured-img">
-        <img src="/images/${product.imagen}" alt="Imagen de ${product.nombre}" /></div>
+        <img src="${product.imagen}" alt="Imagen de ${product.nombre}" /></div>
         <p class=product-category>${product.categorias.map(c => c.nombre)}</p>
         <h3 class=product-name>${product.nombre}</h3>
         <p class=product-description>${product.descripcion}</p>
@@ -38,9 +41,15 @@ const loadProducts = (product: Product[]) => {
 
 }
 
-const loadCategories = () => {
+// Render de categorias 
+const loadCategories = (categories: ICategory[]) => {
     const categoriesList = document.getElementById("categories-list") as HTMLUListElement;
-    const categories = getCategories();
+
+    if (!categoriesList) return;
+    // limpiar antes de renderizar para evitar duplicados
+    // categoriesList.innerHTML = "";
+
+
     categories.forEach((category) => {
         const li = document.createElement('li');
         li.innerHTML = `<a href="#">${category.nombre}</a>`;
@@ -78,7 +87,31 @@ const updateCartBadge = () => {
     }
 };
 
-document.addEventListener("DOMContentLoaded", () => {
+
+document.addEventListener("DOMContentLoaded", async () => {
+    // Cargar y normalizar datos
+    let products: Product[] = [];
+    let categories: ICategory[] = [];
+
+    try {
+        // cargar y normalizar
+        const rawProducts: any[] = await getProducts();
+        categories = await getCategories();
+
+        products = rawProducts.map((p: any) => ({
+            ...p,
+            categorias: Array.isArray(p.categorias) ? p.categorias : (p.categoria ? [p.categoria] : [])
+        }));
+
+        // carga inicial
+        loadProducts(products);
+        loadCategories(categories);
+        updateCartBadge();
+
+    } catch (err) {
+        console.error("Error cargando datos:", err);
+    }
+
     const productsContainer = document.getElementById("products-container") as HTMLDivElement;
     const cartMessage = document.getElementById("modal-message") as HTMLParagraphElement;
     const modalImg = document.getElementById("modal-img") as HTMLDivElement;
@@ -93,19 +126,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const sidebar = document.querySelector(".sidebar") as HTMLElement;
     const overlay = document.getElementById("overlay") as HTMLDivElement;
 
-    const products = getProducts();
-    const categories = getCategories();
-
 
     inputSearch.addEventListener("input", (e) => {
         const target = e.target as HTMLInputElement;
         const search = target.value.toLowerCase().trim(); //trim para eliminar los espacios al principio y final
 
         //limita la busqueda a productos con stock > 0
-        const searchResults = products.filter((product) => {
+        const searchResults = products.filter((products) => {
             return (
-                product.stock > 0 &&
-                product.nombre.toLowerCase().includes(search)
+                products.stock > 0 &&
+                products.nombre.toLowerCase().includes(search)
             );
         });
         loadProducts(searchResults);
@@ -133,7 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
         updateCartBadge();
     }
     //verifica que se encuentre dentro de home.html, si no no llama la funcion de modal, evita errores en cart.html
-    loadCategories();
+    // loadCategories(categories);
     //Filtrar por categorias
     const btnCategories = document.querySelectorAll<HTMLLIElement>(".categories");
 
@@ -173,7 +203,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const product = products.find((p) => p.id === Number(idProduct));
 
         if (product) {
-            modalImg.innerHTML = `<img src="/images/${product.imagen}" alt="Imagen de ${product.nombre}"/>`
+            modalImg.innerHTML = `<img src="${product.imagen}" alt="Imagen de ${product.nombre}"/>`
             cartMessage.textContent = `Se agrega al carrito: ${product.nombre}`;
             modal.style.display = "block";
             //agrega al carrito

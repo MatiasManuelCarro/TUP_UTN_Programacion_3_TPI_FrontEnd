@@ -1,5 +1,7 @@
 import type { CartItem } from "../types/cartItem";
 import type { Product } from "../types/product";
+import type { ICategory } from "../types/category";
+import { getCategories } from "../data/data";
 
 // localStorage.removeItem("cart");
 
@@ -57,3 +59,4 @@ const saveCart = (cart: CartItem[]): void => {
 export const clearCart = (): void => {
     localStorage.removeItem("cart");
 };
+

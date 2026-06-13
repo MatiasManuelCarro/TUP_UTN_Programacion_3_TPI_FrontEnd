@@ -3,6 +3,26 @@ import type { Product } from "../types/product";
 import type { ICategory } from "../types/category";
 
 
+// Función cargar los JSON
+async function loadJSON<T>(path: string): Promise<T> {
+  const res = await fetch(path);
+  if (!res.ok) {
+    throw new Error(`Error al cargar ${path}: ${res.status}`);
+  }
+  return res.json();
+}
+
+export async function getCategories(): Promise<ICategory[]> {
+  const categorias = await loadJSON<ICategory[]>("/src/data/categorias.json");
+  return categorias.filter(c => !c.eliminado);
+}
+
+export async function getProducts(): Promise<Product[]> {
+  const productos = await loadJSON<Product[]>("/src/data/productos.json");
+  return productos.filter(p => !p.eliminado);
+}
+
+/*
 const categorias: ICategory[] = [
   {
     id: 1,
@@ -300,3 +320,5 @@ export function getCategories(): ICategory[] {
 export function getProducts(): Product[]{
   return PRODUCTS.filter((c) => !c.eliminado);
 }
+
+*/

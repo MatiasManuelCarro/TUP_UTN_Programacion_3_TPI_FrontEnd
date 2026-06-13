@@ -55,7 +55,7 @@ function renderCartItem(item: CartItem): HTMLElement {
     productCard.classList.add("cart-products");
     productCard.innerHTML = `
     <div class="cart-img">
-    <img src="/images/${product.imagen}" alt="Imagen de ${product.nombre}" />
+    <img src="${product.imagen}" alt="Imagen de ${product.nombre}" />
     </div>
     <h3 class="cart-name">${product.nombre}</h3>
     <p class="cart-description">${product.descripcion}</p>
