@@ -119,7 +119,7 @@ function cartListeners(
         e.preventDefault();
         if (amount < product.stock) {
             //desactiva la funcion del boton si ya alcanzo el limite de stock
-            addToCart(product);
+            addToCart(product, 1);
             loadCart();
         }
     });

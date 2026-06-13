@@ -1,22 +1,3 @@
-
-
-.cart-badge {
-    background-color: var(--color-primario);
-    color: var(--color-blanco);
-    font-weight: bold;
-    border-radius: 50%;
-    width: 1.5rem;
-    height: 1.5rem;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.8rem;
-    margin-left: 0.3rem;
-    visibility: hidden;
-    /* oculto por defecto */
-}
-
-
 #login-button {
     display: flex;
     align-items: center;

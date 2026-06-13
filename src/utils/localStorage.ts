@@ -14,19 +14,49 @@ export const getCart = (): CartItem[] => {
 
 export const getCartCount = (): number => {
     return getCart().reduce(
-        (count: number, item: CartItem) => count + item.quantity, 
+        (count: number, item: CartItem) => count + item.quantity,
         0
     );
 };
 
-export const addToCart = (product: Product): void => {
+// export const addToCart = (product: Product): void => {
+//     const cart = getCart();
+//     const exists = cart.find(p => p.product.id === product.id)
+
+//     if (exists) {
+//         exists.quantity++;
+//     } else {
+//         cart.push({ product, quantity: 1 });
+//     }
+
+//     saveCart(cart);
+// }
+
+// export const addToCart = (product: Product, amount: number): void => {
+//     const cart = getCart();
+//     const exists = cart.find(p => p.product.id === product.id)
+
+
+//     if (exists) {
+//         exists.quantity += amount; //si existia el item lo suma
+//     } else {
+//         cart.push({ product, quantity: amount }); // si no estaba lo crea
+//     }
+
+//     saveCart(cart);
+// }
+
+export const addToCart = (product: Product, amount: number): void => {
     const cart = getCart();
     const exists = cart.find(p => p.product.id === product.id)
 
+
     if (exists) {
-        exists.quantity++;
+        const newQuantity = exists.quantity + amount;
+        exists.quantity = Math.min(newQuantity, product.stock); //elige el menor de los dos, si el stock es bajo pone lo que tien el stock
     } else {
-        cart.push({ product, quantity: 1 });
+        const initialQuantity = Math.min(amount, product.stock);
+        cart.push({ product, quantity: initialQuantity });
     }
 
     saveCart(cart);
