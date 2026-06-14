@@ -179,3 +179,13 @@ export function enableProduct(id: number) {
 
     localStorage.setItem("products", JSON.stringify(updated));
 }
+
+export function updateProduct(id: number, updatedFields: Partial<Product>) {
+    const products = getStoredProducts();
+
+    const updated = products.map(p =>
+        p.id === id ? { ...p, ...updatedFields } : p
+    );
+
+    localStorage.setItem("products", JSON.stringify(updated));
+}

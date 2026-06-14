@@ -1,19 +1,17 @@
 import type { Product } from "../../types/product";
 import { getProducts, getCategories } from "../../data/data";
-import { getAvailableStock, getStoredProducts, disableProduct, enableProduct } from "../../utils/localStorage";
+import { getAvailableStock, getStoredProducts, disableProduct, enableProduct, updateProduct } from "../../utils/localStorage";
 
 
 
 function renderProductsTable() {
   const tbody = document.getElementById("admin-products-body") as HTMLTableSectionElement;
-  // const products = getStoredProducts().filter(p => !p.eliminado); // opcional: ocultar eliminados
 
   const products = getStoredProducts();
 
   // Render dinámico
   tbody.innerHTML = "";
   products.forEach((product) => {
-    // const estado = product.disponible ? "Disponible" : "No disponible";
 
     const availableStock = getAvailableStock(product);
 
@@ -32,11 +30,7 @@ function renderProductsTable() {
         ${product.disponible ? "Disponible" : "No disponible"}
         </td>`;
 
-    // <td id="product-acciones-${product.id}" class="admin-acciones">
-    //   <a href="#" id="edit-${product.id}" data-id="${product.id}" class="edit-link">Editar</a> |
-    //   <a href="#" id="delete-${product.id}" data-id="${product.id}" class="delete-link">Eliminar</a>
-    // </td>
-    // Crear celda de acciones
+
     const accionesTd = document.createElement("td");
     accionesTd.classList.add("admin-acciones");
 
@@ -67,7 +61,7 @@ function renderProductsTable() {
       if (!currentProduct) return;
 
       //if para activar o desactivar
-      currentProduct.disponible ? (disableProduct(id)) : (enableProduct(id));  
+      currentProduct.disponible ? (disableProduct(id)) : (enableProduct(id));
       renderProductsTable(); // refresca la tabla
     });
 
@@ -82,6 +76,44 @@ function renderProductsTable() {
 
     // const deleteLink = tr.querySelectorAll<HTMLAnchorElement>(".delete-link");
 
+    //FORMULARIO DE EDICION DE OBJETO
+    editLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      const id = Number(editLink.dataset.id);
+
+      const section = document.getElementById("edit-product-section");
+      if (!section) return;
+
+      section.innerHTML = `
+  <form id="edit-form">
+    <p class=product-modify>Modificando ${product.nombre}</p>
+    <input type="text" id="edit-nombre" placeholder="Nuevo nombre" />
+    <input type="number" id="edit-precio" placeholder="Nuevo precio" min="0" />
+    <input type="text" id="edit-descripcion" placeholder="Nueva descripción" />
+    <input type="number" id="edit-stock" placeholder="Nuevo stock" min="0" />
+    <button type="submit">Guardar cambios</button>
+  </form>
+`;
+
+      const form = document.getElementById("edit-form") as HTMLFormElement;
+      form.addEventListener("submit", (ev) => {
+        ev.preventDefault();
+        const nombre = (document.getElementById("edit-nombre") as HTMLInputElement).value;
+        const precio = Number((document.getElementById("edit-precio") as HTMLInputElement).value);
+        const descripcion = (document.getElementById("edit-descripcion") as HTMLInputElement).value;
+        const stock = Number((document.getElementById("edit-stock") as HTMLInputElement).value);
+
+        if (precio < 0 || stock < 0) {
+          alert("Precio y stock no pueden ser negativos.");
+          return;
+        }
+
+        updateProduct(id, { nombre, precio, descripcion, stock });
+        renderProductsTable(); // refresca la tabla
+        section.innerHTML = ""; // limpia el formulario
+      });
+    });
+
   });
 }
 
@@ -89,6 +121,8 @@ function renderProductsTable() {
 //     console.error("Error cargando productos:", err);
 //   }
 // }
+
+
 
 document.addEventListener("DOMContentLoaded", () => {
   renderProductsTable();
