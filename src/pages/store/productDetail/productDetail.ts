@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
         const product: Product = JSON.parse(productJson);
-        const  availableStock = getAvailableStock(product); //consigue el stock disponible
+        const availableStock = getAvailableStock(product); //consigue el stock disponible
         renderProductDetail(product, availableStock);
 
     } catch (e) {
@@ -34,9 +34,13 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-function renderProductDetail(product: Product,  availableStock: number) {
+function renderProductDetail(product: Product, availableStock: number) {
     let amount = 1; //cantidad inicial de productos a comprar
     let productStock = product.stock; //stock inicial al cargar la pagina
+
+    const isAvailable = availableStock === 0 ? "" : String(availableStock);
+    const availableClass = availableStock === 0 ? "no" : "yes";
+    const availableText = availableStock === 0 ? "Sin Stock" : "Stock disponible: "
 
     const container = document.getElementById("product-detail");
     if (!container) return;
@@ -47,23 +51,33 @@ function renderProductDetail(product: Product,  availableStock: number) {
     <p class="detail-category">${(product.categorias || []).map(c => c.nombre).join(", ")}</p>
     <p class="detail-desc">${product.descripcion}</p>
     <p class="detail-price">Precio: $${product.precio}</p>    
-    <p class="detail-stock">Stock: ${availableStock}</p>   
+    <p class="detail-stock ${availableClass}">${availableText} ${isAvailable}</p>   
     <p class="cart-amount"> 
     <a href="#" class="link-amount minus" data-id="${product.id}">-</a>
     Cantidad: ${amount}    
     <a href="#" class="link-amount plus" data-id="${product.id}">+</a>    
     </p>
+<div class="detail-buttons">
     <button id="add-to-cart" data-id="${product.id}">Agregar al carrito</button>
-    <a id="back-to-home" href="/src/pages/store/home/home.html" class="btn-back">Volver</a>
+    <a id="back-to-home" href="/src/pages/store/home/home.html">Volver</a>
+  </div>
     `;
-    
+
     const detailStockText = container.querySelector(".detail-stock") as HTMLElement;
 
     const updateStockText = () => {
         const newAvailableStock = getAvailableStock(product);
-        detailStockText.innerHTML = `
-        <p class="detail-stock">Stock: ${newAvailableStock}</p> 
-        `;
+
+        const isAvailable = newAvailableStock === 0 ? "" : String(newAvailableStock);
+        const availableClass = newAvailableStock === 0 ? "no" : "yes";
+        const availableText = newAvailableStock === 0 ? "Sin Stock" : "Stock disponible: "
+
+        // detailStockText.innerHTML = `
+        // <p class="detail-stock ${availableClass}">${availableText} ${isAvailable}</p> 
+        // `;
+
+          detailStockText.className = `detail-stock ${availableClass}`;
+        detailStockText.textContent = `${availableText} ${isAvailable}`;
     }
 
     const quantityElement = container.querySelector(".cart-amount") as HTMLElement;
@@ -80,11 +94,13 @@ function renderProductDetail(product: Product,  availableStock: number) {
         const minusLink = quantityElement.querySelector(".link-amount.minus") as HTMLAnchorElement;
         const plusLink = quantityElement.querySelector(".link-amount.plus") as HTMLAnchorElement;
 
+        const newAvailableStock = getAvailableStock(product);
+
         if (amount <= 1) {
             minusLink.style.color = "var(--color-borde)";
             minusLink.style.pointerEvents = "none";
         }
-        if (amount >= product.stock) {
+        if (amount >= newAvailableStock) {
             plusLink.style.color = "var(--color-borde)";
             plusLink.style.pointerEvents = "none";
         }

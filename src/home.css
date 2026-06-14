@@ -111,6 +111,52 @@
     border-radius: var(--border-radius) var(--border-radius) 0 0;
 }
 
+/* clases para disabled sin stock */
+.img-disabled {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.img-disabled img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--border-radius);
+    opacity: 0.75;
+    /* imagen más tenue */
+    filter: grayscale(80%);
+    /* convierte a escala de grises */
+    pointer-events: none;
+    /* no clickeable */
+}
+
+.product-available {
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    padding: 1rem;
+    margin: 0.1rem auto; 
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    margin-top: 0.5rem;
+    border-radius: var(--border-radius);
+    max-width: 9rem;
+    height: 2rem;
+}
+
+/* Disponible  */
+.product-available.yes {
+    background-color: var(--color-verde)
+        /* verde oscuro */
+}
+
+/* Sin stock  */
+.product-available.no {
+    background-color: var(--color-borde);
+    /* gris medio */
+}
+
 .featured-products img {
     width: 100%;
     height: 14rem;
@@ -268,4 +314,3 @@
     transform: translateY(2px);
     box-shadow: 0 1px 2px var(--color-focus);
 }
-

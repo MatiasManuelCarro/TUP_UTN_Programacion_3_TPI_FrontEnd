@@ -95,7 +95,7 @@ export function getAvailableStock(product: Product): number {
     const item = cart.find(ci => ci.product.id === product.id);
 
     if (item) {
-        // stock total menos lo que ya está en el carrito
+        // stock menos lo que ya está en el carrito - elige el mayor
         return Math.max(product.stock - item.quantity, 0);
     }
 

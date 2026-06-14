@@ -9,6 +9,7 @@
     --color-focus: #ff4500;
     --color-primario: #ff6347;
     --border-radius: 8px;
+    --color-verde: #198754;
 }
 
 * {
@@ -216,6 +217,23 @@ main {
     border-radius: var(--border-radius);
     transition: all 0.1s ease;
     border: 1.5px solid var(--color-primario);
+}
+
+.btn-disabled {
+    flex: 1;
+    margin: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0.5rem 1rem;
+    font-weight: bold;
+    font-size: 1rem;
+    background-color: var(--color-borde-tenue);
+    border-radius: var(--border-radius);
+    border: 1.5px solid var(--color-borde);
+    cursor: not-allowed;
+    pointer-events: none;
 }
 
 

@@ -1,6 +1,6 @@
 import type { Product } from "../../../types/product";
 import { getCategories, getProducts } from "../../../data/data";
-import { addToCart, getCartCount } from "../../../utils/localStorage";
+import { addToCart, getCartCount, getAvailableStock } from "../../../utils/localStorage";
 import type { ICategory } from "../../../types/category";
 
 const searchNotification = document.getElementById(
@@ -17,21 +17,32 @@ const loadProducts = (products: Product[]) => {
     let productsAvailable = 0;
 
     products.forEach((product) => {
+
+        const availableStock = getAvailableStock(product);
+
+        // si stock es 0  el  esta botón deshabilitado y gris
+        const disabledAttr = availableStock === 0 ? "disabled" : "";
+        const disabledClass = availableStock === 0 ? "btn-disabled" : "btn-cart";
+        const imgStyle = availableStock === 0 ? "img-disabled" : "featured-img"
+        const availableClass = availableStock === 0 ? "no" : "yes";
+        const availableText = availableStock === 0 ? "Sin Stock" : "Disponible";
+
         //verifica que el stock sea mayor a 0
         if (product.stock > 0) {
             productsAvailable += 1;
             const productsCard: HTMLElement = document.createElement("div");
             productsCard.classList.add("featured-products");
             productsCard.innerHTML = `
-        <div class="featured-img">
+        <div class="${imgStyle}">
         <img src="${product.imagen}" alt="Imagen de ${product.nombre}" /></div>
         <p class=product-category>${product.categorias.map((c) => c.nombre)}</p>
         <h3 class=product-name>${product.nombre}</h3>
         <p class=product-description>${product.descripcion}</p>
         <p class=product-price>Precio: $${product.precio}</p>
+        <p class="product-available ${availableClass}">${availableText}</p>
         <div class="buttons">
         <button class=btn-cart id="productDetails" data-id="${product.id}">Ver Producto</button>
-        <button class=btn-cart id="addToCart" data-id="${product.id}">Agregar al Carrito</button></div>
+        <button class="${disabledClass}" id="addToCart" data-id="${product.id}" ${disabledAttr}>Agregar al Carrito</button></div>
         `;
             productsContainer.appendChild(productsCard);
         }
