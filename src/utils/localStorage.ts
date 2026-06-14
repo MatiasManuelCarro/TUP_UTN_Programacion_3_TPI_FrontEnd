@@ -90,3 +90,14 @@ export const clearCart = (): void => {
     localStorage.removeItem("cart");
 };
 
+export function getAvailableStock(product: Product): number {
+    const cart = getCart(); 
+    const item = cart.find(ci => ci.product.id === product.id);
+
+    if (item) {
+        // stock total menos lo que ya está en el carrito
+        return Math.max(product.stock - item.quantity, 0);
+    }
+
+    return product.stock;
+}
