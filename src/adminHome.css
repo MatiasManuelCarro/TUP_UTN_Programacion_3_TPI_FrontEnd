@@ -1,0 +1,145 @@
+
+:root {
+  --color-background: #f0f0f0;
+  --color-text: #333;
+  --color-white: #fff;
+  --color-border: #ddd;
+  --color-border-light: rgba(221, 221, 221, 0.3);
+  --color-focus: #ff4500;
+  --color-primary: #ff6347;
+  --border-radius: 8px;
+
+  /* colores para las tarjetas */
+  --color-card-categories: #6f42c1;   /* violeta */
+  --color-card-products: #0d6efd;     /* azul */
+  --color-card-orders: #fd7e14;       /* naranja */
+  --color-card-available: #198754;    /* verde */
+}
+:root {
+  --color-background: #f0f0f0;
+  --color-text: #333;
+  --color-white: #fff;
+  --color-border: #ddd;
+  --color-border-light: rgba(221, 221, 221, 0.3);
+  --color-focus: #ff4500;
+  --color-primary: #ff6347;
+  --border-radius: 8px;
+
+  /* colores para las tarjetas */
+  --color-card-categories: #6f42c1;   /* violeta */
+  --color-card-products: #0d6efd;     /* azul */
+  --color-card-orders: #fd7e14;       /* naranja */
+  --color-card-available: #198754;    /* verde */
+}
+
+body {
+  background-color: var(--color-background);
+  font-family: "Inter", sans-serif;
+  color: var(--color-text);
+}
+
+main {
+  padding: 2rem;
+}
+
+/* Heading */
+.admin-heading {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: var(--color-primary);
+  margin: 1rem 0;
+  border-bottom: 2px solid var(--color-border-light);
+}
+
+/* Stats cards */
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.stat-card {
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 6px var(--color-border-light);
+  padding: 1.5rem;
+  text-align: center;
+  color: var(--color-white); /* texto blanco para contraste */
+}
+
+.stat-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.stat-card p {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* Colores específicos para cada tarjeta */
+.stat-card:nth-child(1) {
+  background-color: var(--color-card-categories);
+}
+
+.stat-card:nth-child(2) {
+  background-color: var(--color-card-products);
+}
+
+.stat-card:nth-child(3) {
+  background-color: var(--color-card-orders);
+}
+
+.stat-card:nth-child(4) {
+  background-color: var(--color-card-available);
+}
+
+/* Summary panel */
+.admin-summary {
+  margin-top: 2rem;
+}
+
+.admin-summary h3 {
+  font-size: 1.4rem;
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+}
+
+.summary-box {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 4px var(--color-border-light);
+  color: var(--color-text);
+}
+
+.summary-box h4 {
+  font-size: 1.1rem;
+  color: var(--color-text);
+  margin-bottom: 0.5rem;
+}
+
+/* Links section */
+.admin-links {
+  margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.admin-link {
+  flex: 1;
+  text-align: center;
+  padding: 1rem;
+  font-weight: bold;
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.admin-link:hover {
+  background-color: var(--color-focus);
+}
