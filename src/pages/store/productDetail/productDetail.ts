@@ -13,8 +13,6 @@ import {
 
 document.addEventListener("DOMContentLoaded", () => {
 
-
-
     let productJson = sessionStorage.getItem("selectedProduct");
 
     if (!productJson) {
@@ -76,7 +74,7 @@ function renderProductDetail(product: Product, availableStock: number) {
         // <p class="detail-stock ${availableClass}">${availableText} ${isAvailable}</p> 
         // `;
 
-          detailStockText.className = `detail-stock ${availableClass}`;
+        detailStockText.className = `detail-stock ${availableClass}`;
         detailStockText.textContent = `${availableText} ${isAvailable}`;
     }
 
@@ -107,6 +105,37 @@ function renderProductDetail(product: Product, availableStock: number) {
     };
     updateQuantityText();
 
+     //bagde de cantidad de items en el carrito
+        const updateCartBadge = () => {
+            const cartCountElement = document.getElementById("cart-count");
+            if (cartCountElement) {
+                const count = getCartCount();
+                cartCountElement.textContent = String(count);
+
+                if (count === 0) {
+                    cartCountElement.style.visibility = "hidden";
+                } else {
+                    cartCountElement.style.visibility = "visible";
+
+                    //animacion del badge
+                    cartCountElement.animate(
+                        [
+                            { transform: "scale(1)" },
+                            { transform: "scale(1.2)" },
+                            { transform: "scale(1)" },
+                        ],
+                        {
+                            duration: 400,
+                            easing: "ease",
+                        },
+                    );
+                }
+            }
+        };
+
+        updateCartBadge();
+        // 
+
     // eventos para + y -
     quantityElement.addEventListener("click", (e) => {
         e.preventDefault();
@@ -123,49 +152,44 @@ function renderProductDetail(product: Product, availableStock: number) {
         }
     });
 
+    const modal = document.getElementById("modal") as HTMLElement;
+    const modalImg = document.getElementById("modal-img") as HTMLElement;
+    const cartMessage = document.getElementById("modal-message") as HTMLElement;
+    const closeCart = document.getElementById("close-cart") as HTMLElement;
+    const continueShopping = document.getElementById("btn-continue-shopping") as HTMLElement;
 
-
-    //bagde de cantidad de items en el carrito
-    const updateCartBadge = () => {
-        const cartCountElement = document.getElementById("cart-count");
-        if (cartCountElement) {
-            const count = getCartCount();
-            cartCountElement.textContent = String(count);
-
-            if (count === 0) {
-                cartCountElement.style.visibility = "hidden";
-            } else {
-                cartCountElement.style.visibility = "visible";
-
-                //animacion del badge
-                cartCountElement.animate(
-                    [
-                        { transform: "scale(1)" },
-                        { transform: "scale(1.2)" },
-                        { transform: "scale(1)" },
-                    ],
-                    {
-                        duration: 400,
-                        easing: "ease",
-                    },
-                );
-            }
-        }
+    const closeModal = (event: Event) => {
+        event.preventDefault();
+        modal.style.display = "none";
+        cartMessage.textContent = "";
     };
 
-    updateCartBadge();
-    // 
+    closeCart.addEventListener("click", closeModal);
+    continueShopping.addEventListener("click", closeModal);
+
+    window.addEventListener("click", (event) => {
+        if (event.target === modal) {
+            modal.style.display = "none";
+            cartMessage.textContent = "";
+        }
+
+    })
+
     const addBtn = document.getElementById("add-to-cart") as HTMLButtonElement | null;
-    if (addBtn) {
-        addBtn.addEventListener("click", () => {
-            addToCart(product, amount);
-            updateCartBadge();
-            productStock -= amount;
-            updateStockText();
-            amount = 1;
-            updateQuantityText();
+        if (addBtn) {
+            addBtn.addEventListener("click", () => {
+                addToCart(product, amount);
+                updateCartBadge();
+                productStock -= amount;
+                updateStockText();
+                amount = 1;
+                updateQuantityText();
 
-        });
-    }
+                modalImg.innerHTML = `<img src="${product.imagen}" alt="Imagen de ${product.nombre}"/>`;
+                cartMessage.textContent = `Se agregó al carrito: ${product.nombre}`;
+                modal.style.display = "block";
 
-}
+            });
+        }
+
+};
