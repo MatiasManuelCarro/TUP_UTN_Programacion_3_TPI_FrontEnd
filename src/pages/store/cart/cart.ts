@@ -8,6 +8,7 @@ import {
     addToCart,
     deleteProduct,
     getCartCount,
+    getStoredProducts,
 } from "../../../utils/localStorage";
 
 
@@ -22,14 +23,24 @@ export const loadCart = () => {
     cartContainer.innerHTML = "";
 
     const cart = getCart();
+    const products = getStoredProducts(); // productos actualizados
+    
     renderCartMessage(cart, cartEmptyMessage);
 
     let total = 0;
     for (const item of cart) {
+
+        const currentProduct = products.find(p => p.id === item.product.id); //busca el item actualizado
+        if (!currentProduct || !currentProduct.disponible) {  //verifica si no esta disponible, si no lo esta lo borra
+            deleteProduct(item.product)  
+            continue;
+        }
+
         const productCard = renderCartItem(item);
         cartContainer.appendChild(productCard);
         cartListeners(productCard, item.product, item.quantity);
         total += item.product.precio * item.quantity;
+
     }
 
     updateCartSummary(total);
@@ -139,10 +150,10 @@ document.getElementById("clear-cart")?.addEventListener("click", () => {
     loadCart();
 });
 
-document.addEventListener("DOMContentLoaded", () =>{
-        const toggleSidebar = document.getElementById("menu-toggle") as HTMLButtonElement;
+document.addEventListener("DOMContentLoaded", () => {
+    const toggleSidebar = document.getElementById("menu-toggle") as HTMLButtonElement;
     const sidebar = document.querySelector(".sidebar") as HTMLElement;
-        //toggle de sidebar
+    //toggle de sidebar
     if (toggleSidebar && sidebar) {
         toggleSidebar.addEventListener("click", () => {
             sidebar.classList.toggle("active");

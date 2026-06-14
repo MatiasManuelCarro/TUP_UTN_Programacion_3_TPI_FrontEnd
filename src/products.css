@@ -1,0 +1,134 @@
+/* Tabla de productos - administración */
+
+main {
+  grid-row: 2;        /* segunda fila del grid */
+  grid-column: 2;     /* segunda columna (a la derecha del sidebar) */
+  padding: 2rem;
+}
+
+.admin-heading {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: var(--color-primario);
+  margin: 1rem 0;
+  line-height: 1.2;
+  border-bottom: 2px solid var(--color-borde-tenue);
+}
+
+.admin-table {
+  width: 95%;
+  margin: 2rem auto;
+  border-collapse: collapse;
+  background-color: var(--color-blanco);
+  box-shadow: 0 4px 8px var(--color-borde-tenue);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+
+.admin-table thead {
+  background-color: var(--color-primario);
+  color: var(--color-blanco);
+  text-align: left;
+}
+
+.admin-table th {
+  padding: 1rem;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.admin-table td {
+  padding: 0.8rem;
+  border-bottom: 1px solid var(--color-borde-tenue);
+  font-size: 0.95rem;
+}
+
+
+/* Miniatura de imagen */
+.admin-img img {
+  border-radius: var(--border-radius);
+  object-fit: cover;
+  width: 50px;
+  height: 50px;
+  box-shadow: 0 2px 4px var(--color-borde-tenue);
+}
+
+/* Estado disponible/no disponible */
+.estado {
+  display: flex;
+  align-items: center;       
+  justify-content: center;   
+  font-weight: bold;
+  margin: 1.5rem auto;       
+  border-radius: var(--border-radius);
+  max-width: 9rem;
+  height: 2rem;
+  text-align: center;
+}
+
+#product-estado.disponible,
+.estado.disponible {
+  background-color: var(--color-verde);
+  color: var(--color-blanco);
+}
+
+#product-estado.no-disponible,
+.estado.no-disponible {
+  background-color: var(--color-borde);
+  color: var(--color-texto);
+}
+
+/* Acciones (Editar/Eliminar) */
+.admin-acciones .edit-link,
+.admin-acciones .delete-link {
+  text-decoration: none;
+  font-weight: bold;
+  padding: 0.3rem 0.6rem;
+  border-radius: var(--border-radius);
+  transition: all 0.2s ease;
+}
+
+.admin-acciones .edit-link {
+  color: var(--color-primario);
+}
+
+.admin-acciones .edit-link:hover {
+  background-color: var(--color-focus);
+  color: var(--color-blanco);
+}
+
+.admin-acciones .delete-link {
+  color: var(--color-texto);
+  transition: color 0.2s ease;
+}
+
+.admin-acciones a.delete-link:hover {
+  color: var(--color-rojo);
+  text-decoration: underline;
+}
+
+/* Botón Nuevo Producto
+.btn-new-product {
+  display: inline-block;
+  margin: 1rem 2rem;
+  padding: 0.7rem 1.5rem;
+  font-weight: bold;
+  font-size: 1rem;
+  background-color: var(--color-primario);
+  border-radius: var(--border-radius);
+  border: 1.5px solid var(--color-primario);
+  text-decoration: none;
+  color: var(--color-blanco);
+  transition: all 0.2s ease;
+}
+
+.btn-new-product:hover {
+  background-color: var(--color-focus);
+  box-shadow: 0 2px 4px var(--color-focus);
+  color: var(--color-blanco);
+}
+
+.btn-new-product:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 2px var(--color-focus);
+} */

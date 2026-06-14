@@ -1,6 +1,6 @@
 import type { Product } from "../../../types/product";
 import { getCategories, getProducts } from "../../../data/data";
-import { addToCart, getCartCount, getAvailableStock } from "../../../utils/localStorage";
+import { addToCart, getCartCount, getAvailableStock, getStoredProducts, getStoredCategories } from "../../../utils/localStorage";
 import type { ICategory } from "../../../types/category";
 
 const searchNotification = document.getElementById(
@@ -28,7 +28,7 @@ const loadProducts = (products: Product[]) => {
         const availableText = availableStock === 0 ? "Sin Stock" : "Disponible";
 
         //verifica que el stock sea mayor a 0
-        if (product.stock > 0) {
+        if (product.stock > 0 && product.disponible) {
             productsAvailable += 1;
             const productsCard: HTMLElement = document.createElement("div");
             productsCard.classList.add("featured-products");
@@ -99,32 +99,36 @@ const updateCartBadge = () => {
     }
 };
 
-document.addEventListener("DOMContentLoaded", async () => {
+// document.addEventListener("DOMContentLoaded", async () => {
+    document.addEventListener("DOMContentLoaded", () => {
     // Cargar y normalizar datos
-    let products: Product[] = [];
-    let categories: ICategory[] = [];
+    // let products: Product[] = [];
+    // let categories: ICategory[] = [];
 
-    try {
-        // cargar y normalizar
-        const rawProducts: any[] = await getProducts();
-        categories = await getCategories();
+    // try {
+    //     // cargar y normalizar
+    //     const rawProducts: any[] = await getProducts();
+    //     categories = await getCategories();
 
-        products = rawProducts.map((p: any) => ({
-            ...p,
-            categorias: Array.isArray(p.categorias)
-                ? p.categorias
-                : p.categoria
-                    ? [p.categoria]
-                    : [],
-        }));
+    //     products = rawProducts.map((p: any) => ({
+    //         ...p,
+    //         categorias: Array.isArray(p.categorias)
+    //             ? p.categorias
+    //             : p.categoria
+    //                 ? [p.categoria]
+    //                 : [],
+    //     }));
+
+    const products = getStoredProducts();
+    const categories = getStoredCategories();
 
         // carga inicial
         loadProducts(products);
         loadCategories(categories);
         updateCartBadge();
-    } catch (err) {
-        console.error("Error cargando datos:", err);
-    }
+    // } catch (err) {
+    //     console.error("Error cargando datos:", err);
+    // }
 
     const productsContainer = document.getElementById(
         "products-container",
@@ -152,6 +156,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const sidebar = document.querySelector(".sidebar") as HTMLElement;
     const overlay = document.getElementById("overlay") as HTMLDivElement;
 
+    //BUSQUEDA DE PRODUCTOS 
     inputSearch.addEventListener("input", (e) => {
         const target = e.target as HTMLInputElement;
         const search = target.value.toLowerCase().trim(); //trim para eliminar los espacios al principio y final
@@ -159,7 +164,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         //limita la busqueda a productos con stock > 0
         const searchResults = products.filter((products) => {
             return (
-                products.stock > 0 && products.nombre.toLowerCase().includes(search)
+                products.stock > 0 && products.disponible && products.nombre.toLowerCase().includes(search)
             );
         });
         loadProducts(searchResults);
@@ -303,3 +308,4 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     });
 });
+// });
