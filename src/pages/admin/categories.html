@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/src/shared.css">
+    <link rel="stylesheet" href="/src/categories.css">
+    <title>Panel Administracion Categorias</title>
+</head>
+
+<body>
+    <header class="site-header">
+        <button id="menu-toggle" class="sidebar-toggle">&#9776;</button>
+        <a href="/index.html" class="site-header__brand">
+            <h1>&#127828; Food Store</h1>
+        </a>
+        <nav class="site-nav">
+            <ul class="site-nav__list">
+                <li class="site-nav__item"><a class="site-nav__link" href="/index.html">Catalogo</a></li>
+                <li class="site-nav__item"><a class="site-nav__link" href="/src/pages/auth/login.html">Login</a></li>
+                <li class="site-nav__item"><a class="site-nav__link" href="/src/pages/store/cart/cart.html">Carrito
+                        <span id="cart-count" class="cart-badge"></span></a></li>
+                <li class="site-nav__item"><a class="site-nav__link" href="/src/pages/admin/adminHome.html">Panel de
+                        Admin</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="admin-categories">
+            <h2>Gestión de Categorías</h2>
+
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="admin-categories-body">
+                    <!-- Aca se ejecuta renderCategoriesTable() -->
+                </tbody>
+            </table>
+
+            <!-- Sección para el formulario de edición -->
+            <section id="edit-category-section"></section>
+        </section>
+    </main>
+    <footer>
+        <small>
+            Panel de Administracion - Food Store v1.0 <br>
+            Pagina creada por Matias Carro <br>
+            matiasmanuelcarro@gmail.com
+        </small>
+    </footer>
+
+    <script type="module" src="/src/pages/admin/categories.ts"></script>
+</body>
+
+</html>

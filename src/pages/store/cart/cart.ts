@@ -9,6 +9,7 @@ import {
     deleteProduct,
     getCartCount,
     getStoredProducts,
+    getStoredCategories,
 } from "../../../utils/localStorage";
 
 
@@ -24,18 +25,34 @@ export const loadCart = () => {
 
     const cart = getCart();
     const products = getStoredProducts(); // productos actualizados
-    
-    renderCartMessage(cart, cartEmptyMessage);
+
+    const loadCategories = getStoredCategories(); //carga categorias
+    const enabledCategories = loadCategories.filter(c => !c.eliminado);
+
 
     let total = 0;
     for (const item of cart) {
 
         const currentProduct = products.find(p => p.id === item.product.id); //busca el item actualizado
         if (!currentProduct || !currentProduct.disponible) {  //verifica si no esta disponible, si no lo esta lo borra
-            deleteProduct(item.product)  
+            deleteProduct(item.product)
             continue;
         }
 
+        //elimina los productos de la categoria inactiva
+
+        const categoryEnabled = currentProduct.categorias.some(pc =>
+            enabledCategories.some(ca => ca.id === pc.id)
+        );
+        if (!categoryEnabled) {
+            deleteProduct(item.product);
+            continue;
+        }
+
+            renderCartMessage(cart, cartEmptyMessage);
+
+
+        //muestra los productos activos con categoria activa 
         const productCard = renderCartItem(item);
         cartContainer.appendChild(productCard);
         cartListeners(productCard, item.product, item.quantity);

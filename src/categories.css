@@ -1,0 +1,154 @@
+/* Tabla de categorías - administración */
+
+.admin-categories {
+    grid-row: 2;
+    grid-column: 2;
+    padding: 2rem;
+}
+
+.admin-categories-heading {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: var(--color-primario);
+    margin: 1rem 0;
+    line-height: 1.2;
+    border-bottom: 2px solid var(--color-borde-tenue);
+}
+
+.admin-table {
+    width: 95%;
+    margin: 2rem auto;
+    border-collapse: collapse;
+    background-color: var(--color-blanco);
+    box-shadow: 0 4px 8px var(--color-borde-tenue);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.admin-table thead {
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+    text-align: left;
+}
+
+.admin-table th {
+    padding: 1rem;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.admin-table td {
+    padding: 0.8rem;
+    border-bottom: 1px solid var(--color-borde-tenue);
+    font-size: 0.95rem;
+}
+
+/* Estado activa/eliminada */
+.estado {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin: 1.5rem auto;
+    border-radius: var(--border-radius);
+    max-width: 9rem;
+    height: 2rem;
+    text-align: center;
+}
+
+.estado.disponible {
+    background-color: var(--color-verde);
+    color: var(--color-blanco);
+}
+
+.estado.no-disponible {
+    background-color: var(--color-borde);
+    color: var(--color-texto);
+}
+
+/* Acciones (Editar/Eliminar/Activar) */
+.admin-acciones .edit-link,
+.admin-acciones .delete-link {
+    text-decoration: none;
+    font-weight: bold;
+    padding: 0.3rem 0.6rem;
+    border-radius: var(--border-radius);
+    transition: all 0.2s ease;
+}
+
+.admin-acciones .edit-link {
+    color: var(--color-primario);
+}
+
+.admin-acciones .edit-link:hover {
+    background-color: var(--color-focus);
+    color: var(--color-blanco);
+}
+
+.admin-acciones .delete-link {
+    color: var(--color-texto);
+    transition: color 0.2s ease;
+}
+
+.admin-acciones a.delete-link:hover {
+    color: var(--color-rojo);
+    text-decoration: underline;
+}
+
+/* Formulario de edición de categoría */
+#edit-category-form .category-modify {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--color-primario);
+    margin-bottom: 1rem;
+    padding: 0.5rem 0.8rem;
+    background-color: var(--color-borde);
+    border-left: 4px solid var(--color-primario);
+    border-radius: 4px;
+}
+
+#edit-category-section {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background-color: #f9f9f9;
+    border: 1px solid var(--color-borde);
+    border-radius: 8px;
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#edit-category-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+#edit-category-form input {
+    padding: 0.6rem 0.8rem;
+    border: 1px solid var(--color-borde);
+    border-radius: 4px;
+    font-size: 1rem;
+    width: 100%;
+}
+
+#edit-category-form input:focus {
+    outline: none;
+    border-color: var(--color-primario);
+    box-shadow: 0 0 4px var(--color-borde);
+}
+
+#edit-category-form button {
+    padding: 0.8rem 1rem;
+    background-color: var(--color-primario);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+#edit-category-form button:hover {
+    background-color: #0056b3;
+}

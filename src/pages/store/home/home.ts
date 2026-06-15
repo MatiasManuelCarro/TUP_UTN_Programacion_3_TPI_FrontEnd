@@ -1,6 +1,6 @@
 import type { Product } from "../../../types/product";
 import { getCategories, getProducts } from "../../../data/data";
-import { addToCart, getCartCount, getAvailableStock, getStoredProducts, getStoredCategories } from "../../../utils/localStorage";
+import { addToCart, getCartCount, getAvailableStock, getStoredProducts, getStoredCategories, getActiveCategories } from "../../../utils/localStorage";
 import type { ICategory } from "../../../types/category";
 
 const searchNotification = document.getElementById(
@@ -16,9 +16,20 @@ const loadProducts = (products: Product[]) => {
     //contador de productos disponibles
     let productsAvailable = 0;
 
+    //listado con categorias activas
+    const enabledCategories = getActiveCategories();
+
+
+
+
     products.forEach((product) => {
 
         const availableStock = getAvailableStock(product);
+
+        //buscar categorias activas
+        const categoryEnabled = product.categorias.some(pc =>
+        enabledCategories.some(ca => ca.id === pc.id)
+        );
 
         // si stock es 0  el  esta botón deshabilitado y gris
         const disabledAttr = availableStock === 0 ? "disabled" : "";
@@ -27,8 +38,8 @@ const loadProducts = (products: Product[]) => {
         const availableClass = availableStock === 0 ? "no" : "yes";
         const availableText = availableStock === 0 ? "Sin Stock" : "Disponible";
 
-        //verifica que el stock sea mayor a 0
-        if (product.stock > 0 && product.disponible) {
+        //verifica que el stock sea mayor a 0 y este disponible y  la categoria este disponible 
+        if (product.stock > 0 && product.disponible && categoryEnabled) {
             productsAvailable += 1;
             const productsCard: HTMLElement = document.createElement("div");
             productsCard.classList.add("featured-products");
@@ -100,32 +111,15 @@ const updateCartBadge = () => {
 };
 
 // document.addEventListener("DOMContentLoaded", async () => {
-    document.addEventListener("DOMContentLoaded", () => {
-    // Cargar y normalizar datos
-    // let products: Product[] = [];
-    // let categories: ICategory[] = [];
-
-    // try {
-    //     // cargar y normalizar
-    //     const rawProducts: any[] = await getProducts();
-    //     categories = await getCategories();
-
-    //     products = rawProducts.map((p: any) => ({
-    //         ...p,
-    //         categorias: Array.isArray(p.categorias)
-    //             ? p.categorias
-    //             : p.categoria
-    //                 ? [p.categoria]
-    //                 : [],
-    //     }));
+document.addEventListener("DOMContentLoaded", () => {
 
     const products = getStoredProducts();
     const categories = getStoredCategories();
 
-        // carga inicial
-        loadProducts(products);
-        loadCategories(categories);
-        updateCartBadge();
+    // carga inicial
+    loadProducts(products);
+    loadCategories(categories);
+    updateCartBadge();
     // } catch (err) {
     //     console.error("Error cargando datos:", err);
     // }

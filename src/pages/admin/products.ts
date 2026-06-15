@@ -98,19 +98,41 @@ function renderProductsTable() {
       const form = document.getElementById("edit-form") as HTMLFormElement;
       form.addEventListener("submit", (ev) => {
         ev.preventDefault();
-        const nombre = (document.getElementById("edit-nombre") as HTMLInputElement).value;
-        const precio = Number((document.getElementById("edit-precio") as HTMLInputElement).value);
-        const descripcion = (document.getElementById("edit-descripcion") as HTMLInputElement).value;
-        const stock = Number((document.getElementById("edit-stock") as HTMLInputElement).value);
+        const nombreInput = (document.getElementById("edit-nombre") as HTMLInputElement).value;
+        const precioInput = (document.getElementById("edit-precio") as HTMLInputElement).value;
+        const descripcionInput = (document.getElementById("edit-descripcion") as HTMLInputElement).value;
+        const stockInput = (document.getElementById("edit-stock") as HTMLInputElement).value;
 
-        if (precio < 0 || stock < 0) {
+        // Se verifica que sea un numero lo ingresado por el usuario
+        // el form se encarga de esto, es una redundancia por seguridad
+        let precio: number | undefined;
+        if (precioInput.trim() !== "") {
+          precio = Number(precioInput);
+        }
+
+        let stock: number | undefined;
+        if (stockInput.trim() !== "") {
+          stock = Number(stockInput);
+        }
+
+        if ((precio !== undefined && precio < 0) || (stock !== undefined && stock < 0)) {
           alert("Precio y stock no pueden ser negativos.");
+          //el form se encarga de esto, pero es una redundancia para cubrir en caso de problemas
           return;
         }
 
-        updateProduct(id, { nombre, precio, descripcion, stock });
-        renderProductsTable(); // refresca la tabla
-        section.innerHTML = ""; // limpia el formulario
+        //objeto con campos parciales (solo los completados, si no mantiene los anteriores)
+        const updatedFields: Partial<Product> = {};
+
+        if (nombreInput) updatedFields.nombre = nombreInput;
+        if (precio !== undefined) updatedFields.precio = precio;
+        if (descripcionInput) updatedFields.descripcion = descripcionInput;
+        if (stock !== undefined) updatedFields.stock = stock;
+
+        updateProduct(id, updatedFields);
+
+        renderProductsTable();
+        section.innerHTML = "";
       });
     });
 
