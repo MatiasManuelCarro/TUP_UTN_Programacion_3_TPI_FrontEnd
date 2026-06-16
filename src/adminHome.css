@@ -87,21 +87,26 @@ main {
 }
 
 /* Colores específicos para cada tarjeta */
-.stat-card:nth-child(1) {
-  background-color: var(--color-card-categories);
+#card-categories {
+  background: linear-gradient(135deg, var(--color-card-categories), #9b6fd6);
+  color: var(--color-white);
 }
 
-.stat-card:nth-child(2) {
-  background-color: var(--color-card-products);
+#card-products {
+  background: linear-gradient(135deg, var(--color-card-products), #4da6ff);
+  color: var(--color-white);
 }
 
-.stat-card:nth-child(3) {
-  background-color: var(--color-card-orders);
+#card-orders {
+  background: linear-gradient(135deg, var(--color-card-orders), #ff9f40);
+  color: var(--color-white);
 }
 
-.stat-card:nth-child(4) {
-  background-color: var(--color-card-available);
+#card-available {
+  background: linear-gradient(135deg, var(--color-card-available), #33cc80);
+  color: var(--color-white);
 }
+
 
 #active-categories li{
   margin: 1rem;
