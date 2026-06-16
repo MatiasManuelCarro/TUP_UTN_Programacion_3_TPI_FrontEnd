@@ -6,14 +6,6 @@ main {
   padding: 2rem;
 }
 
-.admin-heading {
-  font-size: 1.6rem;
-  font-weight: bold;
-  color: var(--color-primario);
-  margin: 1rem 0;
-  line-height: 1.2;
-  border-bottom: 2px solid var(--color-borde-tenue);
-}
 
 .admin-table {
   width: 95%;

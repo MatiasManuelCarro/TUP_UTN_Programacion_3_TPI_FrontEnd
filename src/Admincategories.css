@@ -1,19 +1,10 @@
 /* Tabla de categorías - administración */
-
-.admin-categories {
-    grid-row: 2;
-    grid-column: 2;
-    padding: 2rem;
+main {
+  grid-row: 2;        /* segunda fila del grid */
+  grid-column: 2;     /* segunda columna (a la derecha del sidebar) */
+  padding: 2rem;
 }
 
-.admin-categories-heading {
-    font-size: 1.6rem;
-    font-weight: bold;
-    color: var(--color-primario);
-    margin: 1rem 0;
-    line-height: 1.2;
-    border-bottom: 2px solid var(--color-borde-tenue);
-}
 
 .admin-table {
     width: 95%;
@@ -49,7 +40,7 @@
     align-items: center;
     justify-content: center;
     font-weight: bold;
-    margin: 1.5rem auto;
+    margin: 1.5rem;
     border-radius: var(--border-radius);
     max-width: 9rem;
     height: 2rem;

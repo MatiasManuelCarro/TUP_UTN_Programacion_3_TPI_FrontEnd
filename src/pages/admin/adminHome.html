@@ -17,7 +17,7 @@
             <ul class="site-nav__list">
                 <li class="site-nav__item"><a class="site-nav__link" href="/index.html">Catalogo</a></li>
                 <!-- <li class="site-nav__item"><a class="site-nav__link" href="#">My Orders</a></li> -->
-                 <li class="site-nav__item"><a class="site-nav__link" href="/src/pages/auth/login.html">Login</a></li>
+                <li class="site-nav__item"><a class="site-nav__link" href="/src/pages/auth/login.html">Login</a></li>
                 <li class="site-nav__item"><a class="site-nav__link" href="/src/pages/store/cart/cart.html">Carrito
                         <span id="cart-count" class="cart-badge"></span></a></li>
                 <li class="site-nav__item"><a class="site-nav__link" href="/src/pages/admin/adminHome.html">Panel de Admin</a></li>
@@ -32,13 +32,13 @@
       <a href="/src/pages/admin/adminHome.html">Dashboard</a>
     </li>
     <li class="categories">
-      <a href="/src/pages/admin/categories.html">Categorías</a>
+      <a href="/src/pages/admin/Admincategories.html">Categorías</a>
     </li>
     <li class="categories">
-      <a href="/src/pages/admin/products.html">Productos</a>
+      <a href="/src/pages/admin/adminProducts.html">Productos</a>
     </li>
     <li class="categories">
-      <a href="/src/pages/admin/orders.html">Pedidos</a>
+      <a href="/src/pages/admin/Adminorders.html">Pedidos</a>
     </li>
     <li class="categories">
       <a href="/index.html">Ver Tienda</a>
@@ -55,15 +55,15 @@
       <p id="categories">0</p>
     </div>
     <div class="stat-card">
-      <h3>Productos</h3>
+      <h3>Productos Totales</h3>
       <p id="total-productos">0</p>
     </div>
     <div class="stat-card">
-      <h3>Pedidos</h3>
+      <h3>Pedidos Totales</h3>
       <p id="total-orders">0</p>
     </div>
     <div class="stat-card">
-      <h3>Disponibles</h3>
+      <h3>Productos Disponibles</h3>
       <p id="available-products">0</p>
     </div>
   </section>
@@ -74,6 +74,8 @@
     <div class="summary-box">
       <h4>Categorías activas</h4>
       <ul id="active-categories"></ul>
+      <h4>Categorías Inactivas</h4>
+      <ul id="inactive-categories"></ul>
     </div>
     <div class="summary-box">
       <h4>Productos</h4>
@@ -88,11 +90,18 @@
 
   <!-- Enlaces directos -->
   <section class="admin-links">
-    <a href="/src/pages/admin/products.html" class="admin-link">Gestión de Productos</a>
-    <a href="/src/pages/admin/categories.html" class="admin-link">Gestión de Categorías</a>
-    <a href="/src/pages/admin/orders.html" class="admin-link">Gestión de Pedidos</a>
+    <a href="/src/pages/admin/adminProducts.html" class="admin-link">Gestión de Productos</a>
+    <a href="/src/pages/admin/adminCategories.html" class="admin-link">Gestión de Categorías</a>
+    <a href="/src/pages/admin/adminOrders.html" class="admin-link">Gestión de Pedidos</a>
   </section>
 </main>
-
+    <footer class="site-footer">
+        <small>
+            Panel de Administracion - Food Store v1.0 <br>
+            Pagina creada por Matias Carro <br>
+            matiasmanuelcarro@gmail.com
+        </small>
+    </footer>
+     <script type="module" src="/src/pages/admin/adminHome.ts"></script>
 </body>
 </html>

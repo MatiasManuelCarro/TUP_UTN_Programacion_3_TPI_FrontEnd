@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/src/shared.css">
-    <link rel="stylesheet" href="/src/categories.css">
+    <link rel="stylesheet" href="/src/Admincategories.css">
     <title>Panel Administracion Categorias</title>
 </head>
 
@@ -26,9 +26,29 @@
             </ul>
         </nav>
     </header>
+<aside class="sidebar">
+  <h2 class="categories__heading">Administración</h2>
+  <ul class="sidebar__list">
+    <li class="categories">
+      <a href="/src/pages/admin/adminHome.html">Dashboard</a>
+    </li>
+    <li class="categories">
+      <a href="/src/pages/admin/Admincategories.html">Categorías</a>
+    </li>
+    <li class="categories">
+      <a href="/src/pages/admin/Adminproducts.html">Productos</a>
+    </li>
+    <li class="categories">
+      <a href="/src/pages/admin/Adminorders.html">Pedidos</a>
+    </li>
+    <li class="categories">
+      <a href="/index.html">Ver Tienda</a>
+    </li>
+  </ul>
+</aside>
     <main>
         <section class="admin-categories">
-            <h2>Gestión de Categorías</h2>
+            <h2 class="admin-heading">Gestión de Categorías</h2>
 
             <table class="admin-table">
                 <thead>
@@ -49,7 +69,7 @@
             <section id="edit-category-section"></section>
         </section>
     </main>
-    <footer>
+    <footer class="site-footer">
         <small>
             Panel de Administracion - Food Store v1.0 <br>
             Pagina creada por Matias Carro <br>
@@ -57,7 +77,7 @@
         </small>
     </footer>
 
-    <script type="module" src="/src/pages/admin/categories.ts"></script>
+    <script type="module" src="/src/pages/admin/Admincategories.ts"></script>
 </body>
 
 </html>

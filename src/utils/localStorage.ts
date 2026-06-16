@@ -1,16 +1,31 @@
 import type { CartItem } from "../types/cartItem";
 import type { Product } from "../types/product";
 import type { ICategory } from "../types/category";
-import { getProducts, getCategories } from "../data/data";
+import { getProducts, getCategories, getUsers, getOrders } from "../data/data";
+import type { IUser } from "../types/users";
+import type { IOrder } from "../types/orders";
 
+//primera carga -> carga todos los datos de los json a localstorage 
 document.addEventListener("DOMContentLoaded", async () => {
     const productsStored = localStorage.getItem("products");
     const categoriesStored = localStorage.getItem("categories");
+    const usersStored = localStorage.getItem("users");
+    const ordersStored = localStorage.getItem("orders");
 
     if (!productsStored || !categoriesStored) {
         // Solo se ejecuta si no hay datos guardados
         await initProductsAndCategories();
     }
+    // Usuarios (sin password)
+    if (!usersStored) {
+        await initSafeUsers();
+    }
+
+    // Pedidos
+    if (!ordersStored) {
+        await initOrders();
+    }
+
 });
 
 //funciones del carrito
@@ -19,27 +34,6 @@ export const getCart = (): CartItem[] => {
     return cart ? (JSON.parse(cart) as CartItem[]) : [];
 };
 
-// export const getCartCount = (): number => {
-//     return getCart().reduce(
-//         (count: number, item: CartItem) => count + item.quantity,
-//         0
-//     );
-// };
-
-// export const getCartCount = (): number => {
-//     const cart = getCart();
-//     const products = getStoredProducts();
-//     const activeCategories = getActiveCategories();
-
-//     return cart.reduce((count: number, item: CartItem) => {
-//         const currentProduct = products.find((p) => p.id === item.product.id);
-//         // solo suma si el producto existe y está disponible
-//         if (currentProduct && currentProduct.disponible) {
-//             return count + item.quantity;
-//         }
-//         return count;
-//     }, 0);
-// };
 
 export const getCartCount = (): number => {
     const cart = getCart();
@@ -62,31 +56,7 @@ export const getCartCount = (): number => {
     }, 0);
 };
 
-// export const addToCart = (product: Product): void => {
-//     const cart = getCart();
-//     const exists = cart.find(p => p.product.id === product.id)
 
-//     if (exists) {
-//         exists.quantity++;
-//     } else {
-//         cart.push({ product, quantity: 1 });
-//     }
-
-//     saveCart(cart);
-// }
-
-// export const addToCart = (product: Product, amount: number): void => {
-//     const cart = getCart();
-//     const exists = cart.find(p => p.product.id === product.id)
-
-//     if (exists) {
-//         exists.quantity += amount; //si existia el item lo suma
-//     } else {
-//         cart.push({ product, quantity: amount }); // si no estaba lo crea
-//     }
-
-//     saveCart(cart);
-// }
 
 export const addToCart = (product: Product, amount: number): void => {
     const cart = getCart();
@@ -167,93 +137,70 @@ export async function initProductsAndCategories() {
     }
 }
 
-// export async function initProductsAndCategories() {
-//     try {
-//         const rawProducts: any[] = await getProducts();
-//         const rawCategories: any[] = await getCategories();
+// Inicializa usuarios en localStorage - evita guardar la contraseña
+export async function initSafeUsers() {
+    try {
+        const users: IUser[] = await getUsers();
 
-//         // Normalizar categorías globales con eliminado siempre presente
-//         const categories: ICategory[] = rawCategories.map((c: any) => ({
-//             ...c,
-//             eliminado: c.eliminado ?? false, // por defecto false
-//         }));
+        // Guardar usuarios sin password en localStorage
+        const safeUsers = users.map(({ password, ...rest }) => rest);
+        localStorage.setItem("users", JSON.stringify(safeUsers));
+    } catch (err) {
+        console.error("Error cargando usuarios:", err);
+    }
+}
 
-//         // Normalizar productos y sus categorías
-//         const products: Product[] = rawProducts.map((p: any) => ({
-//             ...p,
-//             categorias: Array.isArray(p.categorias)
-//                 ? p.categorias.map((c: any) => ({
-//                     ...c,
-//                     eliminado: c.eliminado ?? false, // por defecto false
-//                 }))
-//                 : p.categoria
-//                     ? [{ ...p.categoria, eliminado: p.categoria.eliminado ?? false }]
-//                     : [],
-//         }));
+// Inicializa pedidos en localStorage
+export async function initOrders() {
+    try {
+        const orders: IOrder[] = await getOrders();
+        localStorage.setItem("orders", JSON.stringify(orders));
+    } catch (err) {
+        console.error("Error cargando pedidos:", err);
+    }
+}
 
-//         // Guardar en localStorage
-//         localStorage.setItem("products", JSON.stringify(products));
-//         localStorage.setItem("categories", JSON.stringify(categories));
 
-//         // Logs para verificar
-//     } catch (err) {
-//         console.error("Error cargando datos:", err);
-//     }
-// }
 
-// export async function initProductsAndCategories() {
-//     try {
-//         const rawProducts: any[] = await getProducts();
-//         const rawCategories: any[] = await getCategories();
+//llama los datos desde localstorage
 
-//         // Normalizar categorías globales con eliminado siempre presente
-//         const categories: ICategory[] = rawCategories.map((c: any) => ({
-//             ...c,
-//             eliminado: c.eliminado ?? false, // por defecto false
-//         }));
-
-//         // Normalizar productos y sus categorías sincronizadas con globales
-//         const products: Product[] = rawProducts.map((p: any) => {
-//             let categorias: ICategory[] = [];
-
-//             if (Array.isArray(p.categorias)) {
-//                 categorias = p.categorias.map((c: any) => {
-//                     const global = categories.find(cat => cat.id === c.id);
-//                     return {
-//                         ...c,
-//                         eliminado: global ? global.eliminado : (c.eliminado ?? false),
-//                     };
-//                 });
-//             } else if (p.categoria) {
-//                 const global = categories.find(cat => cat.id === p.categoria.id);
-//                 categorias = [{
-//                     ...p.categoria,
-//                     eliminado: global ? global.eliminado : (p.categoria.eliminado ?? false),
-//                 }];
-//             }
-
-//             return { ...p, categorias };
-//         });
-
-//         // Guardar en localStorage
-//         localStorage.setItem("products", JSON.stringify(products));
-//         localStorage.setItem("categories", JSON.stringify(categories));
-
-//     } catch (err) {
-//         console.error("Error cargando datos:", err);
-//     }
-// }
-
-// Recupera productos desde localStorage
 export function getStoredProducts(): Product[] {
     const data = localStorage.getItem("products");
     return data ? (JSON.parse(data) as Product[]) : [];
 }
 
-// Recupera categorías desde localStorage
+
 export function getStoredCategories(): ICategory[] {
     const data = localStorage.getItem("categories");
     return data ? (JSON.parse(data) as ICategory[]) : [];
+}
+
+// Usuarios sin password
+export function getStoredUsersSafe(): IUser[] {
+  const data = localStorage.getItem("users");
+  return data ? (JSON.parse(data) as IUser[]) : [];
+}
+
+
+// FUNCIONES PARA PEDIDOS
+export function getStoredOrders(): IOrder[] {
+  const data = localStorage.getItem("orders");
+  return data ? (JSON.parse(data) as IOrder[]) : [];
+}
+
+// Órdenes pendientes
+export function getOrdersPending(): IOrder[] {
+  return getStoredOrders().filter(order => order.estado === "PENDIENTE");
+}
+
+// Órdenes en preparación
+export function getOrdersPreparation(): IOrder[] {
+  return getStoredOrders().filter(order => order.estado === "EN_PREPARACION");
+}
+
+// Órdenes entregadas
+export function getOrdersDelivered(): IOrder[] {
+  return getStoredOrders().filter(order => order.estado === "ENTREGADO");
 }
 
 export function getActiveCategories(): ICategory[] {
@@ -261,6 +208,7 @@ export function getActiveCategories(): ICategory[] {
     const enabledCategories = loadCategories.filter((c) => !c.eliminado);
     return enabledCategories;
 }
+
 //funciones para productos
 export function disableProduct(id: number) {
     const products = getStoredProducts();
@@ -298,10 +246,6 @@ export function disableCategory(id: number) {
     const updated = categories.map((c) =>
         c.id === id ? { ...c, eliminado: true } : c,
     );
-    console.log(
-        "disableCategory → guardando eliminado=true",
-        updated.find((c) => c.id === id),
-    );
     localStorage.setItem("categories", JSON.stringify(updated));
 }
 
@@ -310,17 +254,32 @@ export function enableCategory(id: number) {
     const updated = categories.map((c) =>
         c.id === id ? { ...c, eliminado: false } : c,
     );
-    console.log(
-        "enableCategory → guardando eliminado=false",
-        updated.find((c) => c.id === id),
-    );
     localStorage.setItem("categories", JSON.stringify(updated));
 }
 
+// export function updateCategory(id: number, updatedFields: Partial<ICategory>) {
+//     const categories = getStoredCategories();
+//     const updated = categories.map((c) =>
+//         c.id === id ? { ...c, ...updatedFields } : c,
+//     );
+//     localStorage.setItem("categories", JSON.stringify(updated));
+// }
+
+//actualiza categoria y lo sincroniza con productos
 export function updateCategory(id: number, updatedFields: Partial<ICategory>) {
     const categories = getStoredCategories();
-    const updated = categories.map((c) =>
-        c.id === id ? { ...c, ...updatedFields } : c,
+    const updatedCategories = categories.map((c) =>
+        c.id === id ? { ...c, ...updatedFields } : c
     );
-    localStorage.setItem("categories", JSON.stringify(updated));
+    localStorage.setItem("categories", JSON.stringify(updatedCategories));
+
+    //sncronizar también en productos
+    const products = getStoredProducts();
+    const updatedProducts = products.map((p) => {
+        const updatedCategorias = p.categorias.map((pc: ICategory) =>
+            pc.id === id ? { ...pc, ...updatedFields } : pc
+        );
+        return { ...p, categorias: updatedCategorias };
+    });
+    localStorage.setItem("products", JSON.stringify(updatedProducts));
 }

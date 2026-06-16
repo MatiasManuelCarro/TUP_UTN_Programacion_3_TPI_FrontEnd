@@ -1,6 +1,8 @@
 // src/utils/data.ts
 import type { Product } from "../types/product";
 import type { ICategory } from "../types/category";
+import type { IOrder } from "../types/orders";
+import type { IUser } from "../types/users";
 
 
 // Función cargar los JSON
@@ -22,6 +24,17 @@ export async function getProducts(): Promise<Product[]> {
   return productos.filter(p => !p.eliminado);
 }
 
+
+export async function getOrders(): Promise<IOrder[]> {
+  const pedidos = await loadJSON<IOrder[]>("/src/data/pedidos.json");
+  return pedidos; 
+}
+
+
+export async function getUsers(): Promise<IUser[]> {
+  const usuarios = await loadJSON<IUser[]>("/src/data/usuarios.json");
+  return usuarios; 
+}
 /*
 const categorias: ICategory[] = [
   {
