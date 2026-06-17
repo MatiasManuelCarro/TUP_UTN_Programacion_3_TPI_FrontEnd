@@ -1,0 +1,199 @@
+/* contenedor principal */
+#orders-container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* estado vacío */
+.empty-orders {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #777;
+    margin-top: 40px;
+}
+
+/* tarjeta de pedido */
+.order-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px 20px;
+    cursor: pointer;
+    transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.order-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0,0,0,.12);
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.order-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.order-date {
+    color: #666;
+    margin: 5px 0;
+}
+
+.order-summary {
+    font-size: .95rem;
+    margin: 5px 0;
+}
+
+.order-total {
+    font-weight: bold;
+    margin-top: 8px;
+    color: var(--color-primario);
+}
+
+/* badges */
+.order-status {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: .85rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+.pendiente {
+    background: #f0ad4e;
+}
+
+.en_preparacion {
+    background: #0275d8;
+}
+
+.entregado {
+    background: #5cb85c;
+}
+
+.cancelado {
+    background: #d9534f;
+}
+
+/* modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    inset: 0;
+    background: rgba(0,0,0,.55);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #fff;
+    width: 90%;
+    max-width: 600px;
+    padding: 25px;
+    border-radius: 10px;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+/* 
+#close-modal {
+    background: #d9534f;
+    color: #fff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+#close-modal:hover {
+    background: #c9302c;
+} */
+
+/* botón cerrar dentro del modal */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    background: transparent;
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: #444;
+    transition: color .2s ease;
+}
+
+.close-btn:hover {
+    color: #d9534f;
+}
+
+.modal-content {
+    position: relative;
+}
+
+/* detalle del pedido */
+.modal-status {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.modal-products {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.modal-product-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.modal-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 6px;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.modal-total {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-top: 10px;
+    color: var(--color-primario);
+}
+
+.modal-message {
+    margin-top: 15px;
+    font-style: italic;
+    color: #555;
+}
+
+/* responsive */
+@media (max-width: 600px) {
+    .order-card {
+        padding: 12px;
+    }
+
+    .modal-content {
+        padding: 18px;
+    }
+
+    .modal-product-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+}

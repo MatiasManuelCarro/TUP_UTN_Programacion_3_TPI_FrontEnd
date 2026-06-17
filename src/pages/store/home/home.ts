@@ -1,6 +1,6 @@
 import type { Product } from "../../../types/product";
-import { getCategories, getProducts } from "../../../data/data";
-import { addToCart, getCartCount, getAvailableStock, getStoredProducts, getStoredCategories, getActiveCategories } from "../../../utils/localStorage";
+// import { getCategories, getProducts } from "../../../data/data";
+import { addToCart, getCartCount, getAvailableStock, getStoredProducts, getStoredCategories, getActiveCategories, logout } from "../../../utils/localStorage";
 import type { ICategory } from "../../../types/category";
 import { guard } from "../../../main";
 
@@ -19,8 +19,6 @@ const loadProducts = (products: Product[]) => {
 
     //listado con categorias activas
     const enabledCategories = getActiveCategories();
-
-
 
 
     products.forEach((product) => {
@@ -111,7 +109,7 @@ const updateCartBadge = () => {
     }
 };
 
-// document.addEventListener("DOMContentLoaded", async () => {
+
 const loader = document.getElementById("loader") as HTMLDivElement;
 
 if (guard("USUARIO")) {
@@ -120,6 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const products = getStoredProducts();
     const categories = getStoredCategories();
+
 
     // carga inicial
     loadProducts(products);
@@ -304,5 +303,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
         }
     });
+
+        const logoutBtn = document.getElementById("logout-btn");
+    
+        if (logoutBtn) {
+                logoutBtn.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    logout();
+                });
+            }
+    
+            
 })};
 // });

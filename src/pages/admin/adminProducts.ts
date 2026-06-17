@@ -1,5 +1,4 @@
 import type { Product } from "../../types/product";
-import { getProducts, getCategories } from "../../data/data";
 import { getAvailableStock, getStoredProducts, disableProduct, enableProduct, updateProduct } from "../../utils/localStorage";
 import { guard } from "../../main";
 

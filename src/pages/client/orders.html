@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -21,16 +22,27 @@
                 <li class="site-nav__item"><a class="site-nav__link" href="../home/home.html">Catalogo</a></li>
                 <li class="site-nav__item"><a class="site-nav__link" href="/src/pages/store/cart/cart.html">Carrito
                         <span id="cart-count" class="cart-badge"></span></a></li>
-                <li class="site-nav__item"><a class="site-nav__link" href="/src/pages/auth/login.html">Logout</a></li>
+                <li class="site-nav__item"><a id="logout-btn" class="site-nav__link" href="#">Cerrar Sesión</a></li>
             </ul>
         </nav>
     </header>
     <hr class="divider" />
-    <main></main>
+    <main>
+        <div id="orders-container"></div>
+        <!-- Modal -->
+        <div id="order-modal" class="modal">
+            <div class="modal-content">
+                <button id="close-modal" class="close-btn">✖</button>
+                <div id="modal-content"></div>
+            </div>
+        </div>
+    </main>
     <footer class="site-footer">
         <small class="site-footer__small">&reg; 2026 Food Store. All rights reserved. <br />Page
             created by Matias Carro <br />matiasmanuelcarro@gmail.com
         </small>
-    </footer>    
+    </footer>
+    <script type="module" src="/src/pages/client/orders.ts"></script>
 </body>
+
 </html>

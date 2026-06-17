@@ -10,6 +10,7 @@ import {
     getCartCount,
     getStoredProducts,
     getStoredCategories,
+    logout,
 } from "../../../utils/localStorage";
 import { guard } from "../../../main";
 
@@ -50,7 +51,7 @@ export const loadCart = () => {
             continue;
         }
 
-            renderCartMessage(cart, cartEmptyMessage);
+        renderCartMessage(cart, cartEmptyMessage);
 
 
         //muestra los productos activos con categoria activa 
@@ -156,6 +157,11 @@ function cartListeners(
     deleteBtn.addEventListener("click", () => {
         deleteProduct(product);
         loadCart();
+
+        //actualiza el mensaje
+        const cart = getCart();
+        const cartEmptyMessage = document.getElementById("cart-message") as HTMLElement;
+        renderCartMessage(cart, cartEmptyMessage);
     });
 }
 
@@ -166,22 +172,36 @@ document.addEventListener("DOMContentLoaded", () => {
 document.getElementById("clear-cart")?.addEventListener("click", () => {
     clearCart();
     loadCart();
+
+    //actualiza el mensaje
+    const cartEmptyMessage = document.getElementById("cart-message") as HTMLElement;
+    renderCartMessage([], cartEmptyMessage);
 });
 
 const loader = document.getElementById("loader") as HTMLDivElement;
 
 if (guard("USUARIO")) {
-document.addEventListener("DOMContentLoaded", () => {
-    loader.classList.add("hidden"); //remueve el loader
-    
-    const toggleSidebar = document.getElementById("menu-toggle") as HTMLButtonElement;
-    const sidebar = document.querySelector(".sidebar") as HTMLElement;
-    //toggle de sidebar
-    if (toggleSidebar && sidebar) {
-        toggleSidebar.addEventListener("click", () => {
-            sidebar.classList.toggle("active");
-        });
-    }
+    document.addEventListener("DOMContentLoaded", () => {
+        loader.classList.add("hidden"); //remueve el loader
 
-})};
+        const toggleSidebar = document.getElementById("menu-toggle") as HTMLButtonElement;
+        const sidebar = document.querySelector(".sidebar") as HTMLElement;
+        //toggle de sidebar
+        if (toggleSidebar && sidebar) {
+            toggleSidebar.addEventListener("click", () => {
+                sidebar.classList.toggle("active");
+            });
+        }
+
+        const logoutBtn = document.getElementById("logout-btn");
+
+        if (logoutBtn) {
+            logoutBtn.addEventListener("click", (e) => {
+                e.preventDefault();
+                logout();
+            });
+        }
+
+    })
+};
 

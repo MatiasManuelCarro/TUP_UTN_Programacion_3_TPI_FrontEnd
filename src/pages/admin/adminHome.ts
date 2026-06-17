@@ -3,7 +3,6 @@ import {
   getOrdersPending, 
   getOrdersPreparation, 
   getOrdersDelivered, 
-  getStoredUsersSafe 
 } from "../../utils/localStorage";
 import type { Product } from "../../../src/types/product";
 import type { ICategory } from "../../../src/types/category";

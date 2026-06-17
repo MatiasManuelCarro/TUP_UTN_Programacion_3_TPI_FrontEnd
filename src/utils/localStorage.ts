@@ -4,21 +4,51 @@ import type { ICategory } from "../types/category";
 import { getProducts, getCategories, getUsers, getOrders } from "../data/data";
 import type { IUser } from "../types/users";
 import type { IOrder } from "../types/orders";
+import { navigate } from "./navigate";
 
 const ACTIVE_USER = "ACTIVE_USER";
 
-//primera carga -> carga todos los datos de los json a localstorage 
-document.addEventListener("DOMContentLoaded", async () => {
+// //primera carga -> carga todos los datos de los json a localstorage 
+// document.addEventListener("DOMContentLoaded", async () => {
+//     const productsStored = localStorage.getItem("products");
+//     const categoriesStored = localStorage.getItem("categories");
+//     const usersStored = localStorage.getItem("users"); //safe users
+//     const authUsersStored = localStorage.getItem("authUsers"); //users con passwords
+//     const ordersStored = localStorage.getItem("orders");
+
+//     if (!productsStored || !categoriesStored) {
+//         // Solo se ejecuta si no hay datos guardados
+//         await initProductsAndCategories();
+//     }
+//     // Usuarios (sin password)
+//     if (!usersStored) {
+//         await initSafeUsers();
+//     }
+
+//     // Usuarios (con password, para login)
+//     if (!authUsersStored) {
+//         await initAuthUsers();
+//     }
+
+//     // Pedidos
+//     if (!ordersStored) {
+//         await initOrders();
+//     }
+
+// });
+
+export async function initBaseData() {
     const productsStored = localStorage.getItem("products");
     const categoriesStored = localStorage.getItem("categories");
-    const usersStored = localStorage.getItem("users"); //safe users
-    const authUsersStored = localStorage.getItem("authUsers"); //users con passwords
+    const usersStored = localStorage.getItem("users");
+    const authUsersStored = localStorage.getItem("authUsers");
     const ordersStored = localStorage.getItem("orders");
 
     if (!productsStored || !categoriesStored) {
         // Solo se ejecuta si no hay datos guardados
         await initProductsAndCategories();
     }
+
     // Usuarios (sin password)
     if (!usersStored) {
         await initSafeUsers();
@@ -33,14 +63,26 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (!ordersStored) {
         await initOrders();
     }
+}
 
-});
 
 //funciones del carrito
-export const getCart = (): CartItem[] => {
-    const cart = localStorage.getItem("cart");
-    return cart ? (JSON.parse(cart) as CartItem[]) : [];
-};
+// export const getCart = (): CartItem[] => {
+//     const cart = localStorage.getItem("cart");
+//     return cart ? (JSON.parse(cart) as CartItem[]) : [];
+// };
+
+export function getCart() {
+    try {
+        const raw = localStorage.getItem("cart");
+        const parsed = JSON.parse(raw || "[]");
+
+        if (!Array.isArray(parsed)) return [];
+        return parsed;
+    } catch {
+        return [];
+    }
+}
 
 
 export const getCartCount = (): number => {
@@ -313,3 +355,11 @@ export function updateCategory(id: number, updatedFields: Partial<ICategory>) {
     });
     localStorage.setItem("products", JSON.stringify(updatedProducts));
 }
+
+export const logout = () => {
+    // Limpia todo
+    localStorage.clear();
+    sessionStorage.clear();
+    // Redirige al login
+    navigate("/src/pages/auth/login/login.html");
+};

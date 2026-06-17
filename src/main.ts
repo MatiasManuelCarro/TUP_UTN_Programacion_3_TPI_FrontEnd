@@ -1,4 +1,6 @@
-import type { IUser } from "./types/users";
+// import type { IUser } from "./types/users";
+// import { getActiveUser } from "./utils/localStorage";
+
 import { getActiveUser } from "./utils/localStorage";
 import { navigate } from "./utils/navigate";
 
@@ -44,19 +46,23 @@ import { navigate } from "./utils/navigate";
 // }
 
 export function guard(requiredRole?: "ADMIN" | "USUARIO"): boolean {
-  const user = JSON.parse(localStorage.getItem("ACTIVE_USER") || "null");
+  // const user = JSON.parse(localStorage.getItem("ACTIVE_USER") || "null");
+  const user= getActiveUser();
 
   if (!user) {
-    window.location.replace("/src/pages/auth/login/login.html");
+    // window.location.replace("/src/pages/auth/login/login.html");
+    navigate(("/src/pages/auth/login/login.html"));
     return false;
   }
 
   if (requiredRole && user.rol !== requiredRole) {
     // Si el rol no coincide, lo mando a SU home correcto
     if (user.rol === "USUARIO") {
-      window.location.replace("/src/pages/store/home/home.html");
+      // window.location.replace("/src/pages/store/home/home.html");
+      navigate("/src/pages/store/home/home.html");
     } else if (user.rol === "ADMIN") {
-      window.location.replace("/src/pages/admin/adminHome.html");
+      // window.location.replace("/src/pages/admin/adminHome.html");
+      navigate("/src/pages/admin/adminHome.html");
     }
     return false;
   }

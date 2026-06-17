@@ -1,14 +1,15 @@
-import { getStoredAuthUsers } from "../../utils/localStorage";
+import { getStoredAuthUsers, initBaseData } from "../../utils/localStorage";
 import { navigate } from "../../utils/navigate";
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
     const form = document.getElementById("login-form") as HTMLFormElement;
     const inputEmail = document.getElementById("email") as HTMLInputElement;
     const inputPassword = document.getElementById("password") as HTMLInputElement;
     const errorDiv = document.getElementById("error") as HTMLDivElement;
 
-    //limpia el active user
-    localStorage.setItem("ACTIVE_USER", "null");
+    await initBaseData();
+
+
 
     form.addEventListener("submit", handleLogin);
 

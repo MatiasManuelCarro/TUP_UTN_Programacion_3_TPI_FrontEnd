@@ -1,10 +1,6 @@
 import type { Product } from "../../../types/product";
 import {
-    getCart,
-    clearCart,
-    minusOneCart,
     addToCart,
-    deleteProduct,
     getCartCount,
     getAvailableStock,
 } from "../../../utils/localStorage";
@@ -38,10 +34,13 @@ function renderProductDetail(product: Product, availableStock: number) {
 
     const isAvailable = availableStock === 0 ? "" : String(availableStock);
     const availableClass = availableStock === 0 ? "no" : "yes";
-    const availableText = availableStock === 0 ? "Sin Stock" : "Stock disponible: "
+    const availableText = availableStock === 0 ? "Sin Stock" : "Stock disponible: ";
+    const disabledClass = availableStock === 0 ? "disabled" : "";
 
     const container = document.getElementById("product-detail");
     if (!container) return;
+
+    
 
     container.innerHTML = `
     <h1>${product.nombre}</h1>
@@ -56,9 +55,9 @@ function renderProductDetail(product: Product, availableStock: number) {
     <a href="#" class="link-amount plus" data-id="${product.id}">+</a>    
     </p>
 <div class="detail-buttons">
-    <button id="add-to-cart" data-id="${product.id}">Agregar al carrito</button>
+    <button id="add-to-cart" class="${disabledClass}" data-id="${product.id}">Agregar al carrito</button>
     <a id="back-to-home" href="/src/pages/store/home/home.html">Volver</a>
-  </div>
+    </div>
     `;
 
     const detailStockText = container.querySelector(".detail-stock") as HTMLElement;
@@ -183,7 +182,11 @@ function renderProductDetail(product: Product, availableStock: number) {
                 productStock -= amount;
                 updateStockText();
                 amount = 1;
+
+                //actualiza cantidades y re-renderiza
                 updateQuantityText();
+                const newAvailableStock = getAvailableStock(product);
+                renderProductDetail(product, newAvailableStock);
 
                 modalImg.innerHTML = `<img src="${product.imagen}" alt="Imagen de ${product.nombre}"/>`;
                 cartMessage.textContent = `Se agregó al carrito: ${product.nombre}`;
