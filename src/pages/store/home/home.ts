@@ -2,6 +2,7 @@ import type { Product } from "../../../types/product";
 import { getCategories, getProducts } from "../../../data/data";
 import { addToCart, getCartCount, getAvailableStock, getStoredProducts, getStoredCategories, getActiveCategories } from "../../../utils/localStorage";
 import type { ICategory } from "../../../types/category";
+import { guard } from "../../../main";
 
 const searchNotification = document.getElementById(
     "searchNotification",
@@ -113,6 +114,11 @@ const updateCartBadge = () => {
 // document.addEventListener("DOMContentLoaded", async () => {
 document.addEventListener("DOMContentLoaded", () => {
 
+const loader = document.getElementById("loader");
+
+// Ejecutar guard lo antes posible
+guard("USUARIO");
+    
     const products = getStoredProducts();
     const categories = getStoredCategories();
 

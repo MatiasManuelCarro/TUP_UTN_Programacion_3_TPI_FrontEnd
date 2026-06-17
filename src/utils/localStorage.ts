@@ -5,11 +5,14 @@ import { getProducts, getCategories, getUsers, getOrders } from "../data/data";
 import type { IUser } from "../types/users";
 import type { IOrder } from "../types/orders";
 
+const ACTIVE_USER = "ACTIVE_USER";
+
 //primera carga -> carga todos los datos de los json a localstorage 
 document.addEventListener("DOMContentLoaded", async () => {
     const productsStored = localStorage.getItem("products");
     const categoriesStored = localStorage.getItem("categories");
-    const usersStored = localStorage.getItem("users");
+    const usersStored = localStorage.getItem("users"); //safe users
+    const authUsersStored = localStorage.getItem("authUsers"); //users con passwords
     const ordersStored = localStorage.getItem("orders");
 
     if (!productsStored || !categoriesStored) {
@@ -19,6 +22,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Usuarios (sin password)
     if (!usersStored) {
         await initSafeUsers();
+    }
+
+    // Usuarios (con password, para login)
+    if (!authUsersStored) {
+        await initAuthUsers();
     }
 
     // Pedidos
@@ -150,6 +158,28 @@ export async function initSafeUsers() {
     }
 }
 
+// Inicializa usuarios con password (solo para login)
+export async function initAuthUsers() {
+    try {
+        const users: IUser[] = await getUsers();
+        localStorage.setItem("authUsers", JSON.stringify(users));
+    } catch (err) {
+        console.error("Error cargando usuarios:", err);
+    }
+}
+
+// Obtiene usuarios con password (para validación de login)
+export function getStoredAuthUsers(): IUser[] {
+    const data = localStorage.getItem("authUsers");
+    return data ? (JSON.parse(data) as IUser[]) : [];
+}
+
+// Devuelve el usuario logeado en el momento
+export function getActiveUser(): IUser | null {
+    const data = localStorage.getItem(ACTIVE_USER);
+    return data ? (JSON.parse(data) as IUser) : null;
+}
+
 // Inicializa pedidos en localStorage
 export async function initOrders() {
     try {
@@ -177,30 +207,30 @@ export function getStoredCategories(): ICategory[] {
 
 // Usuarios sin password
 export function getStoredUsersSafe(): IUser[] {
-  const data = localStorage.getItem("users");
-  return data ? (JSON.parse(data) as IUser[]) : [];
+    const data = localStorage.getItem("users");
+    return data ? (JSON.parse(data) as IUser[]) : [];
 }
 
 
 // FUNCIONES PARA PEDIDOS
 export function getStoredOrders(): IOrder[] {
-  const data = localStorage.getItem("orders");
-  return data ? (JSON.parse(data) as IOrder[]) : [];
+    const data = localStorage.getItem("orders");
+    return data ? (JSON.parse(data) as IOrder[]) : [];
 }
 
 // Órdenes pendientes
 export function getOrdersPending(): IOrder[] {
-  return getStoredOrders().filter(order => order.estado === "PENDIENTE");
+    return getStoredOrders().filter(order => order.estado === "PENDIENTE");
 }
 
 // Órdenes en preparación
 export function getOrdersPreparation(): IOrder[] {
-  return getStoredOrders().filter(order => order.estado === "EN_PREPARACION");
+    return getStoredOrders().filter(order => order.estado === "EN_PREPARACION");
 }
 
 // Órdenes entregadas
 export function getOrdersDelivered(): IOrder[] {
-  return getStoredOrders().filter(order => order.estado === "ENTREGADO");
+    return getStoredOrders().filter(order => order.estado === "ENTREGADO");
 }
 
 export function getActiveCategories(): ICategory[] {

@@ -1,5 +1,10 @@
 /* pagina de login  */
 
+/* login siempre esta visible, no es necesario guard() */
+body{
+    visibility: visible !important;
+}
+
 .container {
     display: flex;
     justify-content: center;

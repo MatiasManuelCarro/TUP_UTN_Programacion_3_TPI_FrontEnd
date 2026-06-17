@@ -5,6 +5,10 @@ import {
     getOrdersDelivered
 } from "../../utils/localStorage";
 import type { IOrder } from "../../types/orders";
+import { guard } from "../../main";
+
+// Loader que oculta informacion hasta que pase el guard
+const loader = document.getElementById("loader") as HTMLDivElement;
 
 function renderOrders(orders: IOrder[]) {
     const container = document.getElementById("orders-container");
@@ -19,7 +23,7 @@ function renderOrders(orders: IOrder[]) {
 
         let orderStatus = "";
 
-        switch (order.estado){
+        switch (order.estado) {
             case "PENDIENTE":
                 orderStatus = "PENDIENTE";
                 break;
@@ -27,10 +31,10 @@ function renderOrders(orders: IOrder[]) {
                 orderStatus = "EN PREPARACION";
                 break;
             case "ENTREGADO":
-                 orderStatus = "ENTREGADO";
-                 break;
+                orderStatus = "ENTREGADO";
+                break;
             default:
-                 orderStatus = "";
+                orderStatus = "";
         }
 
         card.className = "order-card";
@@ -52,7 +56,10 @@ function renderOrders(orders: IOrder[]) {
     });
 }
 
+if (guard("ADMIN")) {
 document.addEventListener("DOMContentLoaded", () => {
+    loader.classList.add("hidden"); //remueve el loader
+
     const filterSelect = document.getElementById("order-filter") as HTMLSelectElement;
 
     // Render inicial (todos)
@@ -74,4 +81,4 @@ document.addEventListener("DOMContentLoaded", () => {
                 renderOrders(getStoredOrders());
         }
     });
-});
+})};

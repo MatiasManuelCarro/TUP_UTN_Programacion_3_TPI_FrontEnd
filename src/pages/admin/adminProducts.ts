@@ -1,6 +1,7 @@
 import type { Product } from "../../types/product";
 import { getProducts, getCategories } from "../../data/data";
 import { getAvailableStock, getStoredProducts, disableProduct, enableProduct, updateProduct } from "../../utils/localStorage";
+import { guard } from "../../main";
 
 
 
@@ -145,9 +146,12 @@ function renderProductsTable() {
 // }
 
 
+const loader = document.getElementById("loader") as HTMLDivElement;
 
+if (guard("ADMIN")) {
 document.addEventListener("DOMContentLoaded", () => {
+    loader.classList.add("hidden"); //remueve el loader
   renderProductsTable();
-});
+})};
 
 

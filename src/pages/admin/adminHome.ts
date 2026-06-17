@@ -7,8 +7,15 @@ import {
 } from "../../utils/localStorage";
 import type { Product } from "../../../src/types/product";
 import type { ICategory } from "../../../src/types/category";
+import { guard } from "../../main";
 
+// Loader que oculta informacion hasta que pase el guard
+const loader = document.getElementById("loader") as HTMLDivElement;
+
+if (guard("ADMIN")) {
 document.addEventListener("DOMContentLoaded", () => {
+    loader.classList.add("hidden"); //remueve el loader
+
   // Cargar datos desde localStorage
   const categories: ICategory[] = JSON.parse(localStorage.getItem("categories") || "[]");
   const products: Product[] = JSON.parse(localStorage.getItem("products") || "[]");
@@ -38,4 +45,4 @@ document.addEventListener("DOMContentLoaded", () => {
     <li>En preparación: ${getOrdersPreparation().length}</li>
     <li>Entregados: ${getOrdersDelivered().length}</li>
   `;
-});
+})};

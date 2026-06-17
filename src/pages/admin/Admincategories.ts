@@ -1,5 +1,6 @@
 import { disableCategory, enableCategory, getStoredCategories, updateCategory } from "../../utils/localStorage";
 import type { ICategory } from "../../types/category";
+import { guard } from "../../main";
 
 function renderCategoriesTable() {
     const tbody = document.getElementById("admin-categories-body") as HTMLTableSectionElement;
@@ -88,7 +89,11 @@ function renderCategoriesTable() {
         });
     });
 }
+// Loader que oculta informacion hasta que pase el guard
+const loader = document.getElementById("loader") as HTMLDivElement;
 
+if (guard("ADMIN")) {
 document.addEventListener("DOMContentLoaded", () => {
+    loader.classList.add("hidden"); //remueve el loader
     renderCategoriesTable();
-});
+})};
