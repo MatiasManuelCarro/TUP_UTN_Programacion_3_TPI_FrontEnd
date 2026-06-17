@@ -1,13 +1,36 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Prueba LocalStorage</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/src/shared.css">
+    <link rel="stylesheet" href="/src/orders.css">
+    <title>Food Store</title>
 </head>
-<body>
-  <h1>Prueba de inicialización</h1>
-  <p>Abre la consola del navegador para ver los resultados.</p>
 
-  <script type="module" src="./oders.ts"></script>
+<body>
+    <!-- loader oculta la informacion hasta que pasa el guard  -->
+    <div id="loader">Cargando...</div>
+    <header class="site-header">
+        <button id="menu-toggle" class="sidebar-toggle">&#9776;</button>
+        <a href="/src/pages/store/home/home.html" class="site-header__brand">
+            <h1>&#127828; Food Store</h1>
+        </a>
+        <nav class="site-nav">
+            <ul class="site-nav__list">
+                <li class="site-nav__item"><a class="site-nav__link" href="../home/home.html">Catalogo</a></li>
+                <li class="site-nav__item"><a class="site-nav__link" href="/src/pages/store/cart/cart.html">Carrito
+                        <span id="cart-count" class="cart-badge"></span></a></li>
+                <li class="site-nav__item"><a class="site-nav__link" href="/src/pages/auth/login.html">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <hr class="divider" />
+    <main></main>
+    <footer class="site-footer">
+        <small class="site-footer__small">&reg; 2026 Food Store. All rights reserved. <br />Page
+            created by Matias Carro <br />matiasmanuelcarro@gmail.com
+        </small>
+    </footer>    
 </body>
 </html>

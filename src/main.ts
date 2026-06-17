@@ -23,6 +23,26 @@ import { navigate } from "./utils/navigate";
 //   }
 // }
 
+// export function guard(requiredRole?: "ADMIN" | "USUARIO"): boolean {
+//   const user = JSON.parse(localStorage.getItem("ACTIVE_USER") || "null");
+
+//   if (!user) {
+//     window.location.replace("/src/pages/auth/login/login.html");
+//     return false;
+//   }
+
+//   if (requiredRole && user.rol !== requiredRole) {
+//     if (user.rol === "USUARIO") {
+//       window.location.replace("/src/pages/store/home/home.html");
+//     } else if (user.rol === "ADMIN") {
+//       window.location.replace("/src/pages/admin/adminHome.html");
+//     }
+//     return false;
+//   }
+
+//   return true; // pasó el guard
+// }
+
 export function guard(requiredRole?: "ADMIN" | "USUARIO"): boolean {
   const user = JSON.parse(localStorage.getItem("ACTIVE_USER") || "null");
 
@@ -32,6 +52,7 @@ export function guard(requiredRole?: "ADMIN" | "USUARIO"): boolean {
   }
 
   if (requiredRole && user.rol !== requiredRole) {
+    // Si el rol no coincide, lo mando a SU home correcto
     if (user.rol === "USUARIO") {
       window.location.replace("/src/pages/store/home/home.html");
     } else if (user.rol === "ADMIN") {
@@ -43,4 +64,30 @@ export function guard(requiredRole?: "ADMIN" | "USUARIO"): boolean {
   return true; // pasó el guard
 }
 
+//test solo para ver rutas 
+// export function guard(requiredRole?: "ADMIN" | "USUARIO"): boolean {
+//   const raw = localStorage.getItem("ACTIVE_USER");
+//   console.log("ACTIVE_USER raw:", raw);
 
+//   const user = JSON.parse(raw || "null");
+//   console.log("Usuario parseado:", user);
+
+//   if (!user) {
+//     console.log("No hay sesión → login");
+//     alert("entro a !user")
+//     // window.location.replace("../auth/login/login.html");
+//     // return false;
+//   }
+
+//   if (requiredRole && user.rol !== requiredRole) {
+//     console.log("Rol detectado:", user.rol, "Página pedida:", requiredRole);
+//     if (user.rol === "USUARIO") {
+//       window.location.replace("../store/home/home.html");
+//     } else if (user.rol === "ADMIN") {
+//       window.location.replace("/src/pages/admin/adminHome.html");
+//     }
+//     return false;
+//   }
+
+//   return true;
+// }

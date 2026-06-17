@@ -11,6 +11,7 @@ import {
     getStoredProducts,
     getStoredCategories,
 } from "../../../utils/localStorage";
+import { guard } from "../../../main";
 
 
 
@@ -167,7 +168,12 @@ document.getElementById("clear-cart")?.addEventListener("click", () => {
     loadCart();
 });
 
+const loader = document.getElementById("loader") as HTMLDivElement;
+
+if (guard("USUARIO")) {
 document.addEventListener("DOMContentLoaded", () => {
+    loader.classList.add("hidden"); //remueve el loader
+    
     const toggleSidebar = document.getElementById("menu-toggle") as HTMLButtonElement;
     const sidebar = document.querySelector(".sidebar") as HTMLElement;
     //toggle de sidebar
@@ -177,5 +183,5 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-});
+})};
 

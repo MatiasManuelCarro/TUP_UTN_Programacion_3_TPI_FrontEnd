@@ -112,12 +112,11 @@ const updateCartBadge = () => {
 };
 
 // document.addEventListener("DOMContentLoaded", async () => {
+const loader = document.getElementById("loader") as HTMLDivElement;
+
+if (guard("USUARIO")) {
 document.addEventListener("DOMContentLoaded", () => {
-
-const loader = document.getElementById("loader");
-
-// Ejecutar guard lo antes posible
-guard("USUARIO");
+    loader.classList.add("hidden"); //remueve el loader
     
     const products = getStoredProducts();
     const categories = getStoredCategories();
@@ -302,10 +301,8 @@ guard("USUARIO");
                 "No se pudo usar sessionStorage, usando fallback por query:",
                 e,
             );
-            // Fallback: enviar por query string codificada (evitar para objetos grandes)
-            // const encoded = encodeURIComponent(btoa(JSON.stringify(product)));
-            // window.location.href = `/detalleproducto.html?product=${encoded}`;
+
         }
     });
-});
+})};
 // });

@@ -7,6 +7,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const inputPassword = document.getElementById("password") as HTMLInputElement;
     const errorDiv = document.getElementById("error") as HTMLDivElement;
 
+    //limpia el active user
+    localStorage.setItem("ACTIVE_USER", "null");
+
     form.addEventListener("submit", handleLogin);
 
     function handleLogin(e: SubmitEvent) {
