@@ -1,21 +1,20 @@
 import type { CartItem } from "../types/cartItem";
 import type { Product } from "../types/product";
 import type { ICategory } from "../types/category";
-import { getProducts, getCategories, getUsers, getOrders } from "../data/data";
+import { getProducts, getCategories, getUsers, getOrders } from "../../public/data/data";
 import type { IUser } from "../types/users";
 import type { IOrder } from "../types/orders";
 import { navigate } from "./navigate";
 
 const ACTIVE_USER = "ACTIVE_USER";
 
-// //primera carga -> carga todos los datos de los json a localstorage 
+// //primera carga -> carga todos los datos de los json a localstorage
 // document.addEventListener("DOMContentLoaded", async () => {
 //     const productsStored = localStorage.getItem("products");
 //     const categoriesStored = localStorage.getItem("categories");
 //     const usersStored = localStorage.getItem("users"); //safe users
 //     const authUsersStored = localStorage.getItem("authUsers"); //users con passwords
 //     const ordersStored = localStorage.getItem("orders");
-
 //     if (!productsStored || !categoriesStored) {
 //         // Solo se ejecuta si no hay datos guardados
 //         await initProductsAndCategories();
@@ -24,17 +23,14 @@ const ACTIVE_USER = "ACTIVE_USER";
 //     if (!usersStored) {
 //         await initSafeUsers();
 //     }
-
 //     // Usuarios (con password, para login)
 //     if (!authUsersStored) {
 //         await initAuthUsers();
 //     }
-
 //     // Pedidos
 //     if (!ordersStored) {
 //         await initOrders();
 //     }
-
 // });
 
 export async function initBaseData() {
@@ -65,7 +61,6 @@ export async function initBaseData() {
     }
 }
 
-
 //funciones del carrito
 // export const getCart = (): CartItem[] => {
 //     const cart = localStorage.getItem("cart");
@@ -84,18 +79,17 @@ export function getCart() {
     }
 }
 
-
 export const getCartCount = (): number => {
     const cart = getCart();
     const products = getStoredProducts();
     const activeCategories = getActiveCategories(); // solo activas
 
     return cart.reduce((count: number, item: CartItem) => {
-        const currentProduct = products.find(p => p.id === item.product.id);
+        const currentProduct = products.find((p) => p.id === item.product.id);
 
         if (currentProduct && currentProduct.disponible) {
-            const categoryIsActive = currentProduct.categorias.some(pc =>
-                activeCategories.some(ca => ca.id === pc.id)
+            const categoryIsActive = currentProduct.categorias.some((pc) =>
+                activeCategories.some((ca) => ca.id === pc.id),
             );
 
             if (categoryIsActive) {
@@ -105,8 +99,6 @@ export const getCartCount = (): number => {
         return count;
     }, 0);
 };
-
-
 
 export const addToCart = (product: Product, amount: number): void => {
     const cart = getCart();
@@ -232,15 +224,12 @@ export async function initOrders() {
     }
 }
 
-
-
 //llama los datos desde localstorage
 
 export function getStoredProducts(): Product[] {
     const data = localStorage.getItem("products");
     return data ? (JSON.parse(data) as Product[]) : [];
 }
-
 
 export function getStoredCategories(): ICategory[] {
     const data = localStorage.getItem("categories");
@@ -253,7 +242,6 @@ export function getStoredUsersSafe(): IUser[] {
     return data ? (JSON.parse(data) as IUser[]) : [];
 }
 
-
 // FUNCIONES PARA PEDIDOS
 export function getStoredOrders(): IOrder[] {
     const data = localStorage.getItem("orders");
@@ -262,17 +250,17 @@ export function getStoredOrders(): IOrder[] {
 
 // Órdenes pendientes
 export function getOrdersPending(): IOrder[] {
-    return getStoredOrders().filter(order => order.estado === "PENDIENTE");
+    return getStoredOrders().filter((order) => order.estado === "PENDIENTE");
 }
 
 // Órdenes en preparación
 export function getOrdersPreparation(): IOrder[] {
-    return getStoredOrders().filter(order => order.estado === "EN_PREPARACION");
+    return getStoredOrders().filter((order) => order.estado === "EN_PREPARACION");
 }
 
 // Órdenes entregadas
 export function getOrdersDelivered(): IOrder[] {
-    return getStoredOrders().filter(order => order.estado === "ENTREGADO");
+    return getStoredOrders().filter((order) => order.estado === "ENTREGADO");
 }
 
 export function getActiveCategories(): ICategory[] {
@@ -341,7 +329,7 @@ export function enableCategory(id: number) {
 export function updateCategory(id: number, updatedFields: Partial<ICategory>) {
     const categories = getStoredCategories();
     const updatedCategories = categories.map((c) =>
-        c.id === id ? { ...c, ...updatedFields } : c
+        c.id === id ? { ...c, ...updatedFields } : c,
     );
     localStorage.setItem("categories", JSON.stringify(updatedCategories));
 
@@ -349,7 +337,7 @@ export function updateCategory(id: number, updatedFields: Partial<ICategory>) {
     const products = getStoredProducts();
     const updatedProducts = products.map((p) => {
         const updatedCategorias = p.categorias.map((pc: ICategory) =>
-            pc.id === id ? { ...pc, ...updatedFields } : pc
+            pc.id === id ? { ...pc, ...updatedFields } : pc,
         );
         return { ...p, categorias: updatedCategorias };
     });
@@ -357,9 +345,6 @@ export function updateCategory(id: number, updatedFields: Partial<ICategory>) {
 }
 
 export const logout = () => {
-    // Limpia todo
-    localStorage.clear();
-    sessionStorage.clear();
-    // Redirige al login
+    localStorage.removeItem("ACTIVE_USER");
     navigate("/src/pages/auth/login/login.html");
 };

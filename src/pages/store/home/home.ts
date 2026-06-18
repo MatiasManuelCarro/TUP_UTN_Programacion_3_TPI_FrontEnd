@@ -112,7 +112,7 @@ const updateCartBadge = () => {
 
 const loader = document.getElementById("loader") as HTMLDivElement;
 
-if (guard("USUARIO")) {
+if (guard()) {
 document.addEventListener("DOMContentLoaded", () => {
     loader.classList.add("hidden"); //remueve el loader
     

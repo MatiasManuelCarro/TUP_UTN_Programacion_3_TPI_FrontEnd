@@ -6,38 +6,26 @@ import { navigate } from "./utils/navigate";
 
 
 
-// export function guard(requiredRole?: "ADMIN" | "USUARIO") {
-//   const user: IUser | null = getActiveUser(); 
 
-//   if (!user) {
-//     // No hay sesión → al login
-//     navigate("index.html");
-//     return;
-//   }
-
-//   // Si se pide rol específico y no coincide
-//   if (requiredRole && user.rol !== requiredRole) {
-//     if (user.rol === "USUARIO") {
-//       navigate("/src/pages/store/home/home.html");
-//     } else if (user.rol === "ADMIN") {
-//       navigate("/src/pages/admin/adminHome.html");
-//     }
-//   }
-// }
 
 // export function guard(requiredRole?: "ADMIN" | "USUARIO"): boolean {
-//   const user = JSON.parse(localStorage.getItem("ACTIVE_USER") || "null");
+//   // const user = JSON.parse(localStorage.getItem("ACTIVE_USER") || "null");
+//   const user= getActiveUser();
 
 //   if (!user) {
-//     window.location.replace("/src/pages/auth/login/login.html");
+//     // window.location.replace("/src/pages/auth/login/login.html");
+//     navigate(("/src/pages/auth/login/login.html"));
 //     return false;
 //   }
 
 //   if (requiredRole && user.rol !== requiredRole) {
+//     // Si el rol no coincide, lo mando a SU home correcto
 //     if (user.rol === "USUARIO") {
-//       window.location.replace("/src/pages/store/home/home.html");
+//       // window.location.replace("/src/pages/store/home/home.html");
+//       navigate("/src/pages/store/home/home.html");
 //     } else if (user.rol === "ADMIN") {
-//       window.location.replace("/src/pages/admin/adminHome.html");
+//       // window.location.replace("/src/pages/admin/adminHome.html");
+//       navigate("/src/pages/admin/adminHome.html");
 //     }
 //     return false;
 //   }
@@ -46,54 +34,27 @@ import { navigate } from "./utils/navigate";
 // }
 
 export function guard(requiredRole?: "ADMIN" | "USUARIO"): boolean {
-  // const user = JSON.parse(localStorage.getItem("ACTIVE_USER") || "null");
-  const user= getActiveUser();
+  const user = getActiveUser();
 
   if (!user) {
-    // window.location.replace("/src/pages/auth/login/login.html");
-    navigate(("/src/pages/auth/login/login.html"));
+    navigate("/src/pages/auth/login/login.html");
     return false;
   }
 
   if (requiredRole && user.rol !== requiredRole) {
-    // Si el rol no coincide, lo mando a SU home correcto
-    if (user.rol === "USUARIO") {
-      // window.location.replace("/src/pages/store/home/home.html");
+
+    // USUARIO intentando entrar a ADMIN
+    if (requiredRole === "ADMIN" && user.rol === "USUARIO") {
       navigate("/src/pages/store/home/home.html");
-    } else if (user.rol === "ADMIN") {
-      // window.location.replace("/src/pages/admin/adminHome.html");
-      navigate("/src/pages/admin/adminHome.html");
+      return false;
     }
-    return false;
+
+    // ADMIN intentando entrar a algo exclusivo de USUARIO 
+    if (requiredRole === "USUARIO" && user.rol === "ADMIN") {
+      navigate("/src/pages/admin/adminHome/adminHome.html");
+      return false;
+    }
   }
 
-  return true; // pasó el guard
+  return true;
 }
-
-//test solo para ver rutas 
-// export function guard(requiredRole?: "ADMIN" | "USUARIO"): boolean {
-//   const raw = localStorage.getItem("ACTIVE_USER");
-//   console.log("ACTIVE_USER raw:", raw);
-
-//   const user = JSON.parse(raw || "null");
-//   console.log("Usuario parseado:", user);
-
-//   if (!user) {
-//     console.log("No hay sesión → login");
-//     alert("entro a !user")
-//     // window.location.replace("../auth/login/login.html");
-//     // return false;
-//   }
-
-//   if (requiredRole && user.rol !== requiredRole) {
-//     console.log("Rol detectado:", user.rol, "Página pedida:", requiredRole);
-//     if (user.rol === "USUARIO") {
-//       window.location.replace("../store/home/home.html");
-//     } else if (user.rol === "ADMIN") {
-//       window.location.replace("/src/pages/admin/adminHome.html");
-//     }
-//     return false;
-//   }
-
-//   return true;
-// }
