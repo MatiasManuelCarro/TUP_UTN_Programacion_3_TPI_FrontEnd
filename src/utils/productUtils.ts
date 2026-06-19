@@ -16,6 +16,19 @@ export function getAvailableStock(product: Product): number {
     return product.stock;
 }
 
+export function reduceProductStock(id: number, quantity: number) {
+  const products = getStoredProducts();
+
+  const updated = products.map((p) =>
+    p.id === id
+      ? { ...p, stock: Math.max(p.stock - quantity, 0) } // nunca negativo
+      : p
+  );
+
+  localStorage.setItem("products", JSON.stringify(updated));
+}
+
+
 // Inicializa productos y categorías en localStorage
 export async function initProductsAndCategories() {
     try {

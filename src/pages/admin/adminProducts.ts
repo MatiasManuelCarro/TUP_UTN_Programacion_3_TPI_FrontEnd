@@ -9,11 +9,16 @@ function renderProductsTable() {
 
   const products = getStoredProducts();
 
-  // Render dinámico
+  // Render 
   tbody.innerHTML = "";
   products.forEach((product) => {
 
-    const availableStock = getAvailableStock(product);
+  const availableStock = getAvailableStock(product);
+  const productStock = availableStock === 0 ? "Sin Stock" : String(availableStock);
+  const stockClass = availableStock === 0 ? "admin-stock no-stock" : "admin-stock";
+  
+
+
 
     const tr = document.createElement("tr");
     tr.innerHTML = tr.innerHTML = `
@@ -25,7 +30,7 @@ function renderProductsTable() {
         <td id="product-descripcion-${product.id}" class="admin-descripcion">${product.descripcion}</td>
         <td id="product-precio-${product.id}" class="admin-precio">$${product.precio}</td>
         <td id="product-categoria-${product.id}" class="admin-categoria">${product.categorias.map(c => c.nombre).join(", ")}</td>
-        <td id="product-stock-${product.id}" class="admin-stock">${availableStock}</td>
+        <td id="product-stock-${product.id}" class="${stockClass}">${productStock}</td>
         <td id="product-estado-${product.id}" class="estado ${product.disponible ? "disponible" : "no-disponible"}">
         ${product.disponible ? "Disponible" : "No disponible"}
         </td>`;

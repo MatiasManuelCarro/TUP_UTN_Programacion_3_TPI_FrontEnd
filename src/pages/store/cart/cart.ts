@@ -11,6 +11,7 @@ import {
 import {
     getStoredProducts,
     getStoredCategories,
+    reduceProductStock,
 } from "../../../utils/productUtils";
 import { guard } from "../../../main";
 import { getActiveUser, logout } from "../../../utils/auth";
@@ -277,6 +278,11 @@ function confirmOrder() {
             rol: activeUser.rol
         }
     };
+
+    //reduce el stock
+    cart.forEach(item => {
+        reduceProductStock(item.product.id, item.quantity);
+    });
 
     addOrder(newOrder);
     clearCart();

@@ -1,19 +1,50 @@
 import type { CartItem } from "../types/cartItem";
 import type { Product } from "../types/product";
+import { getActiveUser } from "./auth";
 import { getActiveCategories } from "./categoriesUtils";
 import { getStoredProducts } from "./productUtils";
 
-export function getCart() {
-    try {
-        const raw = localStorage.getItem("cart");
-        const parsed = JSON.parse(raw || "[]");
 
+
+
+// export function getCart() {
+//     try {
+//         const raw = localStorage.getItem("cart");
+//         const parsed = JSON.parse(raw || "[]");
+
+//         if (!Array.isArray(parsed)) return [];
+//         return parsed;
+//     } catch {
+//         return [];
+//     }
+// }
+
+function getCartKey(): string {
+    const activeUser = getActiveUser();
+    if (!activeUser) {
+        throw new Error("No hay usuario autenticado"); 
+    }
+    return `cart_${activeUser.id}`;
+}
+
+export function getCart(): CartItem[] {
+    try {
+        const raw = localStorage.getItem(getCartKey());
+        const parsed = JSON.parse(raw || "[]");
         if (!Array.isArray(parsed)) return [];
         return parsed;
     } catch {
         return [];
     }
 }
+
+const saveCart = (cart: CartItem[]): void => {
+    localStorage.setItem(getCartKey(), JSON.stringify(cart));
+};
+
+export const clearCart = (): void => {
+    localStorage.removeItem(getCartKey());
+};
 
 export const getCartCount = (): number => {
     const cart = getCart();
@@ -71,10 +102,10 @@ export const deleteProduct = (product: Product): void => {
     }
 };
 
-const saveCart = (cart: CartItem[]): void => {
-    localStorage.setItem("cart", JSON.stringify(cart));
-};
+// const saveCart = (cart: CartItem[]): void => {
+//     localStorage.setItem("cart", JSON.stringify(cart));
+// };
 
-export const clearCart = (): void => {
-    localStorage.removeItem("cart");
-};
+// export const clearCart = (): void => {
+//     localStorage.removeItem("cart");
+// };

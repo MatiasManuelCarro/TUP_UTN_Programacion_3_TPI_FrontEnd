@@ -1,8 +1,10 @@
 /* Tabla de productos - administración */
 
 main {
-  grid-row: 2;        /* segunda fila del grid */
-  grid-column: 2;     /* segunda columna (a la derecha del sidebar) */
+  grid-row: 2;
+  /* segunda fila del grid */
+  grid-column: 2;
+  /* segunda columna (a la derecha del sidebar) */
   padding: 2rem;
 }
 
@@ -45,13 +47,25 @@ main {
   box-shadow: 0 2px 4px var(--color-borde-tenue);
 }
 
+.admin-stock {
+  text-align: center;
+  font-weight: bold;
+}
+
+.no-stock {
+  color: var(--color-rojo);
+  font-weight: bold;
+}
+
+
+
 /* Estado disponible/no disponible */
 .estado {
   display: flex;
-  align-items: center;       
-  justify-content: center;   
+  align-items: center;
+  justify-content: center;
   font-weight: bold;
-  margin: 1.5rem auto;       
+  margin: 1.5rem auto;
   border-radius: var(--border-radius);
   max-width: 9rem;
   height: 2rem;

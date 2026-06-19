@@ -109,8 +109,8 @@
 }
 
 .search__select:hover {
-    background-color: var(--color-focus);
-    color: var(--color-blanco);
+    border-color: var(--color-focus);
+    box-shadow: 0 0 5px var(--color-focus);
 }
 
 .search__select:focus {
