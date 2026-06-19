@@ -1,46 +1,69 @@
+import { guard } from "../../../main";
 import type { Product } from "../../../types/product";
 import {
     addToCart,
     getCartCount,
     getAvailableStock,
+    getActiveUser,
+    logout,
 } from "../../../utils/localStorage";
 
 
+if (guard()) {
+    document.addEventListener("DOMContentLoaded", () => {
 
-document.addEventListener("DOMContentLoaded", () => {
+        let productJson = sessionStorage.getItem("selectedProduct");
 
-    let productJson = sessionStorage.getItem("selectedProduct");
+        if (!productJson) {
+            const container = document.getElementById("product-detail");
+            if (container) container.innerHTML = "<p>No se encontró el producto seleccionado.</p>";
+            return;
+        }
 
-    if (!productJson) {
-        const container = document.getElementById("product-detail");
-        if (container) container.innerHTML = "<p>No se encontró el producto seleccionado.</p>";
-        return;
+        try {
+            const product: Product = JSON.parse(productJson);
+            const availableStock = getAvailableStock(product); //consigue el stock disponible
+            renderProductDetail(product, availableStock);
+
+        } catch (e) {
+            console.error("Error parseando producto:", e);
+        }
+    });
+
+    const logoutBtn = document.getElementById("logout-btn");
+
+    if (logoutBtn) {
+        logoutBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            logout();
+        });
     }
 
-    try {
-        const product: Product = JSON.parse(productJson);
-        const availableStock = getAvailableStock(product); //consigue el stock disponible
-        renderProductDetail(product, availableStock);
 
-    } catch (e) {
-        console.error("Error parseando producto:", e);
-    }
-});
+};
 
 
 function renderProductDetail(product: Product, availableStock: number) {
-    let amount = 1; //cantidad inicial de productos a comprar
-    let productStock = product.stock; //stock inicial al cargar la pagina
+    let amount = 1;
+    let productStock = product.stock;
 
     const isAvailable = availableStock === 0 ? "" : String(availableStock);
     const availableClass = availableStock === 0 ? "no" : "yes";
     const availableText = availableStock === 0 ? "Sin Stock" : "Stock disponible: ";
-    const disabledClass = availableStock === 0 ? "disabled" : "";
+    let disabledClass: string;
+    const isAdmin = getActiveUser();
+    if (isAdmin?.rol === 'ADMIN') { //si es admin no puede agregar nada al carrito
+        disabledClass = "disabled";
+    } else if (!product.disponible || product.stock === 0) {
+        disabledClass = "disabled";  //stock = 0 o no disponible se desactiva el boton
+    } else {
+        disabledClass = ""; //hay stock y es usuario -> funciona el boton
+    }
+
 
     const container = document.getElementById("product-detail");
     if (!container) return;
 
-    
 
     container.innerHTML = `
     <h1>${product.nombre}</h1>
@@ -54,7 +77,7 @@ function renderProductDetail(product: Product, availableStock: number) {
     Cantidad: ${amount}    
     <a href="#" class="link-amount plus" data-id="${product.id}">+</a>    
     </p>
-<div class="detail-buttons">
+    <div class="detail-buttons">
     <button id="add-to-cart" class="${disabledClass}" data-id="${product.id}">Agregar al carrito</button>
     <a id="back-to-home" href="/src/pages/store/home/home.html">Volver</a>
     </div>
@@ -68,10 +91,6 @@ function renderProductDetail(product: Product, availableStock: number) {
         const isAvailable = newAvailableStock === 0 ? "" : String(newAvailableStock);
         const availableClass = newAvailableStock === 0 ? "no" : "yes";
         const availableText = newAvailableStock === 0 ? "Sin Stock" : "Stock disponible: "
-
-        // detailStockText.innerHTML = `
-        // <p class="detail-stock ${availableClass}">${availableText} ${isAvailable}</p> 
-        // `;
 
         detailStockText.className = `detail-stock ${availableClass}`;
         detailStockText.textContent = `${availableText} ${isAvailable}`;
@@ -104,36 +123,36 @@ function renderProductDetail(product: Product, availableStock: number) {
     };
     updateQuantityText();
 
-     //bagde de cantidad de items en el carrito
-        const updateCartBadge = () => {
-            const cartCountElement = document.getElementById("cart-count");
-            if (cartCountElement) {
-                const count = getCartCount();
-                cartCountElement.textContent = String(count);
+    //bagde de cantidad de items en el carrito
+    const updateCartBadge = () => {
+        const cartCountElement = document.getElementById("cart-count");
+        if (cartCountElement) {
+            const count = getCartCount();
+            cartCountElement.textContent = String(count);
 
-                if (count === 0) {
-                    cartCountElement.style.visibility = "hidden";
-                } else {
-                    cartCountElement.style.visibility = "visible";
+            if (count === 0) {
+                cartCountElement.style.visibility = "hidden";
+            } else {
+                cartCountElement.style.visibility = "visible";
 
-                    //animacion del badge
-                    cartCountElement.animate(
-                        [
-                            { transform: "scale(1)" },
-                            { transform: "scale(1.2)" },
-                            { transform: "scale(1)" },
-                        ],
-                        {
-                            duration: 400,
-                            easing: "ease",
-                        },
-                    );
-                }
+                //animacion del badge
+                cartCountElement.animate(
+                    [
+                        { transform: "scale(1)" },
+                        { transform: "scale(1.2)" },
+                        { transform: "scale(1)" },
+                    ],
+                    {
+                        duration: 400,
+                        easing: "ease",
+                    },
+                );
             }
-        };
+        }
+    };
 
-        updateCartBadge();
-        // 
+    updateCartBadge();
+
 
     // eventos para + y -
     quantityElement.addEventListener("click", (e) => {
@@ -175,24 +194,24 @@ function renderProductDetail(product: Product, availableStock: number) {
     })
 
     const addBtn = document.getElementById("add-to-cart") as HTMLButtonElement | null;
-        if (addBtn) {
-            addBtn.addEventListener("click", () => {
-                addToCart(product, amount);
-                updateCartBadge();
-                productStock -= amount;
-                updateStockText();
-                amount = 1;
+    if (addBtn) {
+        addBtn.addEventListener("click", () => {
+            addToCart(product, amount);
+            updateCartBadge();
+            productStock -= amount;
+            updateStockText();
+            amount = 1;
 
-                //actualiza cantidades y re-renderiza
-                updateQuantityText();
-                const newAvailableStock = getAvailableStock(product);
-                renderProductDetail(product, newAvailableStock);
+            //actualiza cantidades y re-renderiza
+            updateQuantityText();
+            const newAvailableStock = getAvailableStock(product);
+            renderProductDetail(product, newAvailableStock);
 
-                modalImg.innerHTML = `<img src="${product.imagen}" alt="Imagen de ${product.nombre}"/>`;
-                cartMessage.textContent = `Se agregó al carrito: ${product.nombre}`;
-                modal.style.display = "block";
+            modalImg.innerHTML = `<img src="${product.imagen}" alt="Imagen de ${product.nombre}"/>`;
+            cartMessage.textContent = `Se agregó al carrito: ${product.nombre}`;
+            modal.style.display = "block";
 
-            });
-        }
+        });
+    }
 
 };

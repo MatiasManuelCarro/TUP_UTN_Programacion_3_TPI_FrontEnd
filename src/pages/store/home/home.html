@@ -19,10 +19,11 @@
         </a>
         <nav class="site-nav">
             <ul class="site-nav__list">
-                  <li class="site-nav__item"><a class="site-nav__link" href="/src/pages/client/orders.html">Mis Pedidos</a></li>
+                <li class="site-nav__item"><a class="site-nav__link" href="/src/pages/client/orders.html">Mis
+                        Pedidos</a></li>
                 <li class="site-nav__item"><a class="site-nav__link" href="/src/pages/store/cart/cart.html">Carrito
                         <span id="cart-count" class="cart-badge"></span></a></li>
-                <li class="site-nav__item"><a id="logout-btn" class="site-nav__link" href="#">Cerrar Sesión</a></li> 
+                <li class="site-nav__item"><a id="logout-btn" class="site-nav__link" href="#">Cerrar Sesión</a></li>
             </ul>
         </nav>
     </header>
@@ -39,7 +40,16 @@
     <main class="main">
         <form id="searchForm" class="search">
             <label class="search__label" for="searchProduct">Buscar Productos</label>
-            <input id="searchProduct" class="search__input" type="text" placeholder="Buscar..." />
+            <div class="search__controls">
+                <input id="searchProduct" class="search__input" type="text" placeholder="Buscar..." />
+                <select id="sortSelect" class="search__select">
+                    <option value="">Ordenar...</option>
+                    <option value="nameAsc">Nombre A-Z</option>
+                    <option value="nameDesc">Nombre Z-A</option>
+                    <option value="priceAsc">Precio ascendente</option>
+                    <option value="priceDesc">Precio descendente</option>
+                </select>
+            </div>
             <p id="searchNotification" class="search__notification"></p>
         </form>
         <!-- Seccion de productos  -->

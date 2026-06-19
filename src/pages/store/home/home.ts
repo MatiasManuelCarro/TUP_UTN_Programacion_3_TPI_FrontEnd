@@ -1,6 +1,6 @@
 import type { Product } from "../../../types/product";
-// import { getCategories, getProducts } from "../../../data/data";
-import { addToCart, getCartCount, getAvailableStock, getStoredProducts, getStoredCategories, getActiveCategories, logout } from "../../../utils/localStorage";
+
+import { addToCart, getCartCount, getAvailableStock, getStoredProducts, getStoredCategories, getActiveCategories, logout, getActiveUser } from "../../../utils/localStorage";
 import type { ICategory } from "../../../types/category";
 import { guard } from "../../../main";
 
@@ -27,12 +27,20 @@ const loadProducts = (products: Product[]) => {
 
         //buscar categorias activas
         const categoryEnabled = product.categorias.some(pc =>
-        enabledCategories.some(ca => ca.id === pc.id)
+            enabledCategories.some(ca => ca.id === pc.id)
         );
 
         // si stock es 0  el  esta botón deshabilitado y gris
         const disabledAttr = availableStock === 0 ? "disabled" : "";
-        const disabledClass = availableStock === 0 ? "btn-disabled" : "btn-cart";
+
+        let disabledClass: string;
+        const isAdmin = getActiveUser();
+        if (isAdmin?.rol === 'ADMIN') { //si es admin no puede agregar nada al carrito
+            disabledClass = "btn-disabled";
+        } else {
+            disabledClass = availableStock === 0 ? "btn-disabled" : "btn-cart";
+        }
+
         const imgStyle = availableStock === 0 ? "img-disabled" : "featured-img"
         const availableClass = availableStock === 0 ? "no" : "yes";
         const availableText = availableStock === 0 ? "Sin Stock" : "Disponible";
@@ -113,206 +121,229 @@ const updateCartBadge = () => {
 const loader = document.getElementById("loader") as HTMLDivElement;
 
 if (guard()) {
-document.addEventListener("DOMContentLoaded", () => {
-    loader.classList.add("hidden"); //remueve el loader
-    
-    const products = getStoredProducts();
-    const categories = getStoredCategories();
+    document.addEventListener("DOMContentLoaded", () => {
+        loader.classList.add("hidden"); //remueve el loader
+
+        //carga los productos y categorias
+        const products = getStoredProducts();
+        const categories = getStoredCategories();
 
 
-    // carga inicial
-    loadProducts(products);
-    loadCategories(categories);
-    updateCartBadge();
-    // } catch (err) {
-    //     console.error("Error cargando datos:", err);
-    // }
-
-    const productsContainer = document.getElementById(
-        "products-container",
-    ) as HTMLDivElement;
-    const cartMessage = document.getElementById(
-        "modal-message",
-    ) as HTMLParagraphElement;
-    const modalImg = document.getElementById("modal-img") as HTMLDivElement;
-    const modal = document.getElementById("modal") as HTMLDivElement;
-    const closeCart = document.getElementById("close-cart") as HTMLButtonElement;
-    const continueShopping = document.getElementById(
-        "btn-continue-shopping",
-    ) as HTMLButtonElement;
-    const productsHeading = document.getElementById(
-        "products-heading",
-    ) as HTMLElement;
-    //busqueda por nombre
-    const inputSearch = document.getElementById(
-        "searchProduct",
-    ) as HTMLInputElement;
-    //para sidebar en mobile
-    const toggleSidebar = document.getElementById(
-        "menu-toggle",
-    ) as HTMLButtonElement;
-    const sidebar = document.querySelector(".sidebar") as HTMLElement;
-    const overlay = document.getElementById("overlay") as HTMLDivElement;
-
-    //BUSQUEDA DE PRODUCTOS 
-    inputSearch.addEventListener("input", (e) => {
-        const target = e.target as HTMLInputElement;
-        const search = target.value.toLowerCase().trim(); //trim para eliminar los espacios al principio y final
-
-        //limita la busqueda a productos con stock > 0
-        const searchResults = products.filter((products) => {
-            return (
-                products.stock > 0 && products.disponible && products.nombre.toLowerCase().includes(search)
-            );
-        });
-        loadProducts(searchResults);
-
-        if (search === "") {
-            searchNotification.style.display = "block";
-            // revisar
-            searchNotification.textContent = "Ingrese un nombre para buscar";
-            productsHeading.textContent = `Productos`;
-        } else if (searchResults.length > 0) {
-            searchNotification.style.display = "block";
-            searchNotification.textContent = `Se encontraron ${searchResults.length} productos`;
-            productsHeading.textContent = `Productos`;
-        } else {
-            searchNotification.style.display = "block";
-            searchNotification.textContent = "No hay productos con ese nombre";
-            productsHeading.textContent = `Productos`;
-        }
-    });
-
-    // Cargar productos
-    if (productsContainer) {
+        // carga inicial de la pagina 
         loadProducts(products);
+        loadCategories(categories);
         updateCartBadge();
-    }
 
-    //Filtrar por categorias
-    const btnCategories = document.querySelectorAll<HTMLLIElement>(".categories");
+        //ordenamiento
+        const sortSelect = document.getElementById("sortSelect") as HTMLSelectElement;
 
-    btnCategories.forEach((btn) => {
-        btn.addEventListener("click", () => {
-            //limpia el input de busqueda de texto primero
-            inputSearch.value = "";
-            const selectedCategory = btn.textContent?.trim();
-            if (selectedCategory === "Ver todas las Categorias") {
-                loadProducts(products);
+        sortSelect.addEventListener("change", () => {
+            let sortedProducts = [...products]; // copia el listado original
+
+            switch (sortSelect.value) {
+                case "nameAsc":
+                    sortedProducts.sort((a, b) => a.nombre.localeCompare(b.nombre));
+                    break;
+                case "nameDesc":
+                    sortedProducts.sort((a, b) => b.nombre.localeCompare(a.nombre));
+                    break;
+                case "priceAsc":
+                    sortedProducts.sort((a, b) => a.precio - b.precio);
+                    break;
+                case "priceDesc":
+                    sortedProducts.sort((a, b) => b.precio - a.precio);
+                    break;
+            }
+
+            loadProducts(sortedProducts);
+        });
+
+        const productsContainer = document.getElementById(
+            "products-container",
+        ) as HTMLDivElement;
+        const cartMessage = document.getElementById(
+            "modal-message",
+        ) as HTMLParagraphElement;
+        const modalImg = document.getElementById("modal-img") as HTMLDivElement;
+        const modal = document.getElementById("modal") as HTMLDivElement;
+        const closeCart = document.getElementById("close-cart") as HTMLButtonElement;
+        const continueShopping = document.getElementById(
+            "btn-continue-shopping",
+        ) as HTMLButtonElement;
+        const productsHeading = document.getElementById(
+            "products-heading",
+        ) as HTMLElement;
+        //busqueda por nombre
+        const inputSearch = document.getElementById(
+            "searchProduct",
+        ) as HTMLInputElement;
+        //para sidebar en mobile
+        const toggleSidebar = document.getElementById(
+            "menu-toggle",
+        ) as HTMLButtonElement;
+        const sidebar = document.querySelector(".sidebar") as HTMLElement;
+        const overlay = document.getElementById("overlay") as HTMLDivElement;
+
+        //BUSQUEDA DE PRODUCTOS 
+        inputSearch.addEventListener("input", (e) => {
+            const target = e.target as HTMLInputElement;
+            const search = target.value.toLowerCase().trim(); //trim para eliminar los espacios al principio y final
+
+            //limita la busqueda a productos con stock > 0
+            const searchResults = products.filter((products) => {
+                return (
+                    products.stock > 0 && products.disponible && products.nombre.toLowerCase().includes(search)
+                );
+            });
+            loadProducts(searchResults);
+
+            if (search === "") {
+                searchNotification.style.display = "block";
+                // revisar
+                searchNotification.textContent = "Ingrese un nombre para buscar";
+                productsHeading.textContent = `Productos`;
+            } else if (searchResults.length > 0) {
+                searchNotification.style.display = "block";
+                searchNotification.textContent = `Se encontraron ${searchResults.length} productos`;
                 productsHeading.textContent = `Productos`;
             } else {
-                //busca categoria por nombre
-                const findCategory = categories.find(
-                    (category) =>
-                        category.nombre.toLowerCase() === selectedCategory?.toLowerCase(),
-                );
-
-                // Filtrar los productos por categoria
-                const filterProduct = products.filter((product) =>
-                    product.categorias.some((c) => c.id === findCategory?.id),
-                );
-
-                loadProducts(filterProduct);
-                productsHeading.textContent = `Categoria: ${selectedCategory}`;
+                searchNotification.style.display = "block";
+                searchNotification.textContent = "No hay productos con ese nombre";
+                productsHeading.textContent = `Productos`;
             }
-            //asigna el id activo al boton clickeado
-            btnCategories.forEach((b) => b.removeAttribute("id"));
-            btn.id = "category-active";
         });
-    });
 
-    //Evento de click en agregar al carrito (modal)
-    productsContainer.addEventListener("click", (event: MouseEvent) => {
-        const target = event.target as HTMLElement;
-
-        //verifica que sea el boton de carrito
-        const btn = target.closest("button") as HTMLButtonElement | null;
-        if (!btn) return;
-        if (btn.id !== "addToCart") return;
-
-        const idProduct = target.dataset.id;
-        const product = products.find((p) => p.id === Number(idProduct));
-
-        if (product) {
-            modalImg.innerHTML = `<img src="${product.imagen}" alt="Imagen de ${product.nombre}"/>`;
-            cartMessage.textContent = `Se agrega al carrito: ${product.nombre}`;
-            modal.style.display = "block";
-            //agrega al carrito
-            addToCart(product, 1);
-            //actualiza el badge del cart
+        // Cargar productos
+        if (productsContainer) {
+            loadProducts(products);
             updateCartBadge();
         }
-    });
 
-    //funciones que cierran el modal del carrito
+        //Filtrar por categorias
+        const btnCategories = document.querySelectorAll<HTMLLIElement>(".categories");
 
-    const closeModal = (event: MouseEvent) => {
-        event.preventDefault();
-        modal.style.display = "none";
-        cartMessage.textContent = "";
-    };
+        btnCategories.forEach((btn) => {
+            btn.addEventListener("click", () => {
+                //limpia el input de busqueda de texto primero
+                inputSearch.value = "";
+                const selectedCategory = btn.textContent?.trim();
+                if (selectedCategory === "Ver todas las Categorias") {
+                    loadProducts(products);
+                    productsHeading.textContent = `Productos`;
+                } else {
+                    //busca categoria por nombre
+                    const findCategory = categories.find(
+                        (category) =>
+                            category.nombre.toLowerCase() === selectedCategory?.toLowerCase(),
+                    );
 
-    closeCart.addEventListener("click", closeModal);
-    continueShopping.addEventListener("click", closeModal);
+                    // Filtrar los productos por categoria
+                    const filterProduct = products.filter((product) =>
+                        product.categorias.some((c) => c.id === findCategory?.id),
+                    );
 
-    window.addEventListener("click", (event) => {
-        if (event.target === modal) {
+                    loadProducts(filterProduct);
+                    productsHeading.textContent = `Categoria: ${selectedCategory}`;
+                }
+                //asigna el id activo al boton clickeado
+                btnCategories.forEach((b) => b.removeAttribute("id"));
+                btn.id = "category-active";
+            });
+        });
+
+        //Evento de click en agregar al carrito (modal)
+        productsContainer.addEventListener("click", (event: MouseEvent) => {
+            const target = event.target as HTMLElement;
+
+            //verifica que sea el boton de carrito
+            const btn = target.closest("button") as HTMLButtonElement | null;
+            if (!btn) return;
+            if (btn.id !== "addToCart") return;
+
+            const idProduct = target.dataset.id;
+            const product = products.find((p) => p.id === Number(idProduct));
+
+            if (product) {
+                modalImg.innerHTML = `<img src="${product.imagen}" alt="Imagen de ${product.nombre}"/>`;
+                cartMessage.textContent = `Se agrega al carrito: ${product.nombre}`;
+                modal.style.display = "block";
+                //agrega al carrito
+                addToCart(product, 1);
+                //actualiza el badge del cart
+                updateCartBadge();
+            }
+        });
+
+        //funciones que cierran el modal del carrito
+
+        const closeModal = (event: MouseEvent) => {
+            event.preventDefault();
             modal.style.display = "none";
             cartMessage.textContent = "";
-        }
-    });
+        };
 
-    toggleSidebar.addEventListener("click", () => {
-        sidebar.classList.toggle("active");
-        overlay.classList.toggle("active");
-    });
+        closeCart.addEventListener("click", closeModal);
+        continueShopping.addEventListener("click", closeModal);
 
-    overlay.addEventListener("click", () => {
-        sidebar.classList.remove("active");
-        overlay.classList.remove("active");
-    });
+        window.addEventListener("click", (event) => {
+            if (event.target === modal) {
+                modal.style.display = "none";
+                cartMessage.textContent = "";
+            }
+        });
 
-    //event listener de detalle de producto
-    productsContainer.addEventListener("click", (event: MouseEvent) => {
-        const target = event.target as HTMLElement;
+        toggleSidebar.addEventListener("click", () => {
+            sidebar.classList.toggle("active");
+            overlay.classList.toggle("active");
+        });
 
-        const btn = target.closest(".btn-cart") as HTMLButtonElement | null;
-        if (!btn) return;
-        if (btn.id !== "productDetails") return;
+        overlay.addEventListener("click", () => {
+            sidebar.classList.remove("active");
+            overlay.classList.remove("active");
+        });
 
-        const id = btn.dataset.id;
-        if (!id) return;
+        //event listener de detalle de producto
+        productsContainer.addEventListener("click", (event: MouseEvent) => {
+            const target = event.target as HTMLElement;
 
-        const product = products.find((p) => String(p.id) === String(id));
-        if (!product) {
-            console.warn("Producto no encontrado para id:", id);
-            return;
-        }
+            const btn = target.closest(".btn-cart") as HTMLButtonElement | null;
+            if (!btn) return;
+            if (btn.id !== "productDetails") return;
 
-        try {
-            // Guardar producto en sessionStorage para la pestaña actual
-            sessionStorage.setItem("selectedProduct", JSON.stringify(product));
+            const id = btn.dataset.id;
+            if (!id) return;
 
-            // Navegar a la página de detalle
-            window.location.href = "/src/pages/store/productDetail/productDetail.html";
-        } catch (e) {
-            console.error(
-                "No se pudo usar sessionStorage, usando fallback por query:",
-                e,
-            );
+            const product = products.find((p) => String(p.id) === String(id));
+            if (!product) {
+                console.warn("Producto no encontrado para id:", id);
+                return;
+            }
 
-        }
-    });
+            try {
+                // Guardar producto en sessionStorage para la pestaña actual
+                sessionStorage.setItem("selectedProduct", JSON.stringify(product));
+
+                // Navegar a la página de detalle
+                window.location.href = "/src/pages/store/productDetail/productDetail.html";
+            } catch (e) {
+                console.error(
+                    "No se pudo usar sessionStorage, usando fallback por query:",
+                    e,
+                );
+
+            }
+        });
 
         const logoutBtn = document.getElementById("logout-btn");
-    
+
         if (logoutBtn) {
-                logoutBtn.addEventListener("click", (e) => {
-                    e.preventDefault();
-                    logout();
-                });
-            }
-    
-            
-})};
+            logoutBtn.addEventListener("click", (e) => {
+                e.preventDefault();
+                logout();
+            });
+        }
+
+
+    })
+};
 // });
