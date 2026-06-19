@@ -1,12 +1,11 @@
 import { guard } from "../../../main";
 import type { Product } from "../../../types/product";
+import { getActiveUser, logout } from "../../../utils/auth";
 import {
     addToCart,
     getCartCount,
-    getAvailableStock,
-    getActiveUser,
-    logout,
-} from "../../../utils/localStorage";
+} from "../../../utils/cartUtils";
+import { getAvailableStock } from "../../../utils/productUtils";
 
 
 if (guard()) {

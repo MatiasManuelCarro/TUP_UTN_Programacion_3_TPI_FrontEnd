@@ -1,9 +1,7 @@
-// import { initProductsAndCategories, initSafeUsers, initOrders, getOrdersPending, getOrdersPreparation, getOrdersDelivered } from "../../../src/utils/localStorage";
-// import { getStoredUsersSafe, getStoredOrders } from "../../../src/utils/localStorage";
 import { guard } from "../../main";
 import type { IOrder } from "../../types/orders";
-import { getActiveUser, getStoredOrders, logout } from "../../utils/localStorage";
-
+import { getActiveUser, logout } from "../../utils/auth";
+import { getStoredOrders } from "../../utils/ordersUtils";
 
 function getOrdersByActiveUser(): IOrder[] {
     const user = getActiveUser();

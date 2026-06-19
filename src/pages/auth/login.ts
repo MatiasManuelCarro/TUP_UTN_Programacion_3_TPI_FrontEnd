@@ -1,4 +1,5 @@
-import { getStoredAuthUsers, initBaseData } from "../../utils/localStorage";
+import { getStoredAuthUsers } from "../../utils/auth";
+import { initBaseData } from "../../utils/localStorage";
 import { navigate } from "../../utils/navigate";
 
 document.addEventListener("DOMContentLoaded", async () => {

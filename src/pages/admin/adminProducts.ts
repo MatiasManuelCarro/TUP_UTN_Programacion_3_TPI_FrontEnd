@@ -1,6 +1,6 @@
-import type { Product } from "../../types/product";
-import { getAvailableStock, getStoredProducts, disableProduct, enableProduct, updateProduct } from "../../utils/localStorage";
 import { guard } from "../../main";
+import type { Product } from "../../types/product";
+import { getStoredProducts, getAvailableStock, disableProduct, enableProduct, updateProduct } from "../../utils/productUtils";
 
 
 

@@ -1,6 +1,8 @@
-import { disableCategory, enableCategory, getStoredCategories, updateCategory } from "../../utils/localStorage";
-import type { ICategory } from "../../types/category";
 import { guard } from "../../main";
+import type { ICategory } from "../../types/category";
+import { disableCategory, enableCategory, updateCategory } from "../../utils/categoriesUtils";
+import { getStoredCategories } from "../../utils/productUtils";
+
 
 function renderCategoriesTable() {
     const tbody = document.getElementById("admin-categories-body") as HTMLTableSectionElement;

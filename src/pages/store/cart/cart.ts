@@ -1,18 +1,19 @@
 import type { Product } from "../../../types/product";
 import type { CartItem } from "../../../types/cartItem";
-
-import {
-    getCart,
+import{
+        getCart,
     clearCart,
     minusOneCart,
     addToCart,
     deleteProduct,
     getCartCount,
-    getStoredProducts,
+} from "../../../utils/cartUtils";
+import{
+        getStoredProducts,
     getStoredCategories,
-    logout,
-} from "../../../utils/localStorage";
+} from "../../../utils/productUtils";
 import { guard } from "../../../main";
+import { logout } from "../../../utils/auth";
 
 
 
@@ -102,13 +103,29 @@ function renderCartItem(item: CartItem): HTMLElement {
     return productCard;
 }
 
-function updateCartSummary(total: number) {
+// function updateCartSummary(total: number) {
+//     const summary = document.querySelector(".cart-summary h3");
+//     if (summary) {
+//         summary.textContent = `Total: $${total}`;
+//     }
+// }
+
+// const ENVIO = getDeliveryCost(); // costo fijo de envío 
+const ENVIO = 600;
+
+function updateCartSummary(subtotal: number) {
     const summary = document.querySelector(".cart-summary h3");
     if (summary) {
-        summary.textContent = `Total: $${total}`;
+        const envio = ENVIO;
+        const total = subtotal + envio;
+
+        summary.innerHTML = `
+            <p>Subtotal: $${subtotal}</p>
+            <p>Envío: $${envio}</p>
+            <p><strong>Total: $${total}</strong></p>
+        `;
     }
 }
-
 
 
 function cartListeners(

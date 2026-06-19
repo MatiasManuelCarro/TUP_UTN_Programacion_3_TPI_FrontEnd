@@ -1,8 +1,10 @@
 import type { Product } from "../../../types/product";
-
-import { addToCart, getCartCount, getAvailableStock, getStoredProducts, getStoredCategories, getActiveCategories, logout, getActiveUser } from "../../../utils/localStorage";
 import type { ICategory } from "../../../types/category";
 import { guard } from "../../../main";
+import { getActiveCategories } from "../../../utils/categoriesUtils";
+import { getAvailableStock, getStoredCategories, getStoredProducts } from "../../../utils/productUtils";
+import { getActiveUser, logout } from "../../../utils/auth";
+import { addToCart, getCartCount } from "../../../utils/cartUtils";
 
 const searchNotification = document.getElementById(
     "searchNotification",

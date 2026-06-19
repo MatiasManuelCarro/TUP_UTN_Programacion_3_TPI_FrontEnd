@@ -1,12 +1,7 @@
-import { 
-  getStoredOrders, 
-  getOrdersPending, 
-  getOrdersPreparation, 
-  getOrdersDelivered, 
-} from "../../utils/localStorage";
-import type { Product } from "../../../src/types/product";
-import type { ICategory } from "../../../src/types/category";
 import { guard } from "../../main";
+import type { ICategory } from "../../types/category";
+import type { Product } from "../../types/product";
+import { getStoredOrders, getOrdersPending, getOrdersPreparation, getOrdersDelivered } from "../../utils/ordersUtils";
 
 // Loader que oculta informacion hasta que pase el guard
 const loader = document.getElementById("loader") as HTMLDivElement;

@@ -1,7 +1,7 @@
 // import type { IUser } from "./types/users";
 // import { getActiveUser } from "./utils/localStorage";
 
-import { getActiveUser } from "./utils/localStorage";
+import { getActiveUser } from "./utils/auth";
 import { navigate } from "./utils/navigate";
 
 
