@@ -58,9 +58,12 @@ function renderOrders(orders: IOrder[]) {
   container.innerHTML = "";
 
   // Ordenar por fecha descendente
-  const sorted = [...orders].sort(
-    (a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime()
-  );
+  // const sorted = [...orders].sort(
+  //   (a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime()
+  // );
+
+
+  const sorted = [...orders].sort((a, b) => b.fecha.localeCompare(a.fecha));
 
   sorted.forEach(order => {
     const card = document.createElement("div");

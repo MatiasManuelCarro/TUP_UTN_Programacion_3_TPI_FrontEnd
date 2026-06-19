@@ -75,6 +75,44 @@ export function getActiveUserDto(): IUserDto | null {
 //     return { id, nombre, apellido, mail, celular, rol: "USUARIO" };
 // }
 
+
+
+
+export function registerUser(newUser: IUser & { password: string }): string | null {
+  const authUsers = getStoredAuthUsers();
+
+  // Validar email único
+  if (authUsers.some(u => u.mail.toLowerCase() === newUser.mail.toLowerCase())) {
+    return "Ya existe un usuario con ese email.";
+  }
+
+  // Asignar ID incremental
+  newUser.id = authUsers.length > 0 ? Math.max(...authUsers.map(u => u.id!)) + 1 : 1;
+
+  // Guardar en authUsers (con password para poder utilizarlo con localstorage)
+  authUsers.push(newUser);
+  localStorage.setItem("authUsers", JSON.stringify(authUsers));
+
+  // Guardar versión segura (sin password)
+  const safeUsers = authUsers.map(({ password, ...rest }) => rest);
+  localStorage.setItem("users", JSON.stringify(safeUsers));
+
+  return null; // éxito
+}
+
+
+// // 🔹 Login de usuario
+// export function loginUser(email: string, password: string): boolean {
+//   const authUsers: IUser[] = getStoredAuthUsers();
+//   const user = authUsers.find(u => u.mail === email && u.password === password);
+
+//   if (!user) return false;
+
+//   localStorage.setItem(ACTIVE_USER, JSON.stringify(user));
+//   navigate("/index.html");
+//   return true;
+// }
+
 export const logout = () => {
     localStorage.removeItem("ACTIVE_USER");
     navigate("/src/pages/auth/login/login.html");

@@ -44,7 +44,11 @@ function renderOrders(orders: IOrder[]) {
         return;
     }
 
-    orders.forEach(order => {
+
+    //Ordenar por fecha 
+  const sorted = [...orders].sort((a, b) => b.fecha.localeCompare(a.fecha));
+
+    sorted.forEach(order => {
         const firstThree = order.detalles.slice(0, 3);
         const remaining = order.detalles.length - 3;
 

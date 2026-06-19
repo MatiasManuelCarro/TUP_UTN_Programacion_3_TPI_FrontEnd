@@ -216,12 +216,10 @@ function updateBuyButtonState() {
         buyButton.disabled = false;
         buyButton.classList.remove("btn-disabled");
         buyButton.classList.add("btn-cart");
-        document.getElementById("text-disabled")!.style.display = "none";
     } else {
         buyButton.disabled = true;
         buyButton.classList.remove("btn-cart");
         buyButton.classList.add("btn-disabled");
-        document.getElementById("text-disabled")!.style.display = "block";
     }
 }
 
@@ -233,13 +231,9 @@ document.getElementById("buy-button")!
 
 function confirmOrder() {
     const cart = getCart();
-    // if (cart.length === 0) {
-    //     alert("El carrito está vacío.");
-    //     return;
-    // }
 
     const telefono = (document.getElementById("checkout-phone") as HTMLInputElement).value;
-    // forma pago se selecciona de un droplist
+
     const formaPago = (document.getElementById("checkout-payment") as HTMLSelectElement)
         .value as "EFECTIVO" | "TARJETA" | "TRANSFERENCIA";
 
@@ -260,7 +254,7 @@ function confirmOrder() {
     }
     const newOrder: IOrder = {
         id: ordersCounter(),
-        fecha: new Date().toISOString(),
+        fecha: new Date().toISOString().split("T")[0], // Fecha en formato YYYY-MM-DD
         estado: "PENDIENTE",
         total,
         formaPago,

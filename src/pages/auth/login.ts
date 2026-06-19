@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     await initBaseData();
 
+    console.log(getStoredAuthUsers());
 
 
     form.addEventListener("submit", handleLogin);

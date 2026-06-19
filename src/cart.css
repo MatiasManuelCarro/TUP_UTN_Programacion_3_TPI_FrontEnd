@@ -281,4 +281,10 @@
     transition: background-color 0.3s ease;
 }
 
-
+/* remueve el azul de los links clickeados de los botones  */
+.btn-cart,
+.btn-cart:link,
+.btn-cart:visited {
+    color: var(--color-blanco);
+    text-decoration: none;
+}
