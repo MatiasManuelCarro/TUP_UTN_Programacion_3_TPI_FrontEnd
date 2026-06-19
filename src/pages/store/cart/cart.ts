@@ -17,8 +17,6 @@ import { getActiveUser, logout } from "../../../utils/auth";
 import { getDeliveryCost } from "../../../utils/config";
 import type { IOrder } from "../../../types/orders";
 import { addOrder, ordersCounter } from "../../../utils/ordersUtils";
-import { navigate } from "../../../utils/navigate";
-
 
 
 export const loadCart = () => {

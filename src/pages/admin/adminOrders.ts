@@ -1,6 +1,6 @@
 import { guard } from "../../main";
 import type { IOrder } from "../../types/orders";
-import { getStoredOrders, getOrdersPending, getOrdersPreparation, getOrdersDelivered } from "../../utils/ordersUtils";
+import { getStoredOrders, getOrdersPending, getOrdersPreparation, getOrdersDelivered, getOrdersCancelled } from "../../utils/ordersUtils";
 
 // Loader que oculta informacion hasta que pase el guard
 const loader = document.getElementById("loader") as HTMLDivElement;
@@ -69,7 +69,7 @@ function renderOrders(orders: IOrder[]) {
     card.innerHTML = `
       <h4 class="order-header">
         Pedido #${order.id}
-        <span class="badge ${order.estado.toLowerCase()}">${order.estado}</span>
+        <span class="badge ${order.estado.toLowerCase()}">${order.estado.replace("_", " ")}</span>
       </h4>
       <p><strong>Cliente:</strong> ${order.usuarioDto.nombre} ${order.usuarioDto.apellido}</p>
       <p><strong>Fecha:</strong> ${order.fecha}</p>
@@ -83,10 +83,9 @@ function renderOrders(orders: IOrder[]) {
           <option value="PENDIENTE" ${order.estado === "PENDIENTE" ? "selected" : ""}>Pendiente</option>
           <option value="EN_PREPARACION" ${order.estado === "EN_PREPARACION" ? "selected" : ""}>En preparación</option>
           <option value="ENTREGADO" ${order.estado === "ENTREGADO" ? "selected" : ""}>Entregado</option>
-          <option value="CONFIRMADO" ${order.estado === "CONFIRMADO" ? "selected" : ""}>Confirmado</option>
-          <option value="TERMINADO" ${order.estado === "TERMINADO" ? "selected" : ""}>Terminado</option>
           <option value="CANCELADO" ${order.estado === "CANCELADO" ? "selected" : ""}>Cancelado</option>
         </select>
+        <button class="btn-order-details" data-id="${order.id}">Ver detalles</button>
       </div>
     `;
 
@@ -106,36 +105,85 @@ function renderOrders(orders: IOrder[]) {
       renderOrders(getStoredOrders()); // refresca vista con datos actualizados
     });
 
+    const detailsBtn = card.querySelector(".btn-order-details") as HTMLButtonElement;
+    detailsBtn.addEventListener("click", () => {
+      const modal = document.getElementById("order-modal") as HTMLDivElement;
+      const modalContent = document.getElementById("modal-content") as HTMLDivElement;
+
+      // Inyectar detalles del pedido
+      modalContent.innerHTML = `
+    <h3>Pedido #${order.id}</h3>
+    <p><strong>Cliente:</strong> ${order.usuarioDto.nombre} ${order.usuarioDto.apellido}</p>
+    <p><strong>Fecha:</strong> ${order.fecha}</p>
+    <ul class="modal-products">
+      ${order.detalles.map(d => `
+        <li class="modal-product-item">
+          <span>${d.cantidad}× ${d.producto.nombre}</span>
+          <span>$${d.subtotal}</span>
+        </li>
+      `).join("")}
+    </ul>
+    <p class="modal-total">Total: $${order.total}</p>
+  `;
+
+      // Mostrar modal
+      modal.classList.add("open");
+    });
+
+
     container.appendChild(card);
   });
 }
 
 
 
+
+
+
+
+
 if (guard("ADMIN")) {
-    document.addEventListener("DOMContentLoaded", () => {
-        loader.classList.add("hidden"); //remueve el loader
+  document.addEventListener("DOMContentLoaded", () => {
+    loader.classList.add("hidden"); //remueve el loader
 
-        const filterSelect = document.getElementById("order-filter") as HTMLSelectElement;
+    const filterSelect = document.getElementById("order-filter") as HTMLSelectElement;
 
-        // Render inicial (todos)
-        renderOrders(getStoredOrders());
+    // Render inicial (todos)
+    renderOrders(getStoredOrders());
 
-        // Cambio de filtro
-        filterSelect.addEventListener("change", () => {
-            switch (filterSelect.value) {
-                case "PENDIENTE":
-                    renderOrders(getOrdersPending());
-                    break;
-                case "EN_PREPARACION":
-                    renderOrders(getOrdersPreparation());
-                    break;
-                case "ENTREGADO":
-                    renderOrders(getOrdersDelivered());
-                    break;
-                default:
-                    renderOrders(getStoredOrders());
-            }
-        });
-    })
+    // Cambio de filtro
+    filterSelect.addEventListener("change", () => {
+      switch (filterSelect.value) {
+        case "PENDIENTE":
+          renderOrders(getOrdersPending());
+          break;
+        case "EN_PREPARACION":
+          renderOrders(getOrdersPreparation());
+          break;
+        case "ENTREGADO":
+          renderOrders(getOrdersDelivered());
+          break;
+        case "CANCELADO":
+          renderOrders(getOrdersCancelled());
+          break;
+        default:
+          renderOrders(getStoredOrders());
+      }
+    });
+
+    const modal = document.getElementById("order-modal") as HTMLDivElement;
+    const closeBtn = document.getElementById("close-modal") as HTMLButtonElement;
+
+    closeBtn.addEventListener("click", () => {
+      modal.classList.remove("open");
+    });
+
+    // opcional: cerrar al hacer click fuera
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        modal.classList.remove("open");
+      }
+    });
+
+  })
 };

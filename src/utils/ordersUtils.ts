@@ -1,5 +1,5 @@
 import type { IOrder } from "../types/orders";
-import { getOrders } from "./fetch";
+
 
 // FUNCIONES PARA PEDIDOS
 export function getStoredOrders(): IOrder[] {
@@ -7,19 +7,24 @@ export function getStoredOrders(): IOrder[] {
     return data ? (JSON.parse(data) as IOrder[]) : [];
 }
 
-// Órdenes pendientes
+//pendientes
 export function getOrdersPending(): IOrder[] {
     return getStoredOrders().filter((order) => order.estado === "PENDIENTE");
 }
 
-// Órdenes en preparación
+//en preparación
 export function getOrdersPreparation(): IOrder[] {
     return getStoredOrders().filter((order) => order.estado === "EN_PREPARACION");
 }
 
-// Órdenes entregadas
+//entregadas
 export function getOrdersDelivered(): IOrder[] {
     return getStoredOrders().filter((order) => order.estado === "ENTREGADO");
+}
+
+//canceladas
+export function getOrdersCancelled(): IOrder[] {
+    return getStoredOrders().filter((order) => order.estado === "CANCELADO");
 }
 
 export function addOrder(newOrder: IOrder) {
@@ -28,14 +33,9 @@ export function addOrder(newOrder: IOrder) {
     localStorage.setItem("orders", JSON.stringify(updatedOrders));
 }
 
-// export async function ordersCounter(): Promise<number> {
-//   const orders: IOrder[] = await getOrders(); // lee pedidos.json
-//   if (orders.length === 0) return 1; // primer pedido
-//     return Math.max(...orders.map(o => o.id)) + 1;
-// }
 
 export function ordersCounter(): number {
-    const orders: IOrder[] = getStoredOrders(); // ✅ lee localStorage
+    const orders: IOrder[] = getStoredOrders(); // lee de localStorage las ordenes guardadas, ya se realizo el fetch
     if (orders.length === 0) return 1; // primer pedido
     return Math.max(...orders.map(o => o.id)) + 1;
 }

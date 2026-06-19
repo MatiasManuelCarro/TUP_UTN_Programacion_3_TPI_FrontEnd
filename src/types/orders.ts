@@ -19,7 +19,7 @@ export interface IOrderDetail {
 export interface IOrder {
   id: number;
   fecha: string; // formato YYYY-MM-DD
-  estado: "PENDIENTE" | "EN_PREPARACION" | "ENTREGADO" | "CONFIRMADO" | "TERMINADO" | "CANCELADO";
+  estado: "PENDIENTE" | "EN_PREPARACION" | "ENTREGADO" | "CANCELADO";
   total: number;
   formaPago: "EFECTIVO" | "TARJETA" | "TRANSFERENCIA";
   detalles: IOrderDetail[];
