@@ -10,7 +10,7 @@
 </head>
 
 <body>
-      <div id="loader">Cargando...</div>
+    <div id="loader">Cargando...</div>
     <header class="site-header">
         <button id="menu-toggle" class="sidebar-toggle">&#9776;</button>
         <a href="/src/pages/store/home/home.html" class="site-header__brand">
@@ -18,14 +18,16 @@
         </a>
         <nav class="site-nav">
             <ul class="site-nav__list">
-                <li class="site-nav__item"><a class="site-nav__link" href="/src/pages/store/home/home.html">Catalogo</a></li>
-                <li class="site-nav__item"><a class="site-nav__link" href="/src/pages/client/orders.html">Mis Pedidos</a></li>
+                <li class="site-nav__item"><a class="site-nav__link" href="/src/pages/store/home/home.html">Catalogo</a>
+                </li>
+                <li class="site-nav__item"><a class="site-nav__link" href="/src/pages/client/orders.html">Mis
+                        Pedidos</a></li>
                 <li class="site-nav__item"><a id="logout-btn" class="site-nav__link" href="#">Cerrar Sesión</a></li>
-                
+
         </nav>
     </header>
     <hr class="divider" />
-    <div id="overlay"></div>    
+    <div id="overlay"></div>
     <aside class="sidebar">
         <ul id="sidebar-list" class="sidebar__list">
             <li id="return-home" class="categories">
@@ -38,12 +40,24 @@
         <p id="cart-message"></p>
         <section id="cart-container" class="products">
         </section>
-        <div class="cart-summary">
-            <h3></h3>
-            <button class="btn-cart" id="clear-cart">Limpiar Carrito</button>
-            <button class="btn-disabled" id="buy-button" disabled>Finalizar Compra</button>
-            <p id="text-disabled">Las compras todavia no estan disponibles en esta version</p>
+        <div class="cart-summary" id="cart-summary">
+            <!--Formulario de checkout -->
+            <form id="checkout-form">
+                <button class="btn-cart" id="clear-cart">Limpiar Carrito</button>
+                <input type="text" id="checkout-phone" placeholder="Teléfono" required />
+                <select id="checkout-payment" required>
+                    <option value="">Seleccione forma de pago</option>
+                    <option value="EFECTIVO">Efectivo</option>
+                    <option value="TARJETA">Tarjeta</option>
+                    <option value="TRANSFERENCIA">Transferencia</option>
+                </select>
+                <button class="btn-disabled" id="buy-button" disabled>Finalizar Compra</button>
+            </form>
         </div>
+<div class="empty-cart-actions">
+  <a href="/src/pages/store/home/home.html" class="btn-cart">Volver a la tienda</a>
+  <a href="/src/pages/client/orders.html" class="btn-cart">Ir a mis pedidos</a>
+</div>
     </main>
     <footer class="site-footer">
         <small class="site-footer__small">&reg; 2026 Food Store. All rights reserved. <br />Page

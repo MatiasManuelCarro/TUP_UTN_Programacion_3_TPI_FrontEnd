@@ -1,19 +1,23 @@
 import type { Product } from "../../../types/product";
 import type { CartItem } from "../../../types/cartItem";
-import{
-        getCart,
+import {
+    getCart,
     clearCart,
     minusOneCart,
     addToCart,
     deleteProduct,
     getCartCount,
 } from "../../../utils/cartUtils";
-import{
-        getStoredProducts,
+import {
+    getStoredProducts,
     getStoredCategories,
 } from "../../../utils/productUtils";
 import { guard } from "../../../main";
-import { logout } from "../../../utils/auth";
+import { getActiveUser, logout } from "../../../utils/auth";
+import { getDeliveryCost } from "../../../utils/config";
+import type { IOrder } from "../../../types/orders";
+import { addOrder, ordersCounter } from "../../../utils/ordersUtils";
+import { navigate } from "../../../utils/navigate";
 
 
 
@@ -52,7 +56,7 @@ export const loadCart = () => {
             continue;
         }
 
-        renderCartMessage(cart, cartEmptyMessage);
+
 
 
         //muestra los productos activos con categoria activa 
@@ -62,8 +66,10 @@ export const loadCart = () => {
         total += item.product.precio * item.quantity;
 
     }
-
+    renderCartMessage(cart, cartEmptyMessage);
+    updateCartSummaryVisibility()
     updateCartSummary(total);
+    updateBuyButtonState();
 };
 
 function renderCartMessage(cart: CartItem[], cartEmptyMessage: HTMLElement) {
@@ -110,20 +116,26 @@ function renderCartItem(item: CartItem): HTMLElement {
 //     }
 // }
 
-// const ENVIO = getDeliveryCost(); // costo fijo de envío 
-const ENVIO = 600;
+
 
 function updateCartSummary(subtotal: number) {
     const summary = document.querySelector(".cart-summary h3");
     if (summary) {
-        const envio = ENVIO;
-        const total = subtotal + envio;
-
-        summary.innerHTML = `
+        let total = 0;
+        const envio = getDeliveryCost();
+        if (subtotal === 0) {
+            total = 0;
+            summary.innerHTML = `
+            <p><strong>Total: $${total}</strong></p>
+        `;
+        } else {
+            total = subtotal + envio;
+            summary.innerHTML = `
             <p>Subtotal: $${subtotal}</p>
             <p>Envío: $${envio}</p>
             <p><strong>Total: $${total}</strong></p>
         `;
+        }
     }
 }
 
@@ -194,6 +206,97 @@ document.getElementById("clear-cart")?.addEventListener("click", () => {
     const cartEmptyMessage = document.getElementById("cart-message") as HTMLElement;
     renderCartMessage([], cartEmptyMessage);
 });
+
+//boton de comprar
+const buyButton = document.getElementById("buy-button") as HTMLButtonElement;
+
+//estado del bton de compra
+function updateBuyButtonState() {
+    const cart = getCart();
+    if (cart.length > 0) {
+        buyButton.disabled = false;
+        buyButton.classList.remove("btn-disabled");
+        buyButton.classList.add("btn-cart");
+        document.getElementById("text-disabled")!.style.display = "none";
+    } else {
+        buyButton.disabled = true;
+        buyButton.classList.remove("btn-cart");
+        buyButton.classList.add("btn-disabled");
+        document.getElementById("text-disabled")!.style.display = "block";
+    }
+}
+
+
+//confirma el pedido
+
+document.getElementById("buy-button")!
+    .addEventListener("click", confirmOrder);
+
+function confirmOrder() {
+    const cart = getCart();
+    // if (cart.length === 0) {
+    //     alert("El carrito está vacío.");
+    //     return;
+    // }
+
+    const telefono = (document.getElementById("checkout-phone") as HTMLInputElement).value;
+    // forma pago se selecciona de un droplist
+    const formaPago = (document.getElementById("checkout-payment") as HTMLSelectElement)
+        .value as "EFECTIVO" | "TARJETA" | "TRANSFERENCIA";
+
+
+    if (!telefono || !formaPago) {
+        alert("Debe completar teléfono y forma de pago.");
+        return;
+    }
+
+    const subtotal = cart.reduce((acc, item) => acc + item.product.precio * item.quantity, 0);
+    const envio = getDeliveryCost();
+    const total = subtotal + envio;
+
+    const activeUser = getActiveUser();
+    if (!activeUser) {
+        alert("No hay usuario autenticado.");
+        return;
+    }
+    const newOrder: IOrder = {
+        id: ordersCounter(),
+        fecha: new Date().toISOString(),
+        estado: "PENDIENTE",
+        total,
+        formaPago,
+        detalles: cart.map(item => ({
+            cantidad: item.quantity,
+            subtotal: item.product.precio * item.quantity,
+            producto: item.product
+        })),
+        usuarioDto: {
+            id: activeUser.id,
+            nombre: activeUser.nombre,
+            apellido: activeUser.apellido,
+            mail: activeUser.mail,
+            celular: telefono,
+            rol: activeUser.rol
+        }
+    };
+
+    addOrder(newOrder);
+    clearCart();
+    loadCart();
+    alert("Pedido confirmado. ¡Gracias por su compra!");
+
+}
+
+function updateCartSummaryVisibility() {
+    const cart = getCart();
+    const cartSummary = document.getElementById("cart-summary") as HTMLDivElement;
+
+    if (cart.length > 0) {
+        cartSummary.style.display = "block"; // se muestra
+    } else {
+        cartSummary.style.display = "none"; // se oculta
+    }
+}
 
 const loader = document.getElementById("loader") as HTMLDivElement;
 

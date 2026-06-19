@@ -130,7 +130,6 @@ if (guard()) {
         const products = getStoredProducts();
         const categories = getStoredCategories();
 
-
         // carga inicial de la pagina 
         loadProducts(products);
         loadCategories(categories);

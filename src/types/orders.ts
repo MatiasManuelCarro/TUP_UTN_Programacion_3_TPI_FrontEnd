@@ -1,5 +1,4 @@
 import type { Product } from "./product";
-import type { IUser } from "./users";
 
 export interface IOrderDetail {
   cantidad: number;
@@ -7,12 +6,32 @@ export interface IOrderDetail {
   producto: Product;
 }
 
+// export interface IOrder {
+//   id: number;
+//   fecha: string; // formato YYYY-MM-DD
+//   estado: "PENDIENTE" | "EN_PREPARACION" | "ENTREGADO";
+//   total: number;
+//   formaPago: "EFECTIVO" | "TARJETA" | "TRANSFERENCIA";
+//   detalles: IOrderDetail[];
+//   usuarioDto: IUser;
+// }
+
 export interface IOrder {
   id: number;
   fecha: string; // formato YYYY-MM-DD
-  estado: "PENDIENTE" | "EN_PREPARACION" | "ENTREGADO";
+  estado: "PENDIENTE" | "EN_PREPARACION" | "ENTREGADO" | "CONFIRMADO" | "TERMINADO" | "CANCELADO";
   total: number;
   formaPago: "EFECTIVO" | "TARJETA" | "TRANSFERENCIA";
   detalles: IOrderDetail[];
-  usuarioDto: IUser;
+  usuarioDto: IUserDto;
+}
+
+//DTO para pedidos solamente, no requiere el password
+export interface IUserDto {
+  id: number;
+  nombre: string;
+  apellido: string;
+  mail: string;
+  celular: string;
+  rol: "USUARIO" | "ADMIN"; 
 }

@@ -1,3 +1,4 @@
+import type { IUserDto } from "../types/orders";
 import type { IUser } from "../types/users";
 import { getUsers } from "./fetch";
 import { navigate } from "./navigate";
@@ -45,6 +46,34 @@ export function getActiveUser(): IUser | null {
     return data ? (JSON.parse(data) as IUser) : null;
 }
 
+//devuelve el usuario activo con el IUserDto (sin requerir contraseña)
+//se utiliza para los pedidos realizados
+
+export function getActiveUserDto(): IUserDto | null {
+    const data = localStorage.getItem(ACTIVE_USER);
+    if (!data) return null;
+
+    const user = JSON.parse(data) as IUser;
+
+    return {
+        id: user.id!,
+        nombre: user.nombre!,
+        apellido: user.apellido!,
+        mail: user.mail!,
+        celular: user.celular!,
+        rol: "USUARIO"
+    };
+}
+
+
+// export function getActiveUserDto(): IUserDto | null {
+//     const data = localStorage.getItem(ACTIVE_USER);
+//     if (!data) return null;
+
+//     const user = JSON.parse(data) as IUser;
+//     const { id, nombre, apellido, mail, celular } = user;
+//     return { id, nombre, apellido, mail, celular, rol: "USUARIO" };
+// }
 
 export const logout = () => {
     localStorage.removeItem("ACTIVE_USER");

@@ -13,10 +13,10 @@ function getOrdersByActiveUser(): IOrder[] {
 
 function getOrderStatusBadge(estado: string): string {
     switch (estado) {
-        case "PENDIENTE": return "⏳ Pendiente";
-        case "EN_PREPARACION": return "🍳 En preparación";
-        case "ENTREGADO": return "✅ Entregado";
-        case "CANCELADO": return "❌ Cancelado";
+        case "PENDIENTE": return "Pendiente";
+        case "EN_PREPARACION": return "En preparación";
+        case "ENTREGADO": return "Entregado";
+        case "CANCELADO": return "Cancelado";
         default: return estado;
     }
 }
