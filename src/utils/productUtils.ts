@@ -17,15 +17,15 @@ export function getAvailableStock(product: Product): number {
 }
 
 export function reduceProductStock(id: number, quantity: number) {
-  const products = getStoredProducts();
+    const products = getStoredProducts();
 
-  const updated = products.map((p) =>
-    p.id === id
-      ? { ...p, stock: Math.max(p.stock - quantity, 0) } // nunca negativo
-      : p
-  );
+    const updated = products.map((p) =>
+        p.id === id
+            ? { ...p, stock: Math.max(p.stock - quantity, 0) } // nunca negativo
+            : p
+    );
 
-  localStorage.setItem("products", JSON.stringify(updated));
+    localStorage.setItem("products", JSON.stringify(updated));
 }
 
 
@@ -50,6 +50,21 @@ export async function initProductsAndCategories() {
     } catch (err) {
         console.error("Error cargando datos:", err);
     }
+}
+
+//agrega productos
+
+export function addProduct(product: Product) {
+    const products = getStoredProducts();
+    products.push(product);
+    localStorage.setItem("products", JSON.stringify(products));
+}
+
+//calcula el proximo id de producto nuevo
+export function getProductNextId(): number {
+  const productos = getStoredProducts();
+  const maxId = productos.length > 0 ? Math.max(...productos.map(p => p.id)) : 0;
+  return maxId + 1;
 }
 
 //llama los datos desde localstorage

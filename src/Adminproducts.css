@@ -167,34 +167,62 @@ main {
   transition: background-color 0.2s ease-in-out;
 }
 
-#edit-form button:hover {
-  background-color: #0056b3;
-}
+/* Formulario de nuevo producto */
 
-
-
-/* Botón Nuevo Producto
-.btn-new-product {
-  display: inline-block;
-  margin: 1rem 2rem;
-  padding: 0.7rem 1.5rem;
-  font-weight: bold;
-  font-size: 1rem;
-  background-color: var(--color-primario);
+/* Contenedor del formulario */
+#add-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 1.5rem 0;
+  padding: 1.5rem;
+  background-color: var(--color-blanco);
+  border: 1px solid var(--color-borde);
   border-radius: var(--border-radius);
-  border: 1.5px solid var(--color-primario);
-  text-decoration: none;
-  color: var(--color-blanco);
-  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-.btn-new-product:hover {
+/* Título */
+#add-form .product-modify {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--color-primario);
+  margin-bottom: 1rem;
+}
+
+/* Inputs y select */
+#add-form input,
+#add-form select {
+  padding: 0.6rem;
+  font-size: 0.95rem;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--border-radius);
+  transition: border-color 0.2s ease;
+}
+
+#add-form input:focus,
+#add-form select:focus {
+  outline: none;
+  border-color: var(--color-focus);
+  box-shadow: 0 0 4px var(--color-focus);
+}
+
+/* Botón guardar */
+#add-form button {
+  padding: 0.7rem 1rem;
+  font-size: 1rem;
+  font-weight: bold;
+  background-color: var(--color-primario);
+  color: var(--color-blanco);
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#add-form button:hover {
   background-color: var(--color-focus);
-  box-shadow: 0 2px 4px var(--color-focus);
-  color: var(--color-blanco);
+  box-shadow: 0 2px 6px var(--color-focus);
 }
 
-.btn-new-product:active {
-  transform: translateY(2px);
-  box-shadow: 0 1px 2px var(--color-focus);
-} */
+

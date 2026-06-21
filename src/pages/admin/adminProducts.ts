@@ -1,6 +1,7 @@
 import { guard } from "../../main";
+import type { ICategory } from "../../types/category";
 import type { Product } from "../../types/product";
-import { getStoredProducts, getAvailableStock, disableProduct, enableProduct, updateProduct } from "../../utils/productUtils";
+import { getStoredProducts, getAvailableStock, disableProduct, enableProduct, updateProduct, addProduct, getStoredCategories, getProductNextId } from "../../utils/productUtils";
 
 
 
@@ -144,10 +145,83 @@ function renderProductsTable() {
   });
 }
 
-//   } catch (err) {
-//     console.error("Error cargando productos:", err);
-//   }
-// }
+
+//Agregar un producto 
+
+function addProductForm() {
+  const section = document.getElementById("edit-product-section");
+  if (!section) return;
+
+  const categorias = getStoredCategories();
+
+  // construir opciones del select
+  const options = categorias.map(c => 
+    `<option value="${c.id}">${c.nombre}</option>`
+  ).join("");
+
+  section.innerHTML = `
+    <form id="add-form">
+      <p class="product-modify">Nuevo producto</p>
+      <input type="text" id="add-nombre" placeholder="Nombre" required />
+      <input type="number" id="add-precio" placeholder="Precio" min="0" required />
+      <input type="text" id="add-descripcion" placeholder="Descripción" required />
+      <input type="number" id="add-stock" placeholder="Stock" min="0" required />
+      <input type="text" id="add-imagen" placeholder="URL de imagen" required />
+      <select id="add-categoria" required>
+        <option value="">Seleccione categoría</option>
+        ${options}
+      </select>
+      <button type="submit">Guardar producto</button>
+    </form>
+  `;
+
+  const form = document.getElementById("add-form") as HTMLFormElement;
+  form.addEventListener("submit", (ev) => {
+    ev.preventDefault();
+
+    const nombre = (document.getElementById("add-nombre") as HTMLInputElement).value.trim();
+    const precio = Number((document.getElementById("add-precio") as HTMLInputElement).value);
+    const descripcion = (document.getElementById("add-descripcion") as HTMLInputElement).value.trim();
+    const stock = Number((document.getElementById("add-stock") as HTMLInputElement).value);
+    const imagen = (document.getElementById("add-imagen") as HTMLInputElement).value.trim();
+    const categoriaId = Number((document.getElementById("add-categoria") as HTMLSelectElement).value);
+
+    if (!nombre || !descripcion || !imagen || precio < 0 || stock < 0 || !categoriaId) {
+      alert("Todos los campos son obligatorios y deben ser válidos.");
+      return;
+    }
+
+    // buscar la categoría seleccionada
+    const categoriaSeleccionada = categorias.find(c => c.id === categoriaId);
+    if (!categoriaSeleccionada) {
+      alert("Categoría inválida.");
+      return;
+    }
+
+    const nuevoProducto: Product = {
+      id: getProductNextId(),
+      eliminado: false,
+      createdAt: new Date().toISOString(),
+      nombre,
+      precio,
+      descripcion,
+      stock,
+      imagen,
+      disponible: true,
+      categorias: [categoriaSeleccionada] // 👈 se guarda la categoría elegida
+    };
+
+    addProduct(nuevoProducto);
+    renderProductsTable();
+    section.innerHTML = ""; // limpiar el formulario
+  });
+}
+
+const addBtn = document.getElementById("add-product-btn") as HTMLButtonElement;
+addBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  addProductForm();
+});
 
 
 const loader = document.getElementById("loader") as HTMLDivElement;

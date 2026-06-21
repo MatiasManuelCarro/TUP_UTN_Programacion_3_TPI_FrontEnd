@@ -288,3 +288,25 @@
     color: var(--color-blanco);
     text-decoration: none;
 }
+
+/* modal */
+
+.modal.hidden {
+    display: none;
+}
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-window {
+    background: var(--color-blanco);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    text-align: center;
+}

@@ -281,9 +281,16 @@ function confirmOrder() {
     addOrder(newOrder);
     clearCart();
     loadCart();
-    alert("Pedido confirmado. ¡Gracias por su compra!");
+    // alert("Pedido confirmado. ¡Gracias por su compra!");
+    const orderModal = document.getElementById("order-modal") as HTMLDivElement;
+    orderModal.classList.remove("hidden");
 
+    const closeBtn = document.getElementById("close-order-modal") as HTMLButtonElement;
+    closeBtn.addEventListener("click", () => {
+        orderModal.classList.add("hidden");
+    });
 }
+
 
 function updateCartSummaryVisibility() {
     const cart = getCart();
