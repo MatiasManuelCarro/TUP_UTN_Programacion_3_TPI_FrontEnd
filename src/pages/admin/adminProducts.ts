@@ -1,5 +1,4 @@
 import { guard } from "../../main";
-import type { ICategory } from "../../types/category";
 import type { Product } from "../../types/product";
 import { getStoredProducts, getAvailableStock, disableProduct, enableProduct, updateProduct, addProduct, getStoredCategories, getProductNextId } from "../../utils/productUtils";
 
