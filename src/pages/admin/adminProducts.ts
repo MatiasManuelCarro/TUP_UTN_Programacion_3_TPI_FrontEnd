@@ -79,8 +79,6 @@ function renderProductsTable() {
 
     tbody.appendChild(tr);
 
-    // const deleteLink = tr.querySelectorAll<HTMLAnchorElement>(".delete-link");
-
     //FORMULARIO DE EDICION DE OBJETO
     editLink.addEventListener("click", (e) => {
       e.preventDefault();

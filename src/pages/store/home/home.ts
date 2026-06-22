@@ -80,8 +80,6 @@ const loadCategories = (categories: ICategory[]) => {
     ) as HTMLUListElement;
 
     if (!categoriesList) return;
-    // limpiar antes de renderizar para evitar duplicados
-    // categoriesList.innerHTML = "";
 
     categories.forEach((category) => {
         const li = document.createElement("li");
@@ -126,7 +124,7 @@ if (guard()) {
     document.addEventListener("DOMContentLoaded", () => {
         loader.classList.add("hidden"); //remueve el loader
 
-        //carga los productos y categorias
+        //carga los productos y categorias (cargados en localstorage a partir del fetch de los json)
         const products = getStoredProducts();
         const categories = getStoredCategories();
 

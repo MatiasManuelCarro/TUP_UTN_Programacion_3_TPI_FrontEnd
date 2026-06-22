@@ -10,7 +10,7 @@ if (guard("ADMIN")) {
 document.addEventListener("DOMContentLoaded", () => {
     loader.classList.add("hidden"); //remueve el loader
 
-  // Cargar datos desde localStorage
+  // Cargar datos desde localStorage (los datos guardados en localstorage se consiguen con fetch)
   const categories: ICategory[] = JSON.parse(localStorage.getItem("categories") || "[]");
   const products: Product[] = JSON.parse(localStorage.getItem("products") || "[]");
   const orders = getStoredOrders();

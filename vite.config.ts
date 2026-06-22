@@ -11,5 +11,5 @@ export default defineConfig({
       },
     },
   },
-  base: './',
+  base: '/TUP_UTN_Programacion_3_TPI_FrontEnd',
 });
