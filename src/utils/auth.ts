@@ -66,17 +66,6 @@ export function getActiveUserDto(): IUserDto | null {
 }
 
 
-// export function getActiveUserDto(): IUserDto | null {
-//     const data = localStorage.getItem(ACTIVE_USER);
-//     if (!data) return null;
-
-//     const user = JSON.parse(data) as IUser;
-//     const { id, nombre, apellido, mail, celular } = user;
-//     return { id, nombre, apellido, mail, celular, rol: "USUARIO" };
-// }
-
-
-
 
 export function registerUser(newUser: IUser & { password: string }): string | null {
   const authUsers = getStoredAuthUsers();
@@ -100,18 +89,6 @@ export function registerUser(newUser: IUser & { password: string }): string | nu
   return null; // éxito
 }
 
-
-// // 🔹 Login de usuario
-// export function loginUser(email: string, password: string): boolean {
-//   const authUsers: IUser[] = getStoredAuthUsers();
-//   const user = authUsers.find(u => u.mail === email && u.password === password);
-
-//   if (!user) return false;
-
-//   localStorage.setItem(ACTIVE_USER, JSON.stringify(user));
-//   navigate("/index.html");
-//   return true;
-// }
 
 export const logout = () => {
     localStorage.removeItem("ACTIVE_USER");
