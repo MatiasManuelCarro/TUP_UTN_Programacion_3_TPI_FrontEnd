@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Food Store</title>
+  <script type="module" crossorigin src="/TUP_UTN_Programacion_3_TPI_FrontEnd/assets/storeHome-904_-R_U.js"></script>
+  <link rel="modulepreload" crossorigin href="/TUP_UTN_Programacion_3_TPI_FrontEnd/assets/categoriesUtils-R8yU8TrM.js">
+  <link rel="stylesheet" crossorigin href="/TUP_UTN_Programacion_3_TPI_FrontEnd/assets/categoriesUtils-trSb2Aqv.css">
+  <link rel="stylesheet" crossorigin href="/TUP_UTN_Programacion_3_TPI_FrontEnd/assets/storeHome-Clw7NUwi.css">
+</head>
+
+<body>
+    <!-- loader oculta la informacion hasta que pasa el guard  -->
+    <div id="loader">Cargando...</div>
+    <header class="site-header">
+        <button id="menu-toggle" class="sidebar-toggle">&#9776;</button>
+        <a href="/src/pages/store/home/home.html" class="site-header__brand">
+            <h1>&#127828; Food Store</h1>
+        </a>
+        <nav class="site-nav">
+            <ul class="site-nav__list">
+                <li class="site-nav__item"><a class="site-nav__link" href="/src/pages/client/orders.html">Mis
+                        Pedidos</a></li>
+                <li class="site-nav__item"><a class="site-nav__link" href="/src/pages/store/cart/cart.html">Carrito
+                        <span id="cart-count" class="cart-badge"></span></a></li>
+                <li class="site-nav__item"><a id="logout-btn" class="site-nav__link" href="#">Cerrar Sesión</a></li>
+            </ul>
+        </nav>
+    </header>
+    <hr class="divider" />
+    <div id="overlay"></div>
+    <aside class="sidebar">
+        <h2 class="categories__heading">Categorias</h2>
+        <ul id="categories-list" class="sidebar__list">
+            <li id="reset-categories" class="categories">
+                <a href="#">Ver todas las Categorias</a>
+            </li>
+        </ul>
+    </aside>
+    <main class="main">
+        <form id="searchForm" class="search">
+            <label class="search__label" for="searchProduct">Buscar Productos</label>
+            <div class="search__controls">
+                <input id="searchProduct" class="search__input" type="text" placeholder="Buscar..." />
+                <select id="sortSelect" class="search__select">
+                    <option value="">Ordenar...</option>
+                    <option value="nameAsc">Nombre A-Z</option>
+                    <option value="nameDesc">Nombre Z-A</option>
+                    <option value="priceAsc">Precio ascendente</option>
+                    <option value="priceDesc">Precio descendente</option>
+                </select>
+            </div>
+            <p id="searchNotification" class="search__notification"></p>
+        </form>
+        <!-- Seccion de productos  -->
+        <h2 class="products__heading" id="products-heading">Productos</h2>
+        <section id="products-container" class="products"></section>
+    </main>
+    <footer class="site-footer">
+        <small class="site-footer__small">&reg; 2026 Food Store. All rights reserved. <br />Page
+            created by Matias Carro <br />matiasmanuelcarro@gmail.com
+        </small>
+    </footer>
+    <!-- modal del mensaje del carrito -->
+    <div id="modal" class="modal">
+        <div id="modal-cart" class="modal-window">
+            <h2 class="modal-window__title">Carrito de Compras</h2>
+            <div class="modal-content-div">
+                <!-- <div id="modal-img" class="cart-img"></div>
+            <p id="cart-message" class="modal-window__message"></p></div> -->
+                <div id="modal-img" class="modal-img"></div>
+                <p id="modal-message" class="modal-window__message"></p>
+            </div>
+            <button class="modal-cart__close close" id="close-cart">&times;</button>
+            <div class="modal-buttons">
+                <a href="/src/pages/store/cart/cart.html" class="btn-cart-link">Ir al Carrito</a>
+                <a href="" class="btn-cart-link" id="btn-continue-shopping">Continuar comprando</a>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+
+</html>

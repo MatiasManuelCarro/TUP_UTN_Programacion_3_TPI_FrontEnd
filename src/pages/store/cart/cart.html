@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Carrito de Compras</title>
+  <script type="module" crossorigin src="/TUP_UTN_Programacion_3_TPI_FrontEnd/assets/storeCart-CAqdMxL5.js"></script>
+  <link rel="modulepreload" crossorigin href="/TUP_UTN_Programacion_3_TPI_FrontEnd/assets/categoriesUtils-R8yU8TrM.js">
+  <link rel="stylesheet" crossorigin href="/TUP_UTN_Programacion_3_TPI_FrontEnd/assets/categoriesUtils-trSb2Aqv.css">
+  <link rel="stylesheet" crossorigin href="/TUP_UTN_Programacion_3_TPI_FrontEnd/assets/storeCart-BmgjAO86.css">
+</head>
+
+<body>
+    <div id="loader">Cargando...</div>
+    <header class="site-header">
+        <button id="menu-toggle" class="sidebar-toggle">&#9776;</button>
+        <a href="/src/pages/store/home/home.html" class="site-header__brand">
+            <h1>&#127828; Food Store</h1>
+        </a>
+        <nav class="site-nav">
+            <ul class="site-nav__list">
+                <li class="site-nav__item"><a class="site-nav__link" href="/src/pages/store/home/home.html">Catalogo</a>
+                </li>
+                <li class="site-nav__item"><a class="site-nav__link" href="/src/pages/client/orders.html">Mis
+                        Pedidos</a></li>
+                <li class="site-nav__item"><a id="logout-btn" class="site-nav__link" href="#">Cerrar Sesión</a></li>
+
+        </nav>
+    </header>
+    <hr class="divider" />
+    <div id="overlay"></div>
+    <aside class="sidebar">
+        <ul id="sidebar-list" class="sidebar__list">
+            <li id="return-home" class="categories">
+                <a href="/index.html">Volver al Catalogo</a>
+            </li>
+        </ul>
+    </aside>
+    <main class="main">
+        <h2 class="products__heading">Carrito de Compras</h2>
+        <p id="cart-message"></p>
+        <section id="cart-container" class="products">
+        </section>
+        <div class="cart-summary" id="cart-summary">
+            <h3 id="cart-totals"></h3>
+            <!--Formulario de checkout -->
+            <form id="checkout-form">
+                <button class="btn-cart" id="clear-cart">Limpiar Carrito</button>
+                <input type="text" id="checkout-phone" placeholder="Teléfono" required />
+                <select id="checkout-payment" required>
+                    <option value="">Seleccione forma de pago</option>
+                    <option value="EFECTIVO">Efectivo</option>
+                    <option value="TARJETA">Tarjeta</option>
+                    <option value="TRANSFERENCIA">Transferencia</option>
+                </select>
+                <button class="btn-disabled" id="buy-button" disabled>Finalizar Compra</button>
+            </form>
+        </div>
+<div class="empty-cart-actions">
+  <a href="/src/pages/store/home/home.html" class="btn-cart">Volver a la tienda</a>
+  <a href="/src/pages/client/orders.html" class="btn-cart">Ir a mis pedidos</a>
+</div>
+    </main>
+    <!-- modal de confirmacion de compra -->
+    <div id="order-modal" class="modal hidden">
+  <div class="modal-window">
+    <h2>Compra realizada</h2>
+    <p>¡Gracias por su compra! Su pedido fue confirmado.</p>
+    <div class="modal-buttons">
+      <a href="/src/pages/client/orders.html" class="btn-cart">Ver mis pedidos</a>
+      <button id="close-order-modal" class="btn-cart">Seguir comprando</button>
+    </div>
+  </div>
+</div>
+    <footer class="site-footer">
+        <small class="site-footer__small">&reg; 2026 Food Store. All rights reserved. <br />Page
+            created by Matias Carro <br />matiasmanuelcarro@gmail.com
+        </small>
+    </footer>
+</body>
+
+</html>
