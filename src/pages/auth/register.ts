@@ -4,7 +4,7 @@ import { registerUser } from "../../utils/auth";
 const form = document.getElementById("register-form") as HTMLFormElement;
 const errorDiv = document.getElementById("error") as HTMLDivElement;
 
-form.addEventListener("submit", (e) => {
+form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const nombre = (document.getElementById("name") as HTMLInputElement).value.trim();
@@ -28,13 +28,12 @@ form.addEventListener("submit", (e) => {
         rol: "USUARIO"
     };
 
-    const error = registerUser(nuevoUsuario);
+    const error = await registerUser(nuevoUsuario);
 
     if (error) {
         errorDiv.textContent = error;
         return;
     }
-
     alert("Usuario creado correctamente");
     window.location.href = "/src/pages/auth/login.html";
 });

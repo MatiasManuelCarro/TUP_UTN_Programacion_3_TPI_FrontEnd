@@ -55,9 +55,6 @@ export const loadCart = () => {
             continue;
         }
 
-
-
-
         //muestra los productos activos con categoria activa 
         const productCard = renderCartItem(item);
         cartContainer.appendChild(productCard);
@@ -107,14 +104,6 @@ function renderCartItem(item: CartItem): HTMLElement {
     </div>`;
     return productCard;
 }
-
-// function updateCartSummary(total: number) {
-//     const summary = document.querySelector(".cart-summary h3");
-//     if (summary) {
-//         summary.textContent = `Total: $${total}`;
-//     }
-// }
-
 
 
 function updateCartSummary(subtotal: number) {
@@ -281,7 +270,7 @@ function confirmOrder() {
     addOrder(newOrder);
     clearCart();
     loadCart();
-    // alert("Pedido confirmado. ¡Gracias por su compra!");
+
     const orderModal = document.getElementById("order-modal") as HTMLDivElement;
     orderModal.classList.remove("hidden");
 

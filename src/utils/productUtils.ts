@@ -5,7 +5,6 @@ import { getCategories, getProducts } from "./fetch";
 
 export function getAvailableStock(product: Product): number {
     const cart = getCart();
-    // const item = cart.find(ci => ci.product.id === product.id);
     const item = cart.find((ci) => Number(ci.product.id) === Number(product.id));
 
     if (item) {

@@ -1,5 +1,5 @@
 import type { IOrder } from "../types/orders";
-import { initAuthUsers, initSafeUsers } from "./auth";
+import { initSafeUsers } from "./auth";
 import { getOrders } from "./fetch";
 import { initProductsAndCategories } from "./productUtils";
 
@@ -7,7 +7,6 @@ export async function initBaseData() {
     const productsStored = localStorage.getItem("products");
     const categoriesStored = localStorage.getItem("categories");
     const usersStored = localStorage.getItem("users");
-    const authUsersStored = localStorage.getItem("authUsers");
     const ordersStored = localStorage.getItem("orders");
 
     if (!productsStored || !categoriesStored) {
@@ -18,11 +17,6 @@ export async function initBaseData() {
     // Usuarios (sin password)
     if (!usersStored) {
         await initSafeUsers();
-    }
-
-    // Usuarios (con password, para login)
-    if (!authUsersStored) {
-        await initAuthUsers();
     }
 
     // Pedidos

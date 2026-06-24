@@ -6,19 +6,6 @@ import { getStoredProducts } from "./productUtils";
 
 
 
-
-// export function getCart() {
-//     try {
-//         const raw = localStorage.getItem("cart");
-//         const parsed = JSON.parse(raw || "[]");
-
-//         if (!Array.isArray(parsed)) return [];
-//         return parsed;
-//     } catch {
-//         return [];
-//     }
-// }
-
 function getCartKey(): string {
     const activeUser = getActiveUser();
     if (!activeUser) {
@@ -102,10 +89,3 @@ export const deleteProduct = (product: Product): void => {
     }
 };
 
-// const saveCart = (cart: CartItem[]): void => {
-//     localStorage.setItem("cart", JSON.stringify(cart));
-// };
-
-// export const clearCart = (): void => {
-//     localStorage.removeItem("cart");
-// };

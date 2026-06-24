@@ -6,16 +6,6 @@ export interface IOrderDetail {
   producto: Product;
 }
 
-// export interface IOrder {
-//   id: number;
-//   fecha: string; // formato YYYY-MM-DD
-//   estado: "PENDIENTE" | "EN_PREPARACION" | "ENTREGADO";
-//   total: number;
-//   formaPago: "EFECTIVO" | "TARJETA" | "TRANSFERENCIA";
-//   detalles: IOrderDetail[];
-//   usuarioDto: IUser;
-// }
-
 export interface IOrder {
   id: number;
   fecha: string; // formato YYYY-MM-DD

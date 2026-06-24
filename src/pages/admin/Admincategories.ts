@@ -16,7 +16,7 @@ function renderCategoriesTable() {
         <td class="admin-nombre">${category.nombre}</td>
         <td class="admin-descripcion">${category.descripcion}</td>
         <td class="estado ${category.eliminado ? "no-disponible" : "disponible"}">
-          ${category.eliminado ? "Eliminada" : "Activa"}
+            ${category.eliminado ? "Eliminada" : "Activa"}
         </td>
     `;
 
@@ -45,7 +45,7 @@ function renderCategoriesTable() {
             if (!currentCategory) return;
 
 
-        currentCategory.eliminado ? enableCategory(id) : disableCategory(id);
+            currentCategory.eliminado ? enableCategory(id) : disableCategory(id);
 
             renderCategoriesTable();
         });
@@ -67,10 +67,10 @@ function renderCategoriesTable() {
 
             section.innerHTML = `
         <form id="edit-category-form">
-          <p class="category-modify">Modificando ${category.nombre}</p>
-          <input type="text" id="edit-nombre" placeholder="Nuevo nombre" />
-          <input type="text" id="edit-descripcion" placeholder="Nueva descripción" />
-          <button type="submit">Guardar cambios</button>
+            <p class="category-modify">Modificando ${category.nombre}</p>
+            <input type="text" id="edit-nombre" placeholder="Nuevo nombre" />
+            <input type="text" id="edit-descripcion" placeholder="Nueva descripción" />
+            <button type="submit">Guardar cambios</button>
         </form>
         `;
 
@@ -95,7 +95,8 @@ function renderCategoriesTable() {
 const loader = document.getElementById("loader") as HTMLDivElement;
 
 if (guard("ADMIN")) {
-document.addEventListener("DOMContentLoaded", () => {
-    loader.classList.add("hidden"); //remueve el loader
-    renderCategoriesTable();
-})};
+    document.addEventListener("DOMContentLoaded", () => {
+        loader.classList.add("hidden"); //remueve el loader
+        renderCategoriesTable();
+    })
+};

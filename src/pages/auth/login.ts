@@ -1,4 +1,5 @@
 import { getStoredAuthUsers } from "../../utils/auth";
+import { getUsers } from "../../utils/fetch";
 import { initBaseData } from "../../utils/localStorage";
 import { navigate } from "../../utils/navigate";
 
@@ -10,21 +11,29 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     await initBaseData();
 
-    console.log(getStoredAuthUsers());
-
 
     form.addEventListener("submit", handleLogin);
 
-    function handleLogin(e: SubmitEvent) {
+
+async function handleLogin(e: SubmitEvent) {
         e.preventDefault();
 
         const userEmail = inputEmail.value.trim().toLowerCase();
         const userPassword = inputPassword.value;
+
         errorDiv.textContent = "";
         errorDiv.style.display = "none";
 
-        const users = getStoredAuthUsers();
-        const user = users.find(u => u.mail.toLowerCase() === userEmail);
+
+        //busca primero usuarios en localstorage (creados en register)
+        const authUsers = getStoredAuthUsers();
+        let user = authUsers.find(u => u.mail.toLowerCase() === userEmail);
+
+        //Si no está, usa fecth para el json
+        if (!user) {
+            const jsonUsers = await getUsers();
+            user = jsonUsers.find(u => u.mail.toLowerCase() === userEmail);
+        }
 
         if (!user) {
             errorDiv.textContent = "No existe un usuario con ese email.";
