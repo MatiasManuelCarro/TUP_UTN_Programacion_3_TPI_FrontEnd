@@ -65,7 +65,7 @@
     "precio": 4800,
     "descripcion": "Mozzarella, cebolla caramelizada, jamón y aceitunas",
     "stock": 20,
-    "imagen": "https://foodish-api.com/images/pizza/pizza3.jpg",
+    "imagen": "https://tofuu.getjusto.com/orioneat-local/resized2/vaRNphBoQucaQrEDs-2400-x.webp",
     "disponible": true,
     "categoria": { "id": 2, "nombre": "Pizzas", "descripcion": "Pizzas al horno de barro" }
   },
@@ -75,7 +75,7 @@
     "precio": 5200,
     "descripcion": "Mozzarella, pepperoni, morrón, cebolla, huevo y aceitunas",
     "stock": 15,
-    "imagen": "https://foodish-api.com/images/pizza/pizza4.jpg",
+    "imagen": "https://d1uz88p17r663j.cloudfront.net/original/1490b79eaec94d0e250900cdd26f532a_Sunny_Side_Up_Pizza.jpg",
     "disponible": true,
     "categoria": { "id": 2, "nombre": "Pizzas", "descripcion": "Pizzas al horno de barro" }
   },

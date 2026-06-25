@@ -15,7 +15,7 @@
           "precio": 4500,
           "descripcion": "Carne 150g, lechuga, tomate, cebolla morada y mayonesa",
           "stock": 50,
-          "imagen": "https://foodish-api.com/images/burger/burger1.jpg",
+          "imagen": "https://images.pexels.com/photos/20525708/pexels-photo-20525708.jpeg",
           "disponible": true,
           "categoria": { "id": 1, "nombre": "Hamburguesas", "descripcion": "Hamburguesas artesanales con carne premium" }
         }
@@ -60,7 +60,7 @@
           "precio": 6200,
           "descripcion": "Doble carne 150g c/u, cheddar, panceta y salsa barbacoa",
           "stock": 40,
-          "imagen": "https://foodish-api.com/images/burger/burger2.jpg",
+          "imagen": "https://images.pexels.com/photos/11264609/pexels-photo-11264609.jpeg",
           "disponible": true,
           "categoria": { "id": 1, "nombre": "Hamburguesas", "descripcion": "Hamburguesas artesanales con carne premium" }
         }
@@ -74,7 +74,7 @@
           "precio": 5200,
           "descripcion": "Mozzarella, pepperoni, morrón, cebolla, huevo y aceitunas",
           "stock": 15,
-          "imagen": "https://foodish-api.com/images/pizza/pizza4.jpg",
+          "imagen": "https://d1uz88p17r663j.cloudfront.net/original/1490b79eaec94d0e250900cdd26f532a_Sunny_Side_Up_Pizza.jpg",
           "disponible": true,
           "categoria": { "id": 2, "nombre": "Pizzas", "descripcion": "Pizzas al horno de barro" }
         }

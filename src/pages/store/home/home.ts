@@ -119,10 +119,20 @@ const updateCartBadge = () => {
 
 
 const loader = document.getElementById("loader") as HTMLDivElement;
+const adminBtn = document.getElementById("admin-panel-btn") as HTMLAnchorElement;
 
 if (guard()) {
     document.addEventListener("DOMContentLoaded", () => {
         loader.classList.add("hidden"); //remueve el loader
+
+        //Muestra el boton de panel de administracion solo al ADMIN
+        const activeUser = localStorage.getItem("ACTIVE_USER");
+        if (activeUser) {
+            const user = JSON.parse(activeUser);
+            if (user.rol === "ADMIN") {
+                adminBtn.style.display = "inline-block"; // mostrar botón admin
+            }
+        }
 
         //carga los productos y categorias (cargados en localstorage a partir del fetch de los json)
         const products = getStoredProducts();

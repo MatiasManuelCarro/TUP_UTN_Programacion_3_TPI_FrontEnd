@@ -1,103 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="/src/shared.css">
-    <link rel="stylesheet" href="/src/adminHome.css">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/src/shared.css">
+  <link rel="stylesheet" href="/src/adminHome.css">
+  <title>Document</title>
 </head>
+
 <body>
   <!-- loader oculta la informacion hasta que pasa el guard  -->
-    <div id="loader">Cargando...</div>
-        <header class="site-header">
-        <button id="menu-toggle" class="sidebar-toggle">&#9776;</button>
-        <a href="/src/pages/store/home/home.html" class="site-header__brand">
-            <h1>&#127828; Food Store</h1>
-        </a>
-        <nav class="site-nav">
-            <ul class="site-nav__list">
-                <li class="site-nav__item"><a class="site-nav__link" href="/src/pages/auth/login.html">Logout</a></li>
-                <li class="site-nav__item"><a class="site-nav__link" href="/src/pages/admin/adminHome.html">Panel de Admin</a></li>
-            </ul>
-        </nav>
-    </header>
-<aside class="sidebar">
-  <h2 class="categories__heading">Administración</h2>
-  <ul class="sidebar__list">
-    <li class="categories">
-      <a href="/src/pages/admin/adminHome.html">Dashboard</a>
-    </li>
-    <li class="categories">
-      <a href="/src/pages/admin/Admincategories.html">Categorías</a>
-    </li>
-    <li class="categories">
-      <a href="/src/pages/admin/adminProducts.html">Productos</a>
-    </li>
-    <li class="categories">
-      <a href="/src/pages/admin/Adminorders.html">Pedidos</a>
-    </li>
-  </ul>
-</aside>
-    <main>
-  <h2 class="admin-heading">Dashboard de Administración</h2>
+  <div id="loader">Cargando...</div>
+  <header class="site-header">
+    <button id="menu-toggle" class="sidebar-toggle">&#9776;</button>
+    <a href="/src/pages/store/home/home.html" class="site-header__brand">
+      <h1>&#127828; Food Store</h1>
+    </a>
+    <nav class="site-nav">
+      <ul class="site-nav__list">
+        <li class="site-nav__item"><a class="site-nav__link" href="/src/pages/store/home/home.html">Ir al Catalogo</a>
+        </li>
+        <li class="site-nav__item"><a class="site-nav__link" href="/src/pages/auth/login.html">Cerra Sesión</a></li>
+      </ul>
+    </nav>
+  </header>
+  <aside class="sidebar">
+    <h2 class="categories__heading">Administración</h2>
+    <ul class="sidebar__list">
+      <li class="categories">
+        <a href="/src/pages/admin/adminHome.html">Dashboard</a>
+      </li>
+      <li class="categories">
+        <a href="/src/pages/admin/Admincategories.html">Categorías</a>
+      </li>
+      <li class="categories">
+        <a href="/src/pages/admin/adminProducts.html">Productos</a>
+      </li>
+      <li class="categories">
+        <a href="/src/pages/admin/Adminorders.html">Pedidos</a>
+      </li>
+    </ul>
+  </aside>
+  <main>
+    <h2 class="admin-heading">Dashboard de Administración</h2>
 
-  <!-- Tarjetas de estadísticas -->
-<section class="admin-stats">
-  <div id="card-categories" class="stat-card">
-    <h3>Categorías</h3>
-    <p id="categories">0</p>
-  </div>
-  <div id="card-products" class="stat-card">
-    <h3>Productos Totales</h3>
-    <p id="total-productos">0</p>
-  </div>
-  <div id="card-orders" class="stat-card">
-    <h3>Pedidos Totales</h3>
-    <p id="total-orders">0</p>
-  </div>
-  <div id="card-available" class="stat-card">
-    <h3>Productos Disponibles</h3>
-    <p id="available-products">0</p>
-</section>
+    <!-- Tarjetas de estadísticas -->
+    <section class="admin-stats">
+      <div id="card-categories" class="stat-card">
+        <h3>Categorías</h3>
+        <p id="categories">0</p>
+      </div>
+      <div id="card-products" class="stat-card">
+        <h3>Productos Totales</h3>
+        <p id="total-productos">0</p>
+      </div>
+      <div id="card-orders" class="stat-card">
+        <h3>Pedidos Totales</h3>
+        <p id="total-orders">0</p>
+      </div>
+      <div id="card-available" class="stat-card">
+        <h3>Productos Disponibles</h3>
+        <p id="available-products">0</p>
+    </section>
 
 
-  <!-- Panel de resumen -->
-  <section class="admin-summary">
-    <h3>Resumen Detallado</h3>
-    <div class="summary-box">
-      <h4>Categorías activas</h4>
-      <ul id="active-categories"></ul>
-      <h4>Categorías Inactivas</h4>
-      <ul id="inactive-categories"></ul>
+    <!-- Panel de resumen -->
+    <section class="admin-summary">
+      <h3>Resumen Detallado</h3>
+      <div class="summary-box">
+        <h4>Categorías activas</h4>
+        <ul id="active-categories"></ul>
+        <h4>Categorías Inactivas</h4>
+        <ul id="inactive-categories"></ul>
+      </div>
+      <div class="summary-box">
+        <h4>Productos</h4>
+        <p id="enable-products">Activos: 0</p>
+        <p id="disabled-products">Inactivos: 0</p>
+      </div>
+      <div class="summary-box">
+        <h4>Pedidos por estado</h4>
+        <ul id="order-status"></ul>
+      </div>
+    </section>
+
+    <!-- Enlaces directos -->
+    <section class="admin-links">
+      <a href="/src/pages/admin/adminProducts.html" class="admin-link">Gestión de Productos</a>
+      <a href="/src/pages/admin/adminCategories.html" class="admin-link">Gestión de Categorías</a>
+      <a href="/src/pages/admin/adminOrders.html" class="admin-link">Gestión de Pedidos</a>
+    </section>
     </div>
-    <div class="summary-box">
-      <h4>Productos</h4>
-      <p id="enable-products">Activos: 0</p>
-      <p id="disabled-products">Inactivos: 0</p>
-    </div>
-    <div class="summary-box">
-      <h4>Pedidos por estado</h4>
-      <ul id="order-status"></ul>
-    </div>
-  </section>
-
-  <!-- Enlaces directos -->
-  <section class="admin-links">
-    <a href="/src/pages/admin/adminProducts.html" class="admin-link">Gestión de Productos</a>
-    <a href="/src/pages/admin/adminCategories.html" class="admin-link">Gestión de Categorías</a>
-    <a href="/src/pages/admin/adminOrders.html" class="admin-link">Gestión de Pedidos</a>
-  </section>
-  </div>
-</main>
-    <footer class="site-footer">
-        <small>
-            Panel de Administracion - Food Store v1.0 <br>
-            Pagina creada por Matias Carro <br>
-            matiasmanuelcarro@gmail.com
-        </small>
-    </footer>
-     <!-- <script type="module" src="/src/pages/admin/adminHome.ts"></script> -->
-      <script type="module" src="/src/pages/admin/adminHome.ts"></script>
+  </main>
+  <footer class="site-footer">
+    <small>
+      Panel de Administracion - Food Store v1.0 <br>
+      Pagina creada por Matias Carro <br>
+      matiasmanuelcarro@gmail.com
+    </small>
+  </footer>
+  <!-- <script type="module" src="/src/pages/admin/adminHome.ts"></script> -->
+  <script type="module" src="/src/pages/admin/adminHome.ts"></script>
 </body>
+
 </html>

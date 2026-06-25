@@ -2,79 +2,81 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/src/shared.css">
-    <link rel="stylesheet" href="/src/adminOrders.css">
-    <title>Panel Administracion Productos</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/src/shared.css">
+  <link rel="stylesheet" href="/src/adminOrders.css">
+  <title>Panel Administracion Productos</title>
 </head>
 
 <body>
-    <!-- loader oculta la informacion hasta que pasa el guard  -->
-    <div id="loader">Cargando...</div>
-    <header class="site-header">
-        <button id="menu-toggle" class="sidebar-toggle">&#9776;</button>
-        <a href="/src/pages/admin/adminHome.html" class="site-header__brand">
-            <h1>&#127828; Food Store</h1>
-        </a>
-        <nav class="site-nav">
-            <ul class="site-nav__list">
+  <!-- loader oculta la informacion hasta que pasa el guard  -->
+  <div id="loader">Cargando...</div>
+  <header class="site-header">
+    <button id="menu-toggle" class="sidebar-toggle">&#9776;</button>
+    <a href="/src/pages/admin/adminHome.html" class="site-header__brand">
+      <h1>&#127828; Food Store</h1>
+    </a>
+    <nav class="site-nav">
+      <ul class="site-nav__list">
+        <li class="site-nav__item"><a class="site-nav__link" href="/src/pages/store/home/home.html">Ir al Catalogo</a>
+        </li>
+        <li class="site-nav__item"><a class="site-nav__link" href="/src/pages/admin/adminHome.html">Panel de Administración</a>
+        </li>
+        <li class="site-nav__item"><a class="site-nav__link" href="/src/pages/auth/login.html">Cerra Sesión</a></li>
+      </ul>
+    </nav>
+  </header>
+  <aside class="sidebar">
+    <h2 class="categories__heading">Administración</h2>
+    <ul class="sidebar__list">
+      <li class="categories">
+        <a href="/src/pages/admin/adminHome.html">Dashboard</a>
+      </li>
+      <li class="categories">
+        <a href="/src/pages/admin/Admincategories.html">Categorías</a>
+      </li>
+      <li class="categories">
+        <a href="/src/pages/admin/Adminproducts.html">Productos</a>
+      </li>
+      <li class="categories">
+        <a href="/src/pages/admin/Adminorders.html">Pedidos</a>
+      </li>
+    </ul>
+  </aside>
 
-                <li class="site-nav__item"><a class="site-nav__link" href="/src/pages/auth/login.html">Logout</a></li>
-                <li class="site-nav__item"><a class="site-nav__link" href="/src/pages/admin/adminHome.html">Panel de Admin</a></li>
-            </ul>
-        </nav>
-    </header>
-<aside class="sidebar">
-  <h2 class="categories__heading">Administración</h2>
-  <ul class="sidebar__list">
-    <li class="categories">
-      <a href="/src/pages/admin/adminHome.html">Dashboard</a>
-    </li>
-    <li class="categories">
-      <a href="/src/pages/admin/Admincategories.html">Categorías</a>
-    </li>
-    <li class="categories">
-      <a href="/src/pages/admin/Adminproducts.html">Productos</a>
-    </li>
-    <li class="categories">
-      <a href="/src/pages/admin/Adminorders.html">Pedidos</a>
-    </li>
-  </ul>
-</aside>
+  <div id="overlay"></div>
+  <main>
+    <h2 class="admin-heading">Gestión de Pedidos</h2>
 
-    <div id="overlay"></div>
-<main>
-  <h2 class="admin-heading">Gestión de Pedidos</h2>
+    <section class="orders-filter">
+      <label for="order-filter">Filtrar pedidos:</label>
+      <select id="order-filter">
+        <option value="ALL">Todos</option>
+        <option value="PENDIENTE">Pendientes</option>
+        <option value="EN_PREPARACION">En preparación</option>
+        <option value="ENTREGADO">Entregados</option>
+        <option value="CANCELADO">Cancelados</option>
+      </select>
+    </section>
 
-<section class="orders-filter">
-  <label for="order-filter">Filtrar pedidos:</label>
-  <select id="order-filter">
-    <option value="ALL">Todos</option>
-    <option value="PENDIENTE">Pendientes</option>
-    <option value="EN_PREPARACION">En preparación</option>
-    <option value="ENTREGADO">Entregados</option>
-    <option value="CANCELADO">Cancelados</option>
-  </select>
-</section>
+    <div id="orders-container"></div>
+    <div id="order-modal" class="modal">
+      <div class="modal-content">
+        <button id="close-modal" class="close-btn">✖</button>
+        <div id="modal-content"></div>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <small>
+      Panel de Administracion - Food Store v1.0 <br>
+      Pagina creada por Matias Carro <br>
+      matiasmanuelcarro@gmail.com
+    </small>
+  </footer>
 
-<div id="orders-container"></div>
- <div id="order-modal" class="modal">
-            <div class="modal-content">
-                <button id="close-modal" class="close-btn">✖</button>
-                <div id="modal-content"></div>
-            </div>
-        </div>
-</main>
-    <footer class="site-footer">
-        <small>
-            Panel de Administracion - Food Store v1.0 <br>
-            Pagina creada por Matias Carro <br>
-            matiasmanuelcarro@gmail.com
-        </small>
-    </footer>
-
-    <script type="module" src="/src/pages/admin/adminOrders.ts"></script>
+  <script type="module" src="/src/pages/admin/adminOrders.ts"></script>
 </body>
 
 </html>
