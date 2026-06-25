@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/src/shared.css">
     <link rel="stylesheet" href="/src/orders.css">
-    <title>Food Store</title>
+    <title>Mis Ordenes</title>
 </head>
 
 <body>
@@ -27,7 +27,15 @@
         </nav>
     </header>
     <hr class="divider" />
-    <main>
+    <div id="overlay"></div>
+    <aside class="sidebar">
+        <ul id="sidebar-list" class="sidebar__list">
+            <li id="return-home" class="categories">
+                <a href="/index.html" id="back-to-catalog">Volver al Catalogo</a>
+            </li>
+        </ul>
+    </aside>
+    <main class="main">
         <div id="orders-container"></div>
         <!-- Modal -->
         <div id="order-modal" class="modal">

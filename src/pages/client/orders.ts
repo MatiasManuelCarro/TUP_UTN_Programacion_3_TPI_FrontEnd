@@ -46,7 +46,7 @@ function renderOrders(orders: IOrder[]) {
 
 
     //Ordenar por fecha 
-  const sorted = [...orders].sort((a, b) => b.fecha.localeCompare(a.fecha));
+    const sorted = [...orders].sort((a, b) => b.fecha.localeCompare(a.fecha));
 
     sorted.forEach(order => {
         const firstThree = order.detalles.slice(0, 3);
@@ -145,9 +145,18 @@ if (guard("USUARIO")) {
         loader.classList.add("hidden"); //remueve el loader
 
         const orders = getOrdersByActiveUser();
-    renderOrders(orders);
-    setupOrderModal(orders);
+        renderOrders(orders);
+        setupOrderModal(orders);
     })
+
+    const toggleSidebar = document.getElementById("menu-toggle") as HTMLButtonElement;
+    const sidebar = document.querySelector(".sidebar") as HTMLElement;
+    //toggle de sidebar
+    if (toggleSidebar && sidebar) {
+        toggleSidebar.addEventListener("click", () => {
+            sidebar.classList.toggle("active");
+        });
+    }
 
     const logoutBtn = document.getElementById("logout-btn");
 

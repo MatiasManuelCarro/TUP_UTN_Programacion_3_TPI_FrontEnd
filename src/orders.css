@@ -83,6 +83,12 @@
     background: #d9534f;
 }
 
+
+/* Sidebar */
+/* Acomoda el boton de volver al catalogo */
+#back-to-catalog{
+    margin-top: 7rem;
+}
 /* modal */
 .modal {
     display: none;
@@ -104,19 +110,7 @@
     overflow-y: auto;
 }
 /* 
-#close-modal {
-    background: #d9534f;
-    color: #fff;
-    border: none;
-    padding: 8px 14px;
-    border-radius: 6px;
-    cursor: pointer;
-    margin-top: 15px;
-}
 
-#close-modal:hover {
-    background: #c9302c;
-} */
 
 /* botón cerrar dentro del modal */
 .close-btn {

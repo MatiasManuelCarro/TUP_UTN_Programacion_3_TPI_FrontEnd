@@ -1,6 +1,6 @@
 import { guard } from "../../main";
 import type { ICategory } from "../../types/category";
-import { disableCategory, enableCategory, updateCategory } from "../../utils/categoriesUtils";
+import { createCategory, disableCategory, enableCategory, updateCategory } from "../../utils/categoriesUtils";
 import { getStoredCategories } from "../../utils/productUtils";
 
 
@@ -35,7 +35,7 @@ function renderCategoriesTable() {
         deleteLink.href = "#";
         deleteLink.dataset.id = String(category.id);
         deleteLink.classList.add("delete-link");
-        // coherente con la lógica: si está activa (eliminado=false) → botón "Eliminar"
+        //si está activa (eliminado=false) el botón dice "Eliminar"
         deleteLink.textContent = category.eliminado ? "Activar" : "Eliminar";
 
         deleteLink.addEventListener("click", (e) => {
@@ -91,12 +91,64 @@ function renderCategoriesTable() {
         });
     });
 }
+
+function renderCreateCategoryForm() {
+    const section = document.getElementById("create-category-section");
+    if (!section) return;
+
+    section.innerHTML = `
+        <form id="create-category-form">
+            <p class="category-modify">Crear nueva categoría</p>
+
+            <input type="text" id="new-nombre" placeholder="Nombre de la categoría" required />
+            <input type="text" id="new-descripcion" placeholder="Descripción" required />
+
+            <button type="submit">Crear categoría</button>
+        </form>
+    `;
+
+
+    const form = document.getElementById("create-category-form") as HTMLFormElement;
+
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const nombre = (document.getElementById("new-nombre") as HTMLInputElement).value.trim();
+        const descripcion = (document.getElementById("new-descripcion") as HTMLInputElement).value.trim();
+
+        if (!nombre || !descripcion) return;
+
+        createCategory(nombre, descripcion);
+
+        form.reset();
+        renderCategoriesTable();
+
+        // oculta después de crear
+        section.classList.add("hidden");
+    });
+}
+
 // Loader que oculta informacion hasta que pase el guard
 const loader = document.getElementById("loader") as HTMLDivElement;
+
 
 if (guard("ADMIN")) {
     document.addEventListener("DOMContentLoaded", () => {
         loader.classList.add("hidden"); //remueve el loader
         renderCategoriesTable();
+        renderCreateCategoryForm();
+
+        
+const btnShowCreate = document.getElementById("btn-show-create")!;
+const createSection = document.getElementById("create-category-section")!;
+const editSection = document.getElementById("edit-category-section")!;
+
+
+        btnShowCreate.addEventListener("click", () => {
+            // Ocultar el de editar si está abierto
+            editSection.innerHTML = "";
+            // Mostrar/ocultar el de crear
+            createSection.classList.toggle("hidden");
+        });
     })
 };

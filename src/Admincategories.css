@@ -97,6 +97,16 @@ main {
     border-left: 4px solid var(--color-primario);
     border-radius: 4px;
 }
+.category-modify {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--color-primario);
+    margin-bottom: 1rem;
+    padding: 0.5rem 0.8rem;
+    background-color: var(--color-borde);
+    border-left: 4px solid var(--color-primario);
+    border-radius: 4px;
+}
 
 #edit-category-section {
     margin-top: 2rem;
@@ -142,4 +152,76 @@ main {
 
 #edit-category-form button:hover {
     background-color: #0056b3;
+}
+
+/* Creacion de categorias  */
+
+/* Formulario de creación de categoría */
+#create-category-section {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background-color: #f9f9f9;
+    border: 1px solid var(--color-borde);
+    border-radius: 8px;
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+#create-category-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+#create-category-form input {
+    padding: 0.6rem 0.8rem;
+    border: 1px solid var(--color-borde);
+    border-radius: 4px;
+    font-size: 1rem;
+    width: 100%;
+}
+
+#create-category-form input:focus {
+    outline: none;
+    border-color: var(--color-primario);
+    box-shadow: 0 0 4px var(--color-borde);
+}
+
+#create-category-form button {
+    padding: 0.8rem 1rem;
+    background-color: var(--color-primario);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+#create-category-form button:hover {
+    background-color: #0056b3;
+}
+
+.btn-admin {
+    background-color: var(--color-primario);
+    font-size: 1rem;
+    color: white;
+    padding: 0.7rem 1.2rem;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 1rem;
+    transition: background-color 0.2s ease-in-out;
+    margin-left: 2.5rem;
+}
+
+.btn-admin:hover {
+    background-color: #0056b3;
+}
+
+.hidden {
+    display: none;
 }

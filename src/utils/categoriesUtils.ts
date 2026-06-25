@@ -42,3 +42,18 @@ export function updateCategory(id: number, updatedFields: Partial<ICategory>) {
     });
     localStorage.setItem("products", JSON.stringify(updatedProducts));
 }
+
+export function createCategory(nombre: string, descripcion: string) {
+    const categories = getStoredCategories();
+
+    const newCategory: ICategory = {
+        id: categories.length > 0 ? categories[categories.length - 1].id + 1 : 1,
+        nombre,
+        descripcion,
+        eliminado: false,
+        createdAt: new Date().toISOString()
+    };
+
+    categories.push(newCategory);
+    localStorage.setItem("categories", JSON.stringify(categories));
+}
