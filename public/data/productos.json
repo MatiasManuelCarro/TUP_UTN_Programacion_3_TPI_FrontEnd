@@ -5,7 +5,7 @@
     "precio": 4500,
     "descripcion": "Carne 150g, lechuga, tomate, cebolla morada y mayonesa",
     "stock": 50,
-    "imagen": "https://foodish-api.com/images/burger/burger1.jpg",
+    "imagen": "https://images.pexels.com/photos/20525708/pexels-photo-20525708.jpeg",
     "disponible": true,
     "categoria": { "id": 1, "nombre": "Hamburguesas", "descripcion": "Hamburguesas artesanales con carne premium" }
   },
@@ -15,7 +15,7 @@
     "precio": 6200,
     "descripcion": "Doble carne 150g c/u, cheddar, panceta y salsa barbacoa",
     "stock": 40,
-    "imagen": "https://foodish-api.com/images/burger/burger2.jpg",
+    "imagen": "https://images.pexels.com/photos/11264609/pexels-photo-11264609.jpeg",
     "disponible": true,
     "categoria": { "id": 1, "nombre": "Hamburguesas", "descripcion": "Hamburguesas artesanales con carne premium" }
   },
@@ -25,7 +25,7 @@
     "precio": 5500,
     "descripcion": "Carne 150g, huevo, jamón, queso, lechuga y tomate",
     "stock": 30,
-    "imagen": "https://foodish-api.com/images/burger/burger3.jpg",
+    "imagen": "https://images.pexels.com/photos/37296924/pexels-photo-37296924.jpeg",
     "disponible": true,
     "categoria": { "id": 1, "nombre": "Hamburguesas", "descripcion": "Hamburguesas artesanales con carne premium" }
   },
@@ -45,7 +45,7 @@
     "precio": 3800,
     "descripcion": "Mozzarella, salsa de tomate y orégano",
     "stock": 25,
-    "imagen": "https://foodish-api.com/images/pizza/pizza1.jpg",
+    "imagen": "https://images.pexels.com/photos/16386498/pexels-photo-16386498.jpeg",
     "disponible": true,
     "categoria": { "id": 2, "nombre": "Pizzas", "descripcion": "Pizzas al horno de barro" }
   },
@@ -55,7 +55,7 @@
     "precio": 4500,
     "descripcion": "Mozzarella, rodajas de tomate, ajo, aceitunas y albahaca",
     "stock": 25,
-    "imagen": "https://foodish-api.com/images/pizza/pizza2.jpg",
+    "imagen": "https://images.pexels.com/photos/31596394/pexels-photo-31596394.jpeg",
     "disponible": true,
     "categoria": { "id": 2, "nombre": "Pizzas", "descripcion": "Pizzas al horno de barro" }
   },
