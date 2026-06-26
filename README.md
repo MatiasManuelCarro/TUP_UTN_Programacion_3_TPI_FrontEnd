@@ -19,7 +19,7 @@ El proyecto implementa un sistema completo de tienda online con:
 
 ## Link al video del proyecto:
 
-
+https://youtu.be/0o0vLaEKT-o
 
 ---
 
