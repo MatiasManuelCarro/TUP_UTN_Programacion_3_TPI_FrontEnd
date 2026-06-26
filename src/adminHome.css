@@ -1,49 +1,15 @@
 :root {
-  --color-background: #f0f0f0;
-  --color-text: #333;
-  --color-white: #fff;
-  --color-border: #ddd;
-  --color-border-light: rgba(221, 221, 221, 0.3);
-  --color-focus: #ff4500;
-  --color-primary: #ff6347;
-  --border-radius: 8px;
-
   /* colores para las tarjetas */
   --color-card-categories: #6f42c1;
-  /* violeta */
   --color-card-products: #0d6efd;
-  /* azul */
   --color-card-orders: #fd7e14;
-  /* naranja */
   --color-card-available: #198754;
-  /* verde */
-}
-
-:root {
-  --color-background: #f0f0f0;
-  --color-text: #333;
-  --color-white: #fff;
-  --color-border: #ddd;
-  --color-border-light: rgba(221, 221, 221, 0.3);
-  --color-focus: #ff4500;
-  --color-primary: #ff6347;
-  --border-radius: 8px;
-
-  /* colores para las tarjetas */
-  --color-card-categories: #6f42c1;
-  /* violeta */
-  --color-card-products: #0d6efd;
-  /* azul */
-  --color-card-orders: #fd7e14;
-  /* naranja */
-  --color-card-available: #198754;
-  /* verde */
 }
 
 body {
-  background-color: var(--color-background);
+  background-color: var(--color-fondo);
   font-family: "Inter", sans-serif;
-  color: var(--color-text);
+  color: var(--color-texto);
 }
 
 main {
@@ -54,9 +20,9 @@ main {
 .admin-heading {
   font-size: 1.6rem;
   font-weight: bold;
-  color: var(--color-primary);
+  color: var( --color-primario);
   margin: 1rem 0;
-  border-bottom: 2px solid var(--color-border-light);
+  border-bottom: 2px solid var(--color-borde-tenue);
 }
 
 /* Stats cards */
@@ -69,10 +35,10 @@ main {
 
 .stat-card {
   border-radius: var(--border-radius);
-  box-shadow: 0 4px 6px var(--color-border-light);
+  box-shadow: 0 4px 6px var(--color-borde-tenue);
   padding: 1.5rem;
   text-align: center;
-  color: var(--color-white);
+  color: var(--color-blanco);
   /* texto blanco para contraste */
 }
 
@@ -89,22 +55,22 @@ main {
 /* Colores específicos para cada tarjeta */
 #card-categories {
   background: linear-gradient(135deg, var(--color-card-categories), #9b6fd6);
-  color: var(--color-white);
+  color: var(--color-blanco);
 }
 
 #card-products {
   background: linear-gradient(135deg, var(--color-card-products), #4da6ff);
-  color: var(--color-white);
+  color: var(--color-blanco);
 }
 
 #card-orders {
   background: linear-gradient(135deg, var(--color-card-orders), #ff9f40);
-  color: var(--color-white);
+  color: var(--color-blanco);
 }
 
 #card-available {
   background: linear-gradient(135deg, var(--color-card-available), #33cc80);
-  color: var(--color-white);
+  color: var(--color-blanco);
 }
 
 
@@ -132,24 +98,24 @@ main {
 
 .admin-summary h3 {
   font-size: 1.4rem;
-  color: var(--color-primary);
+  color: var(--color-primario);
   margin-bottom: 1rem;
 }
 
 .summary-box {
-  background-color: var(--color-white);
-  border: 1px solid var(--color-border);
+  background-color: var(--color-blanco);
+  border: 1px solid var(--color-borde);
   border-radius: var(--border-radius);
   padding: 1rem;
   margin: 1rem;
   margin-bottom: 1rem;
-  box-shadow: 0 2px 4px var(--color-border-light);
-  color: var(--color-text);
+  box-shadow: 0 2px 4px var(--color-borde-tenue);
+  color: var(--color-texto);
 }
 
 .summary-box h4 {
   font-size: 1.1rem;
-  color: var(--color-text);
+  color: var(--color-texto);
   margin-bottom: 0.5rem;
 }
 
@@ -168,8 +134,8 @@ main {
   text-align: center;
   padding: 1rem;
   font-weight: bold;
-  background-color: var(--color-primary);
-  color: var(--color-white);
+  background-color: var(--color-primario);
+  color: var(--color-blanco);
   border-radius: var(--border-radius);
   text-decoration: none;
   transition: background-color 0.2s ease;

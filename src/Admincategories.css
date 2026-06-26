@@ -1,7 +1,7 @@
 /* Tabla de categorías - administración */
 main {
-  grid-row: 2;        /* segunda fila del grid */
-  grid-column: 2;     /* segunda columna (a la derecha del sidebar) */
+  grid-row: 2;        
+  grid-column: 2;     
   padding: 2rem;
 }
 
@@ -111,7 +111,7 @@ main {
 #edit-category-section {
     margin-top: 2rem;
     padding: 1.5rem;
-    background-color: #f9f9f9;
+    background-color: var(--color-fondo);
     border: 1px solid var(--color-borde);
     border-radius: 8px;
     width: 95%;
@@ -142,7 +142,7 @@ main {
 #edit-category-form button {
     padding: 0.8rem 1rem;
     background-color: var(--color-primario);
-    color: #fff;
+    color: var(--color-blanco);
     border: none;
     border-radius: 4px;
     font-weight: bold;
@@ -151,7 +151,7 @@ main {
 }
 
 #edit-category-form button:hover {
-    background-color: #0056b3;
+    background-color: var(--color-focus);
 }
 
 /* Creacion de categorias  */
@@ -160,7 +160,7 @@ main {
 #create-category-section {
     margin-top: 2rem;
     padding: 1.5rem;
-    background-color: #f9f9f9;
+    background-color: var(--color-fondo);
     border: 1px solid var(--color-borde);
     border-radius: 8px;
     width: 95%;
@@ -192,7 +192,7 @@ main {
 #create-category-form button {
     padding: 0.8rem 1rem;
     background-color: var(--color-primario);
-    color: #fff;
+    color:var(--color-blanco);
     border: none;
     border-radius: 4px;
     font-weight: bold;
@@ -201,13 +201,13 @@ main {
 }
 
 #create-category-form button:hover {
-    background-color: #0056b3;
+    background-color: var(--color-focus);
 }
 
 .btn-admin {
     background-color: var(--color-primario);
     font-size: 1rem;
-    color: white;
+    color: var(--color-blanco);
     padding: 0.7rem 1.2rem;
     border: none;
     border-radius: 6px;
@@ -219,7 +219,7 @@ main {
 }
 
 .btn-admin:hover {
-    background-color: #0056b3;
+    background-color: var(--color-focus);
 }
 
 .hidden {

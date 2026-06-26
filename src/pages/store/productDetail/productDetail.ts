@@ -211,6 +211,15 @@ function renderProductDetail(product: Product, availableStock: number) {
             modal.style.display = "block";
 
         });
+
+        const menuToggle = document.getElementById("menu-toggle") as HTMLButtonElement;
+        const sidebar = document.querySelector(".sidebar") as HTMLElement;
+
+        if (menuToggle && sidebar) {
+            menuToggle.addEventListener("click", () => {
+                sidebar.classList.toggle("active"); // alterna la clase
+            });
+        }
     }
 
 };

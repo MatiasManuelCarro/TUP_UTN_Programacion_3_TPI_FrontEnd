@@ -2,9 +2,7 @@
 
 main {
   grid-row: 2;
-  /* segunda fila del grid */
   grid-column: 2;
-  /* segunda columna (a la derecha del sidebar) */
   padding: 2rem;
 }
 
